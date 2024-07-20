@@ -5,18 +5,19 @@ import { Task } from '../interfaces/task';
 import { AddTaskPageService } from './add-task-page.service';
 import { AddTaskHtmlService } from './add-task-html.service';
 import { Subtask } from '../interfaces/subtask';
+import { AddTaskVarService } from './add-task-var.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddTaskService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskHtml: AddTaskHtmlService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskHtml: AddTaskHtmlService, private taskVar: AddTaskVarService) { }
 
 
-  taskPrio = "";
-  subtasks: Subtask[] = [];
-  taskBoardField: string = "";
+//   taskPrio = "";
+//   subtasks: Subtask[] = [];
+//   taskBoardField: string = "";
 
 
   // Create new Task
@@ -75,9 +76,9 @@ export class AddTaskService {
           'text': taskDescription.value,
           'task_user': assignedTo,
           'date': dueDate.value,
-          'priority': this.taskPrio,
+          'priority': this.taskVar.taskPrio,
           'category': taskCategory,
-          'subtasks': this.subtasks,
+          'subtasks': this.taskVar.subtasks,
           'task_board': taskBoard,
       }
 
@@ -113,12 +114,12 @@ export class AddTaskService {
       if(taskDate)
       taskDate.value = "";
 
-      if(this.taskPrio) {
-        let prioBtn = document.getElementById(`prio-bt-${this.taskPrio}`) as HTMLInputElement;
+      if(this.taskVar.taskPrio) {
+        let prioBtn = document.getElementById(`prio-bt-${this.taskVar.taskPrio}`) as HTMLInputElement;
         if(prioBtn) {
           prioBtn.removeAttribute('style');
         }
-        this.taskPrio = "";
+        this.taskVar.taskPrio = "";
       }
 
       let category = document.getElementById('category') as HTMLInputElement;
@@ -129,7 +130,7 @@ export class AddTaskService {
       if(taskSubText)
       taskSubText.innerHTML = "";
 
-      this.subtasks = [];
+      this.taskVar.subtasks = [];
   }
 
   /**
@@ -240,7 +241,7 @@ export class AddTaskService {
    * @returns If variable is defined
    */
   checkIfPrioIsSelected() {
-      if(this.taskPrio !== "" ) {
+      if(this.taskVar.taskPrio !== "" ) {
           return;
       } else {
           this.setTaskPrio('Medium');
@@ -255,7 +256,7 @@ export class AddTaskService {
    */
 
   setTaskPrio(prio: string) {
-      this.taskPrio = prio;
+      this.taskVar.taskPrio = prio;
 
       this.setPrioButtonColor(prio);
   }
@@ -310,7 +311,7 @@ export class AddTaskService {
    */
 
   loadStringFromLocalStorage() {   
-    this.taskBoardField = localStorage.getItem('fieldCategory') ?? "";
+    this.taskVar.taskBoardField = localStorage.getItem('fieldCategory') ?? "";
   }
 
   /**
@@ -319,7 +320,7 @@ export class AddTaskService {
 
   removeStringFromLocalStorage() {
     localStorage.removeItem('fieldCategory');
-    this.taskBoardField = "";
+    this.taskVar.taskBoardField = "";
   }
 
   /**
@@ -329,10 +330,10 @@ export class AddTaskService {
    */
 
   getTaskBoardField() {
-      if(this.taskBoardField === "") {
+      if(this.taskVar.taskBoardField === "") {
           return "to_do";
       } else {
-          return this.taskBoardField;
+          return this.taskVar.taskBoardField;
       }
   }
 
@@ -372,9 +373,9 @@ export class AddTaskService {
             let taskDescription = document.getElementById('task-description') as HTMLInputElement;
             let dueDate = document.getElementById('task-date') as HTMLInputElement;
             let taskCategory = document.getElementById('category') as HTMLInputElement;
-            this.taskPrio = task['priority'];
+            this.taskVar.taskPrio = task['priority'];
   
-            this.setPrioButtonColor(this.taskPrio);
+            this.setPrioButtonColor(this.taskVar.taskPrio);
             this.saveSubtasksListEdit(task);
             this.taskPg.renderInputText();
   
@@ -495,12 +496,12 @@ export class AddTaskService {
    */
 
   saveSubtasksListEdit(task:Task) {
-          this.subtasks = [];
+          this.taskVar.subtasks = [];
           let taskSubtasks = task['subtasks'];
           if(taskSubtasks)
           for (let j = 0; j < taskSubtasks.length; j++) {
               const subtask = taskSubtasks[j];
-                  this.subtasks.push(subtask);
+                  this.taskVar.subtasks.push(subtask);
           }
   }
 
@@ -545,9 +546,9 @@ export class AddTaskService {
           'text': taskDescription,
           'task_user': assignedTo,
           'date': dueDate,
-          'priority': this.taskPrio,
+          'priority': this.taskVar.taskPrio,
           'category': taskCategory,
-          'subtasks': this.subtasks,
+          'subtasks': this.taskVar.subtasks,
           'task_board': taskBoard,
       }
 

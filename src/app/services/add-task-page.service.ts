@@ -3,14 +3,14 @@ import { AddTaskHtmlService } from './add-task-html.service';
 import { StorageService } from './storage.service';
 import { ScriptService } from './script.service';
 import { ContactsPageService } from './contacts-page.service';
-import { AddTaskService } from './add-task.service';
+import { AddTaskVarService } from './add-task-var.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddTaskPageService {
 
-  constructor(private taskHtml: AddTaskHtmlService, private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private task: AddTaskService) { }
+  constructor(private taskHtml: AddTaskHtmlService, private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService) { }
 
 
   // Add Task page functionality
@@ -184,7 +184,7 @@ export class AddTaskPageService {
           'text': subtaskInput.value,
           'completed': 0
       }
-      this.task.subtasks.push(newSubtask);
+      this.taskVar.subtasks.push(newSubtask);
       subtaskInput.value = "";
 
       this.renderInputText();
@@ -199,8 +199,8 @@ export class AddTaskPageService {
       if(subtaskTextCon) {
         subtaskTextCon.innerHTML = "";
   
-        for (let i = 0; i < this.task.subtasks.length; i++) {
-            const subtask = this.task.subtasks[i];
+        for (let i = 0; i < this.taskVar.subtasks.length; i++) {
+            const subtask = this.taskVar.subtasks[i];
             
             subtaskTextCon.innerHTML += this.taskHtml.createInputText(i, subtask);
         }
@@ -215,7 +215,7 @@ export class AddTaskPageService {
    */
 
   deleteSubtask(i: number) {
-      this.task.subtasks.splice(i,1);
+      this.taskVar.subtasks.splice(i,1);
 
       this.renderInputText();
   }
@@ -235,7 +235,7 @@ export class AddTaskPageService {
       subtaskLi.classList.add('d-none');
       let subtaskInputField = document.getElementById(`subtask-input-field-${i}`) as HTMLInputElement;
       if(subtaskInputField)
-      subtaskInputField.value = this.task.subtasks[i]['text'];
+      subtaskInputField.value = this.taskVar.subtasks[i]['text'];
   }
 
   /**
@@ -246,7 +246,7 @@ export class AddTaskPageService {
 
   saveEditedSubtask(i: number) {
       let subtaskInputField = document.getElementById(`subtask-input-field-${i}`) as HTMLInputElement;
-      this.task.subtasks[i]['text'] = subtaskInputField.value;
+      this.taskVar.subtasks[i]['text'] = subtaskInputField.value;
 
       let subtaskField = document.getElementById(`subtask-field-${i}`);
       if(subtaskField)

@@ -59,16 +59,16 @@
         <div class="summary_fbcco summary_task">
           <div class="summary_fbsbc">
             <div
-              onclick="openHTML('./board.html')"
-              onmouseover="summaryIconChangeHover('pen_icon')"
-              onmouseout="summaryIconChangeOut('pen_icon')"
+              [routerLink]="['board']"
+              (mouseover)="summaryIconChangeHover('pen_icon')"
+              (mouseleave)="summaryIconChangeOut('pen_icon')"
               class="summary_left_start summary_fbcc summary_box_margin"
             >
               <div>
                 <img
                   id="summary_edit_icon"
                   class="summary_icon"
-                  src="../img/pen_icon.svg"
+                  src="assets/img/pen_icon.svg"
                   alt="Edit-Icon"
                 />
               </div>
@@ -78,16 +78,16 @@
               </div>
             </div>
             <div
-              onclick="openHTML('./board.html')"
-              onmouseover="summaryIconChangeHover('check_icon')"
-              onmouseout="summaryIconChangeOut('check_icon')"
+              [routerLink]="['board']"
+              (mouseover)="summaryIconChangeHover('check_icon')"
+              (mouseleave)="summaryIconChangeOut('check_icon')"
               class="summary_left_start summary_fbcc summary_box_margin"
             >
               <div>
                 <img
                   id="summary_check_icon"
                   class="summary_icon"
-                  src="../img/check_icon.svg"
+                  src="assets/img/check_icon.svg"
                   alt="Check-Icon"
                 />
               </div>
@@ -100,14 +100,14 @@
 
           <div class="summary_fbcc">
             <div
-              onclick="openHTML('./board.html')"
+              [routerLink]="['board']"
               class="summary_left_center summary_fbfsc summary_box_margin"
             >
               <div class="summary_left_start_center summary_fbcc">
                 <div>
                   <img
                     class="summary_icon"
-                    src="../img/urgent_icon.svg"
+                    src="assets/img/urgent_icon.svg"
                     alt="Edit-Icon"
                   />
                 </div>
@@ -142,7 +142,7 @@
 
           <div class="summary_fbsbc">
             <div
-              onclick="openHTML('./board.html')"
+              [routerLink]="['board']"
               class="summary_left_ende summary_fbcc summary_box_margin"
             >
               <div class="summary_fbcco">
@@ -153,7 +153,7 @@
               </div>
             </div>
             <div
-              onclick="openHTML('./board.html')"
+              [routerLink]="['board']"
               class="summary_left_ende summary_fbcc summary_box_margin"
             >
               <div class="summary_fbcco">
@@ -164,7 +164,7 @@
               </div>
             </div>
             <div
-              onclick="openHTML('./board.html')"
+              [routerLink]="['board']"
               class="summary_left_ende summary_fbcc summary_box_margin"
             >
               <div class="summary_fbcco">

@@ -4,13 +4,14 @@ import { ScriptService } from './script.service';
 import { ContactsPageService } from './contacts-page.service';
 import { Contact } from '../interfaces/contact';
 import { AddTaskService } from './add-task.service';
+import { AddTaskVarService } from './add-task-var.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private task: AddTaskService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private task: AddTaskService, private taskVar: AddTaskVarService) { }
 
   // Create new Contact
 
@@ -216,9 +217,9 @@ export class ContactsService {
       let taskDescription = task['text'];
       let assignedTo = users;
       let dueDate = task['date'];
-      this.task.taskPrio = task['priority'];
+      this.taskVar.taskPrio = task['priority'];
       let taskCategory = task['category'];
-      this.task.subtasks = task['subtasks'];
+      this.taskVar.subtasks = task['subtasks'];
       let taskBoard = task['task_board'];
 
       this.task.saveChangedTask(id, j, taskTitle, taskDescription, assignedTo, dueDate, taskCategory, taskBoard);    

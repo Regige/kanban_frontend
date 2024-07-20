@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { StorageService } from '../services/storage.service';
+import { ScriptService } from '../services/script.service';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent],
+  imports: [HeaderComponent, SidebarComponent, RouterModule],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
@@ -18,7 +20,7 @@ summary_all = 0;                                            //resets everything
 summary_task = [];                                          //resets everything
 summary_urgent = 0;                                         //resets everything
 summary_urgent_date = "";                                   //resets everything
-date_time = [];                                             //resets everything
+date_time: number[] = [];                                             //resets everything
 
 // window.addEventListener('resize', executeOnScreenWidthChange);  // Monitoring the screen width
 screenWidthThreshold = 950;                                 // Screen resolution when the popup appears
@@ -28,7 +30,7 @@ welcome_text: string = '';                                               // Set 
 user_name = 'Guest';                                            // Sets the username
 
 
-constructor(public stg: StorageService) {}
+constructor(public stg: StorageService, public scp: ScriptService) {}
 
 
 
@@ -40,12 +42,12 @@ constructor(public stg: StorageService) {}
 
 async initsummary() {
     await this.stg.loadUserData();
-    checkUserLogin();
+    this.scp.checkUserLogin();
     this.stg.loadFromLocalStorage();
-    GreetingAfterTime();
-    OneStartexecuteOnScreenWidthChange();
-    loadSummaryTask();
-    clacDateUrgent();
+    this.GreetingAfterTime();
+    this.OneStartexecuteOnScreenWidthChange();
+    this.loadSummaryTask();
+    this.clacDateUrgent();
 }
 
 /** 
@@ -56,14 +58,19 @@ GreetingAfterTime() {
     const jetzt = new Date();
     const stunde = jetzt.getHours();
     if (stunde >= 5 && stunde < 12) {
-        welcome_text = "Good morning,";
+        this.welcome_text = "Good morning,";
     } else if (stunde >= 12 && stunde < 18) {
-        welcome_text = "Good day,";
+        this.welcome_text = "Good day,";
     } else {
-        welcome_text = "Good evening,";
+        this.welcome_text = "Good evening,";
     }
-    document.getElementById('summary_welcome_text').innerHTML = welcome_text;
-    document.getElementById('summary_welcome_text_name').innerHTML = user_name;
+    let summaryWelcomeText = document.getElementById('summary_welcome_text');
+    if(summaryWelcomeText)
+    summaryWelcomeText.innerHTML = this.welcome_text;
+
+    let summaryWelcomeTextName = document.getElementById('summary_welcome_text_name');
+    if(summaryWelcomeTextName)
+    summaryWelcomeTextName.innerHTML = this.user_name;
 }
 
 /**
@@ -71,11 +78,15 @@ GreetingAfterTime() {
  * 
  */
 OneStartexecuteOnScreenWidthChange() {
-    if (lastScreenWidth <= screenWidthThreshold) {
-        showPopupSlider();
-        document.getElementById('summary_gretting').classList.add('summary_dn');
+    if (this.lastScreenWidth <= this.screenWidthThreshold) {
+        this.showPopupSlider();
+        let summaryGretting = document.getElementById('summary_gretting');
+        if(summaryGretting)
+            summaryGretting.classList.add('summary_dn');
     } else {
-        document.getElementById('summary_gretting').classList.remove('summary_dn');
+        let summaryGretting = document.getElementById('summary_gretting');
+        if(summaryGretting)
+            summaryGretting.classList.remove('summary_dn');
     }
 }
 
@@ -86,13 +97,17 @@ OneStartexecuteOnScreenWidthChange() {
 
 executeOnScreenWidthChange() {
     const currentScreenWidth = window.innerWidth;
-    if (lastScreenWidth < screenWidthThreshold && currentScreenWidth >= screenWidthThreshold) {
-        document.getElementById('summary_gretting').classList.remove('summary_dn');
-    } else if (lastScreenWidth >= screenWidthThreshold && currentScreenWidth < screenWidthThreshold) {
-        showPopupSlider();
-        document.getElementById('summary_gretting').classList.add('summary_dn');
+    if (this.lastScreenWidth < this.screenWidthThreshold && currentScreenWidth >= this.screenWidthThreshold) {
+        let summaryGretting = document.getElementById('summary_gretting');
+        if(summaryGretting)
+            summaryGretting.classList.remove('summary_dn');
+    } else if (this.lastScreenWidth >= this.screenWidthThreshold && currentScreenWidth < this.screenWidthThreshold) {
+        this.showPopupSlider();
+        let summaryGreeting = document.getElementById('summary_gretting');
+        if(summaryGreeting)
+            summaryGreeting.classList.add('summary_dn');
     }
-    lastScreenWidth = currentScreenWidth;
+    this.lastScreenWidth = currentScreenWidth;
 }
 
 /**
@@ -101,15 +116,15 @@ executeOnScreenWidthChange() {
  */
 
 showPopupSlider() {
-    let text = welcome_text + user_name;
+    let text = this.welcome_text + this.user_name;
     const popup = document.createElement("div");
     popup.className = "summary_popup";
     popup.innerHTML =
         `<div class="summary_fbccco">
-    <div class="summary_greeting_font_top_popup" id="summary_welcome_text">${welcome_text}
+    <div class="summary_greeting_font_top_popup" id="summary_welcome_text">${this.welcome_text}
     </div>
     <div class="summary_greeting_font_name_popup">
-        ${user_name}
+        ${this.user_name}
     </div></div>
     `;
     document.body.appendChild(popup);
@@ -124,13 +139,13 @@ showPopupSlider() {
  */
 
 loadSummaryTask() {
-    let to_do = loadSummaryCategory('task_board', 'to_do');
-    let in_progress = loadSummaryCategory('task_board', 'in_progress');
-    let await_feedback = loadSummaryCategory('task_board', 'await_feedback');
-    let done = loadSummaryCategory('task_board', 'done');
+    let to_do = this.loadSummaryCategory('task_board', 'to_do');
+    let in_progress = this.loadSummaryCategory('task_board', 'in_progress');
+    let await_feedback = this.loadSummaryCategory('task_board', 'await_feedback');
+    let done = this.loadSummaryCategory('task_board', 'done');
     let summary_all = to_do + in_progress + await_feedback + done;
-    let urgent_all = loadSummaryCategory('priority', 'Urgent');
-    createAllTaskCounter(to_do, in_progress, await_feedback, done, summary_all, urgent_all);
+    let urgent_all = this.loadSummaryCategory('priority', 'Urgent');
+    this.createAllTaskCounter(to_do, in_progress, await_feedback, done, summary_all, urgent_all);
 }
 
 /**
@@ -140,11 +155,11 @@ loadSummaryTask() {
  * @param {String} task     the respective tasks
  * @returns                 returns the counted value
  */
-loadSummaryCategory(category, task) {
+loadSummaryCategory(category:string, task:string) {
     let task_counter = 0;
-    for (let i = 0; i < list.length; i++) {
-        const element = list[i];
-        if (element[category] == task)
+    for (let i = 0; i < this.stg.list.length; i++) {
+        const element = this.stg.list[i];
+        if (element.category.text === task)
             task_counter = task_counter + 1;
     }
     return task_counter;
@@ -160,34 +175,46 @@ loadSummaryCategory(category, task) {
  * @param {Number} summary_all      determined number
  * @param {Number} urgent_all       determined number
  */
-createAllTaskCounter(to_do, in_progress, await_feedback, done, summary_all, urgent_all) {
-    document.getElementById('summary-to-do').innerHTML = to_do;
-    document.getElementById('summary-in-progess').innerHTML = in_progress;
-    document.getElementById('summary-await-feedback').innerHTML = await_feedback;
-    document.getElementById('summary-done').innerHTML = done;
-    document.getElementById('summary-all-tasks').innerHTML = summary_all;
-    document.getElementById('summary-urgent').innerHTML = urgent_all;
+createAllTaskCounter(to_do:any, in_progress:any, await_feedback:any, done:any, summary_all:any, urgent_all:any) {
+    let summaryToDo = document.getElementById('summary-to-do');
+    if(summaryToDo)
+        summaryToDo.innerHTML = to_do;
+    let summaryInProgess = document.getElementById('summary-in-progess');
+    if(summaryInProgess)
+        summaryInProgess.innerHTML = in_progress;
+    let summaryAwaitFeedback = document.getElementById('summary-await-feedback');
+    if(summaryAwaitFeedback)
+        summaryAwaitFeedback.innerHTML = await_feedback;
+    let summaryDone = document.getElementById('summary-done');
+    if(summaryDone)
+        summaryDone.innerHTML = done;
+    let summaryAllTasks = document.getElementById('summary-all-tasks');
+    if(summaryAllTasks)
+        summaryAllTasks.innerHTML = summary_all;
+    let summaryUrgent = document.getElementById('summary-urgent');
+    if(summaryUrgent)
+        summaryUrgent.innerHTML = urgent_all;
 }
 
 /**
  * This function determines which high priority task is next
  */
 clacDateUrgent() {
-    for (let i = 0; i < list.length; i++) {
-        const element = list[i];
+    for (let i = 0; i < this.stg.list.length; i++) {
+        const element = this.stg.list[i];
         if (element.priority == 'Urgent') {
-            date_time.push(Number(element.date.replaceAll("-", "")));
+            this.date_time.push(Number(element.date.replaceAll("-", "")));
         }
     }
-    date_time.sort(function (a, b) {
+    this.date_time.sort(function (a, b) {
         if (a > b) return 1;
         if (a < b) return -1;
         return 0;
     });
-    if (date_time.length >= 1) {
-        formatDateUrgent(date_time[0]);
+    if (this.date_time.length >= 1) {
+        this.formatDateUrgent(this.date_time[0]);
     } else {
-        formatDateUrgent(0);
+        this.formatDateUrgent(0);
     }
 }
 
@@ -197,15 +224,19 @@ This function formats a date into a number sequence
  * 
  * @param {String} date date output of add tasks
  */
-formatDateUrgent(date) {
+formatDateUrgent(date:any) {
     if (date != 0) {
         let date_string = date.toString();
         let year = date_string.substr(0, 4);
-        let mounth = date_string.substr(4, 2);
+        let month = date_string.substr(4, 2);
         let day = date_string.substr(6, 2);
-        document.getElementById('urgent-date').innerHTML = setMonth(mounth) + ' ' + day + ', ' + year;
+        let urgentDate = document.getElementById('urgent-date');
+        if(urgentDate)
+            urgentDate.innerHTML = this.setMonth(month) + ' ' + day + ', ' + year;
     } else {
-        document.getElementById('urgent-date').innerHTML = '-';
+        let urgentDate = document.getElementById('urgent-date');
+        if(urgentDate)
+            urgentDate.innerHTML = '-';
     }
 }
 
@@ -215,7 +246,7 @@ formatDateUrgent(date) {
  * @param {Number} month    Number of Month
  * @returns                 Returns month as a string
  */
-setMonth(month) {
+setMonth(month:number) {
     if (month == 1) { return 'January' }
     if (month == 2) { return 'February' }
     if (month == 3) { return 'March' }
@@ -228,6 +259,7 @@ setMonth(month) {
     if (month == 10) { return 'October' }
     if (month == 11) { return 'November' }
     if (month == 12) { return 'December' }
+    return
 }
 
 /**
@@ -235,12 +267,16 @@ setMonth(month) {
  * 
  * @param {*} icon path of the icon
  */
-summaryIconChangeHover(icon) {
+summaryIconChangeHover(icon:string) {
     if (icon == 'pen_icon') {
-        document.getElementById('summary_edit_icon').src = '../img/pen_icon_withe.svg';
+        let summaryEditIcon = document.getElementById('summary_edit_icon') as HTMLImageElement;
+        if(summaryEditIcon)
+            summaryEditIcon.src = 'assets/img/pen_icon_withe.svg';
     }
     if (icon == 'check_icon') {
-        document.getElementById('summary_check_icon').src = '../img/check_icon_withe.svg';
+        let summaryCheckIcon = document.getElementById('summary_check_icon') as HTMLImageElement;
+        if(summaryCheckIcon)
+            summaryCheckIcon.src = 'assets/img/check_icon_withe.svg';
     }
 }
 
@@ -249,12 +285,16 @@ summaryIconChangeHover(icon) {
  * 
  * @param {*} icon path of the icon
  */
-summaryIconChangeOut(icon) {
+summaryIconChangeOut(icon: string) {
     if (icon == 'pen_icon') {
-        document.getElementById('summary_edit_icon').src = '../img/pen_icon.svg';
+        let summaryEditIcon = document.getElementById('summary_edit_icon') as HTMLImageElement;
+        if(summaryEditIcon)
+            summaryEditIcon.src = 'assets/img/pen_icon.svg';
     }
     if (icon == 'check_icon') {
-        document.getElementById('summary_check_icon').src = '../img/check_icon.svg';
+        let summaryCheckIcon = document.getElementById('summary_check_icon') as HTMLImageElement;
+        if(summaryCheckIcon)
+            summaryCheckIcon.src = 'assets/img/check_icon.svg';
     }
 }
   

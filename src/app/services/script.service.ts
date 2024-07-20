@@ -7,7 +7,7 @@ import { RegisterService } from './register.service';
 })
 export class ScriptService {
 
-  constructor(private stg: StorageService, private rgst: RegisterService) { }
+  constructor(private stg: StorageService) { }
 
 
   /**
@@ -138,6 +138,7 @@ export class ScriptService {
           this.showPopup('This email address is not registered. Please check your input or register.');
       // }
   }
+  // circular dependency -> rgst raus genommen. diese Funktin daher in register service packen
 
 
   /**
