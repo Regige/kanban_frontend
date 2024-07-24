@@ -2,18 +2,47 @@ import { Component } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { ScriptService } from '../services/script.service';
 import { RegisterService } from '../services/register.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
-  constructor(private stg: StorageService, public scp: ScriptService, public registerS: RegisterService) {}
+  email: string = '';
+  password: string = '';
+
+  constructor(private stg: StorageService, public scp: ScriptService, public registerS: RegisterService, private as: AuthService, private router: Router) {}
+
+
+  async login() {
+
+    try {
+      let resp: any = await this.as.loginWithEmailAndPassword(this.email, this.password);
+      console.log(resp);
+      localStorage.setItem('token', resp['token']);
+      // this.router.navigateByUrl('/board');
+      // redirect
+
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+
+
+
+
+
+
+
+
 
   /**
    * Asynchronous function to log in a user.
@@ -22,22 +51,24 @@ export class LoginComponent {
    * Otherwise, it shows a popup with an error message.
    * @async
    */
-  async login() {
-      let emailLogin = document.getElementById('email') as HTMLInputElement;
-      let passwordLogin = document.getElementById('password')  as HTMLInputElement;
-      // if(emailLogin && passwordLogin) {
-      //   let user = this.registerS.users.find(u => u.email == emailLogin.value && u.password == passwordLogin.value);
-      //   //console.log(user);
-      //   if (user) {
-      //       this.saveUserinLocalStorge(user.email,user.name);
-      //       window.location.href = './html/summary.html';
+  // async login() {
+  //     let emailLogin = document.getElementById('email') as HTMLInputElement;
+  //     let passwordLogin = document.getElementById('password')  as HTMLInputElement;
+  //     if(emailLogin && passwordLogin) {
+  //       let user = this.registerS.users.find(u => u.email == emailLogin.value && u.password == passwordLogin.value);
+  //       //console.log(user);
+  //       if (user) {
+  //           this.saveUserinLocalStorge(user.email,user.name);
+  //           window.location.href = './html/summary.html';
   
-      //   } else {
-      //       this.scp.showPopup('Email and/or password are incorrect.');
-      //   }
-      // }
-  }
+  //       } else {
+  //           this.scp.showPopup('Email and/or password are incorrect.');
+  //       }
+  //     }
+  // }
 
+
+  
   /**
    * Saves a user's email and name to LocalStorage.
    * 
