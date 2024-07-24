@@ -27,7 +27,7 @@ export class LoginComponent {
       let resp: any = await this.as.loginWithEmailAndPassword(this.email, this.password);
       console.log(resp);
       localStorage.setItem('token', resp['token']);
-      // this.router.navigateByUrl('/board');
+      this.router.navigateByUrl('/board');
       // redirect
 
     } catch(e) {

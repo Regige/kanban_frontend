@@ -9,6 +9,10 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { ContactsPageService } from '../services/contacts-page.service';
 import { RouterModule } from '@angular/router';
 import { AddTaskService } from '../services/add-task.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { lastValueFrom } from 'rxjs';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-board',
@@ -19,19 +23,30 @@ import { AddTaskService } from '../services/add-task.service';
 })
 export class BoardComponent {
 
+    error = '';
 
-  constructor(public stg: StorageService, public scp: ScriptService, private taskVar: AddTaskVarService, public touch: TouchService, public contactsPg: ContactsPageService, public task: AddTaskService) {}
+  constructor(public stg: StorageService, public scp: ScriptService, private taskVar: AddTaskVarService, public touch: TouchService, public contactsPg: ContactsPageService, public task: AddTaskService, private http: HttpClient, private data: DataService) {}
 
 
   /**
    * This function initializes the board page
    */
   async ngOnInit() {
+    try {
+        this.data.tasks = await this.data.loadTasks();
+        console.log(this.data.tasks);
+    } catch(e) {
+        this.error = 'Fehler beim Laden!';
+    }
+
   // async initBoard() {
-      this.stg.loadUserData();
-      this.scp.checkUserLogin();
+    //   this.stg.loadUserData();
+    //   this.scp.checkUserLogin();
       this.loadTaskBoard();
   }
+
+
+  
 
   /**
    * This function loads all Borad tasks

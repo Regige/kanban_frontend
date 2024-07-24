@@ -9,10 +9,10 @@ import { ImprintComponent } from './info/imprint/imprint.component';
 import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
     // { path: '', component: SummaryComponent},
     // { path: 'summary', component: SummaryComponent},
-    { path: '', component: BoardComponent},
     { path: 'board', component: BoardComponent},
     { path: 'add_task', component: AddTaskComponent},
     { path: 'contacts', component: ContactsComponent},
