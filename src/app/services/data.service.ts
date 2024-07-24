@@ -10,8 +10,10 @@ import { Task } from '../interfaces/task';
 export class DataService {
 
   tasks: any = [];
+  contacts: any = [];
 
   constructor(private http: HttpClient) { }
+
 
 
   loadTasks() {
@@ -19,4 +21,15 @@ export class DataService {
 
     return lastValueFrom(this.http.get(url));
   }
+
+
+  loadContacts() {
+    const url = environment.baseUrl + '/contacts/';
+
+    return lastValueFrom(this.http.get(url));
+  }
+
+
+
+
 }

@@ -13,7 +13,19 @@
       <span> Add new contact</span
       ><img src="assets/img/contacts_add_icon.svg" alt="" />
     </button>
-    <div class="contacts-list" id="contacts-list"></div>
+    <div class="contacts-list" id="contacts-list">
+      @for (contact of data.contacts; track contact.id; let index = $index) {
+      <app-contact-list-tag
+        (click)="showContact(contact)"
+        [logogram]="contact.logogram"
+        [name]="contact.title"
+        [email]="contact.email"
+        [color]="contact.hex_color"
+        [id]="contact.id"
+        [i]="index"
+      ></app-contact-list-tag>
+      }
+    </div>
   </div>
   <main id="contacts-main" class="contacts-main d-none-700">
     <div
@@ -27,7 +39,11 @@
       <div class="contacts-hr"></div>
       <p class="contacts-head-text">Better with a team</p>
     </div>
-    <div id="contact-clicked" class="contact-clicked"></div>
+    <div id="contact-clicked" class="contact-clicked">
+      @if(clickedContact) {
+      <app-clicked-contact [contact]="clickedContact"></app-clicked-contact>
+      }
+    </div>
   </main>
 </div>
 <app-sidebar></app-sidebar>

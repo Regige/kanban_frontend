@@ -10,8 +10,6 @@ import { ContactsPageService } from '../services/contacts-page.service';
 import { RouterModule } from '@angular/router';
 import { AddTaskService } from '../services/add-task.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
-import { lastValueFrom } from 'rxjs';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -35,6 +33,7 @@ export class BoardComponent {
     try {
         this.data.tasks = await this.data.loadTasks();
         console.log(this.data.tasks);
+        // this.loadTaskBoard();
     } catch(e) {
         this.error = 'Fehler beim Laden!';
     }
@@ -42,22 +41,21 @@ export class BoardComponent {
   // async initBoard() {
     //   this.stg.loadUserData();
     //   this.scp.checkUserLogin();
-      this.loadTaskBoard();
   }
 
 
-  
+
 
   /**
    * This function loads all Borad tasks
    */
   async loadTaskBoard() {
-      this.stg.loadFromLocalStorage();
-      this.stg.loadFromLocalStorageContacts();
-      this.filterTaskBoard('to_do');
-      this.filterTaskBoard('in_progress');
-      this.filterTaskBoard('await_feedback');
-      this.filterTaskBoard('done');
+    //   this.stg.loadFromLocalStorage();
+    //   this.stg.loadFromLocalStorageContacts();
+    //   this.filterTaskBoard('to_do');
+    //   this.filterTaskBoard('in_progress');
+    //   this.filterTaskBoard('await_feedback');
+    //   this.filterTaskBoard('done');
       // loadTouch(); touch muss noch als service impementiert werden
   }
 
@@ -66,25 +64,25 @@ export class BoardComponent {
    * 
    * @param {String} task_board This string contains the individual tasks
    */
-  filterTaskBoard(task_board: string) {
-      let filter = this.stg.list.filter(t => t['task_board'] == task_board);
-      if (filter.length) {
-          let taskBoard = document.getElementById('board_' + task_board);
-          if(taskBoard)
-            taskBoard.innerHTML = "";
-          for (let i = 0; i < filter.length; i++) {
-              const element = filter[i];
-              let priority_img = '../img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
-              let taskBoard = document.getElementById('board_' + task_board);
-              if(taskBoard)
-                // taskBoard.innerHTML += createBoardTasks(element.id, element.category, element.headline, element.text, priority_img);
-              this.loadBoardUsers(element.id, element.task_user);
-              this.loadBoardSubtasks(element.id, element.subtasks);
-          }
-      } else {
-          this.taskBoardEmpty(task_board);
-      }
-  }
+//   filterTaskBoard(task_board: string) {
+//       let filter = this.data.tasks.filter(t => t['task_board'] == task_board);
+//       if (filter.length) {
+//           let taskBoard = document.getElementById('board_' + task_board);
+//           if(taskBoard)
+//             taskBoard.innerHTML = "";
+//           for (let i = 0; i < filter.length; i++) {
+//               const element = filter[i];
+//               let priority_img = '../img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
+//               let taskBoard = document.getElementById('board_' + task_board);
+//               if(taskBoard)
+//                 // taskBoard.innerHTML += createBoardTasks(element.id, element.category, element.headline, element.text, priority_img);
+//               this.loadBoardUsers(element.id, element.task_user);
+//               this.loadBoardSubtasks(element.id, element.subtasks);
+//           }
+//       } else {
+//           this.taskBoardEmpty(task_board);
+//       }
+//   }
 
   /**
    * This function loads an empty task if none exists

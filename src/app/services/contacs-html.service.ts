@@ -19,20 +19,20 @@ export class ContacsHtmlService {
 
 
   createContactsHTML(i: number, contact: any, myData: any) {
-      return /*html*/`
-              <div id="contact-con-${i}" class="contacts-list-sgl-con" onclick="showContact(${i})">
-                  <div class="contacts-color-icon" style="background-color:${contact['hex_color']};">${contact['logogram']}</div>
-                  <div>
-                      <h3 class="contact-name" id="contact-${i}">${contact['name']}&nbsp;${myData}</h3>
-                      <div class="contact-email" id="email-${i}">${contact['email']}</div>
-                  </div>
-              </div>`;
+    //   return /*html*/`
+    //           <div id="contact-con-${i}" class="contacts-list-sgl-con" onclick="showContact(${i})">
+    //               <div class="contacts-color-icon" style="background-color:${contact['hex_color']};">${contact['logogram']}</div>
+    //               <div>
+    //                   <h3 class="contact-name" id="contact-${i}">${contact['name']}&nbsp;${myData}</h3>
+    //                   <div class="contact-email" id="email-${i}">${contact['email']}</div>
+    //               </div>
+    //           </div>`;
   }
 
 
   createSglContactHTML(i: number, contact: any) {
       return /*html*/`
-          <div id="contact-con-${i}" class="flx-col">
+          <!-- <div id="contact-con-${i}" class="flx-col">
               <div class="contact-sgl-head-con">
                   <div class="contacts-color-icon con-icon-sz" style="background-color:${contact['hex_color']};">${contact['logogram']}</div>
                   <div>
@@ -50,7 +50,7 @@ export class ContacsHtmlService {
                   <h4 id="contact-info-phone" class="contact-h4">Phone</h4>
                   <div class="contact-phone" id="phone-${i}">${contact['phone']}</div>
               </div>
-          </div>
+          </div> -->
       `
   }
 
