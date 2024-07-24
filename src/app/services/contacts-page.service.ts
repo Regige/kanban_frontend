@@ -184,10 +184,10 @@ export class ContactsPageService {
    * create new contacts is being called.
    */
 
-  showPopupContact(filter:any) {
+  showPopupContact(filter:number = -1) {
       this.renderPopupContact();
       let filterPlusOne = filter + 1;
-      if(filterPlusOne){
+      if(filterPlusOne >= 1){
           this.showPopupExistContact(filter);
       }
       this.showPopupContactContainer();

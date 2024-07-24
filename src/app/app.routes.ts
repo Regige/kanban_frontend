@@ -6,11 +6,13 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { PrivacyPoliceComponent } from './info/privacy-police/privacy-police.component';
 import { HelpComponent } from './info/help/help.component';
 import { ImprintComponent } from './info/imprint/imprint.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
-    // { path: 'login', component: },
-    { path: '', component: SummaryComponent},
+    { path: 'login', component: LoginComponent },
+    // { path: '', component: SummaryComponent},
     // { path: 'summary', component: SummaryComponent},
+    { path: '', component: BoardComponent},
     { path: 'board', component: BoardComponent},
     { path: 'add_task', component: AddTaskComponent},
     { path: 'contacts', component: ContactsComponent},

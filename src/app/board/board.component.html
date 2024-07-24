@@ -1,1 +1,138 @@
-<p>board works!</p>
+<app-header></app-header>
+<div
+  id="contacts-add-bg"
+  class="contacts-add-bg d-none"
+  (click)="contactsPg.closeNewContacts()"
+></div>
+<div id="board_body" class="board_body">
+  <div class="board_header board_fbsbc">
+    <div class="board_heder_small">
+      <h1>Board</h1>
+      <div
+        (click)="task.saveStringInLocalStorage('to_do')"
+        [routerLink]="['/add_task/']"
+        class="board_button_add_task_small board_fbcc dn"
+      >
+        <img src="assets/img/add.svg" alt="add Icon" />
+      </div>
+    </div>
+    <div class="board_fbsbc board_serch_small">
+      <div class="board_fbsbc board_serch">
+        <input
+          (keyup)="searchAllNote()"
+          class="board_serch_left"
+          type="search"
+          placeholder="Find Task"
+          name="suche"
+          id="search_board"
+        />
+        <img class="board_serch_svg" src="assets/img/search.svg" alt="" />
+      </div>
+      <div
+        (click)="task.saveStringInLocalStorage('to_do')"
+        [routerLink]="['/add_task/']"
+        class="board_button_add_task board_fbcc"
+      >
+        Add task <img src="assets/img/add.svg" alt="add Icon" />
+      </div>
+    </div>
+  </div>
+  <div class="board_fbsbcw board_columns_fixed_small">
+    <div class="board_fbcco board_columns_fixed">
+      <div class="board_fbsbc board_columns">
+        <p id="board_to_do_headline" class="board_p">To do</p>
+        <img
+          class="board_add"
+          (click)="task.saveStringInLocalStorage('to_do')"
+          [routerLink]="['/add_task/']"
+          src="assets/img/plus_button.svg"
+          alt=""
+        />
+      </div>
+      <!-- <div
+        id="board_to_do"
+        class="board_fbcco board_box board_to_do"
+        ondragleave="removeHighlight('board_to_do')"
+        ondrop="moveTo('to_do') ;removeHighlight('board_to_do')"
+        ondragover="allowDrop(event); highlight('board_to_do')"
+        touchcancel="touchEnd('to_do')"
+      > -->
+      <div
+        id="board_to_do"
+        class="board_fbcco board_box board_to_do"
+        (dragleave)="removeHighlight('board_to_do')"
+        (drop)="moveTo('to_do'); removeHighlight('board_to_do')"
+        (dragover)="allowDrop($event); highlight('board_to_do')"
+        (touchcancel)="touch.touchEnd('to_do')"
+      >
+        <div class="board_no_task board_fbccco">No tasks To do</div>
+      </div>
+    </div>
+    <div class="board_fbcco board_columns_fixed">
+      <div class="board_fbsbc board_columns">
+        <p id="board_in_progress_headline" class="board_p">In progress</p>
+        <img
+          class="board_add"
+          (click)="task.saveStringInLocalStorage('in_progress')"
+          [routerLink]="['/add_task/']"
+          src="assets/img/plus_button.svg"
+          alt=""
+        />
+      </div>
+      <div
+        id="board_in_progress"
+        class="board_box board_fbcco board_in_progress"
+        (dragleave)="removeHighlight('board_in_progress')"
+        (drop)="moveTo('in_progress'); removeHighlight('board_in_progress')"
+        (dragover)="allowDrop($event); highlight('board_in_progress')"
+        (touchcancel)="touch.touchEnd('in_progress')"
+      >
+        <div class="board_no_task board_fbccco">No tasks In progress</div>
+      </div>
+    </div>
+    <div class="board_fbcco board_columns_fixed">
+      <div class="board_fbsbc board_columns">
+        <p id="board_await_feedback_headline" class="board_p">Await feedback</p>
+        <img
+          class="board_add"
+          (click)="task.saveStringInLocalStorage('await_feedback')"
+          [routerLink]="['/add_task/']"
+          src="assets/img/plus_button.svg"
+          alt=""
+        />
+      </div>
+      <div
+        id="board_await_feedback"
+        class="board_box board_fbcco board_await_feedback"
+        (dragleave)="removeHighlight('board_await_feedback')"
+        (drop)="
+          moveTo('await_feedback'); removeHighlight('board_await_feedback')
+        "
+        (dragover)="allowDrop($event); highlight('board_await_feedback')"
+        (touchcancel)="touch.touchEnd('await_feedback')"
+      >
+        <div class="board_no_task board_fbccco">
+          No tasks container Await feedback
+        </div>
+      </div>
+    </div>
+    <div class="board_fbcco board_columns_fixed">
+      <div class="board_fbsbc board_columns">
+        <p id="board_done_headline" class="board_p">Done</p>
+      </div>
+      <div
+        id="board_done"
+        class="board_box board_fbcco board_done"
+        (dragleave)="removeHighlight('board_done')"
+        (drop)="moveTo('done'); removeHighlight('board_done')"
+        (dragover)="allowDrop($event); highlight('board_done')"
+        (touchcancel)="touch.touchEnd('done')"
+        t
+      >
+        <div class="board_no_task board_fbccco">No tasks Done</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="board_detail"></div>
+<app-sidebar></app-sidebar>

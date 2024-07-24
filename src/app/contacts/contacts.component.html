@@ -1,1 +1,33 @@
-<p>contacts works!</p>
+<app-header></app-header>
+<div class="contacts-body">
+  <div
+    id="contacts-add-bg"
+    class="contacts-add-bg d-none"
+    (click)="contactsPg.closeNewContacts()"
+  ></div>
+  <div id="contacts-list-section" class="contacts-list-section">
+    <button
+      class="contacts-button contacts-bt-add contacts-bt-create"
+      (click)="contactsPg.showPopupContact()"
+    >
+      <span> Add new contact</span
+      ><img src="assets/img/contacts_add_icon.svg" alt="" />
+    </button>
+    <div class="contacts-list" id="contacts-list"></div>
+  </div>
+  <main id="contacts-main" class="contacts-main d-none-700">
+    <div
+      (click)="contactsPg.backToContactsList()"
+      class="d-none contacts-mobil-arrow-back"
+    >
+      <img src="assets/img/arrow-left-line.svg" alt="" />
+    </div>
+    <div class="contacts-head">
+      <h2 class="contacts-h2">Contacts</h2>
+      <div class="contacts-hr"></div>
+      <p class="contacts-head-text">Better with a team</p>
+    </div>
+    <div id="contact-clicked" class="contact-clicked"></div>
+  </main>
+</div>
+<app-sidebar></app-sidebar>

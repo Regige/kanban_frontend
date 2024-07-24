@@ -4,23 +4,23 @@
   <h3 class="Kanban">Kanban Project Management Tool</h3>
 
   <div class="user-border">
-    <a [routerLink]="['help']">
+    <a [routerLink]="['/help/']">
       <img class="help" src="assets/img/help.svg" />
     </a>
     <div class="user-border-logo" (click)="this.scp.userNavbar()">
       <img style="height: 57px" src="assets/img/Profile.svg" />
     </div>
     <div class="Logout d-none" id="navbar">
-      <a target="_blank" [routerLink]="['imprint']">
+      <a target="_blank" [routerLink]="['/imprint/']">
         <button class="btn-logout">Legal notice</button></a
       >
-      <a target="_blank" [routerLink]="['privacy-police']"
+      <a target="_blank" [routerLink]="['/privacy-police/']"
         ><button class="btn-logout">Privacy Policy</button></a
       >
       <button
         (click)="this.stg.clearLocalStorage()"
         class="btn-logout"
-        [routerLink]="['login']"
+        [routerLink]="['/login/']"
       >
         Log out
       </button>

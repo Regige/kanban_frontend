@@ -11,7 +11,7 @@ export class RegisterService {
 
   constructor(private stg: StorageService, private scp: ScriptService, private contacts: ContactsService) { }
 
-  users = [];
+  users: any = [];
 
   /**
    * Initialize the application by loading users from local storage and any external source.

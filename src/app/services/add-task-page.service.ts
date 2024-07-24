@@ -30,14 +30,14 @@ export class AddTaskPageService {
 
   // Load Add Task Form Element
 
-  loadAddTaskForm() {
-      let addTaskForm = document.getElementById('task-input-con');
-      if(addTaskForm) {
-        addTaskForm.innerHTML = "";
-        addTaskForm.innerHTML = this.taskHtml.createAddTask();
-        this.preventPastDate();
-      }
-  }
+//   loadAddTaskForm() {
+//       let addTaskForm = document.getElementById('task-input-con');
+//       if(addTaskForm) {
+//         addTaskForm.innerHTML = "";
+//         addTaskForm.innerHTML = this.taskHtml.createAddTask();
+//         this.preventPastDate();
+//       }
+//   }
 
   //  Assigned To Field - render Contacts list 
 

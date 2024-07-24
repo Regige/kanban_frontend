@@ -10,7 +10,7 @@ export class AddTaskHtmlService {
   constructor() { }
 
 
-  createAddTask() {
+  createAddTask() { // in add-task.component.html
       return /*html*/`
               <div id="task-input-left" class="task-input-left">
                 <label class="task-label"><span>Title<span class="task-star">*</span></span>

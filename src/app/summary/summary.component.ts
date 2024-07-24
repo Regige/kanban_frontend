@@ -37,10 +37,8 @@ constructor(public stg: StorageService, public scp: ScriptService) {}
 /**
  * This function initializes the summary page
  */
-
-
-
-async initsummary() {
+async ngOnInit() {
+// async initsummary() {
     await this.stg.loadUserData();
     this.scp.checkUserLogin();
     this.stg.loadFromLocalStorage();

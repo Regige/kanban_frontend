@@ -1,3 +1,5 @@
+@import './../../styles.scss';
+
 /* Login */
 .begin {
     height: 98vh;
@@ -50,7 +52,7 @@
 }
 
 .mail-img {
-    background-image: url('../img/mail.svg') !important;
+    background-image: url('./../../assets/img/mail.svg') !important;
     background-position: 350px 8px !important;
     background-size: 20px !important;
     background-repeat: no-repeat !important;
@@ -81,14 +83,14 @@
 }
 
 .password-img {
-    background-image: url('../img/lock.svg') !important;
+    background-image: url('./../../assets/img/lock.svg') !important;
     background-position: 350px 8px !important;
     background-size: 20px !important;
     background-repeat: no-repeat !important;
 }
 
 .name-img {
-    background-image: url('../img/person.svg') !important;
+    background-image: url('./../../assets/img/person.svg') !important;
     background-position: 350px 8px !important;
     background-size: 20px !important;
     background-repeat: no-repeat !important;
