@@ -14,7 +14,7 @@ export class ContactListTagComponent {
   @Input() name: string = '';
   @Input() email: string = '';
   @Input() color: string = '';
-  @Input() id: number = -1;
+  @Input() id: number | undefined = -1;
   @Input() i: number = -1;
 
   constructor(public data: DataService) {}

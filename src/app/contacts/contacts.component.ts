@@ -6,18 +6,20 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { DataService } from '../services/data.service';
 import { ContactListTagComponent } from './contact-list-tag/contact-list-tag.component';
 import { ClickedContactComponent } from './clicked-contact/clicked-contact.component';
+import { Contact } from '../interfaces/contact';
+import { LetterSeperatorComponent } from './letter-seperator/letter-seperator.component';
+import { DialogContactComponent } from '../shared/dialog-contact/dialog-contact.component';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, ContactListTagComponent, ClickedContactComponent],
+  imports: [HeaderComponent, SidebarComponent, ContactListTagComponent, ClickedContactComponent, LetterSeperatorComponent, DialogContactComponent],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
 
   error = '';
-  clickedContact: any = null;
 
   constructor(public stg: StorageService, public contactsPg: ContactsPageService, public data: DataService) {}
 
@@ -26,24 +28,37 @@ export class ContactsComponent {
    */
     async ngOnInit() {
       try {
-        this.data.contacts = await this.data.loadContacts();
+
+        const rawContacts: any = await this.data.loadContacts();
+        this.data.contacts = this.mapContacts(rawContacts);
+
+        this.contactsPg.sortContactsList();
         console.log(this.data.contacts);
-        // this.contactsPg.renderContacts();
 
       } catch(e) {
         this.error = 'Fehler beim Laden!';
       }
-  // async initContacts() {
-        // await this.stg.loadUserData();
-        // this.stg.loadFromLocalStorage();
-        // this.stg.loadFromLocalStorageContacts();
-  // }
     }
 
 
 
-    showContact(contact: any) {
-        this.clickedContact = contact;
+    mapContacts(rawContacts: any[]): Contact[] {
+      return rawContacts.map(contact => ({
+        id: contact.id,
+        title: contact.title,
+        email: contact.email,
+        phone: contact.phone,
+        hex_color: contact.hex_color,
+        logogram: contact.logogram
+      } as Contact));
     }
+
+
+    shouldRenderSeparator(currentIndex: number): boolean {
+      if (currentIndex === 0) return true;
+      const currentLetter = this.data.contacts[currentIndex].title[0].toUpperCase();
+      const previousLetter = this.data.contacts[currentIndex - 1].title[0].toUpperCase();
+      return currentLetter !== previousLetter;
+  }
 
 }

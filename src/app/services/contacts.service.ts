@@ -5,13 +5,14 @@ import { ContactsPageService } from './contacts-page.service';
 import { Contact } from '../interfaces/contact';
 import { AddTaskService } from './add-task.service';
 import { AddTaskVarService } from './add-task-var.service';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private task: AddTaskService, private taskVar: AddTaskVarService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private task: AddTaskService, private taskVar: AddTaskVarService, private data: DataService) { }
 
   // Create new Contact
 
@@ -19,29 +20,29 @@ export class ContactsService {
    * This function starts the necessary functions to create and save a new contact
    */
 
-  async createNewContact() {
-      if(this.stg.user === 'guest') {
-          this.scp.showPopup('Cannot be created as a guest. Please create an account');
-          this.contactsPg.closeNewContacts();
-      } else {
-          await this.saveNewContact();
-      }
-  }
+//   async createNewContact() {
+//       if(this.stg.user === 'guest') {
+//           this.scp.showPopup('Cannot be created as a guest. Please create an account');
+//           this.contactsPg.closeNewContacts();
+//       } else {
+//           await this.saveNewContact();
+//       }
+//   }
 
-  async saveNewContact() {
-      let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
-      let contactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
-      let contactPhone = document.getElementById('popup-contact-phone');
+  async saveNewContact(name:string, email:string, phone:string) {
+    //   let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
+    //   let contactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
+    //   let contactPhone = document.getElementById('popup-contact-phone');
       let contactColor = this.getContactColor();
-      let contactNameAlterd = contactName.value.charAt(0).toUpperCase() + contactName.value.slice(1);
+      let contactNameAlterd = name.charAt(0).toUpperCase() + name.slice(1);
       let logogram = this.getLogogram(contactNameAlterd);
       
-      await this.saveNewContactValues(contactNameAlterd, contactEmail, contactPhone, logogram, contactColor);
-      this.resetForm(contactName, contactEmail, contactPhone);
-      this.contactsPg.closeNewContacts();
+      return await this.data.saveNewContactInBackend(contactNameAlterd, email, phone, logogram, contactColor);
+    //   this.resetForm(contactName, contactEmail, contactPhone);
+    //   this.contactsPg.closeNewContacts();
 
-      if ( document.URL.includes("add_task.html") || document.URL.includes("board.html")) {
-          if(document.URL.includes("add_task.html")) {
+      if ( document.URL.includes("add_task") || document.URL.includes("board")) {
+          if(document.URL.includes("add_task")) {
           this.contactsPg.sortContactsList();
           // renderAssignedToBt();
           }
@@ -49,7 +50,8 @@ export class ContactsService {
           this.updateContactsPage(contactNameAlterd);
       };
 
-      this.scp.showPopup('Contact succesfully created');
+    //   this.scp.showPopup('Contact succesfully created');
+      
   }
 
   /**
@@ -63,18 +65,20 @@ export class ContactsService {
    * @param {string} contactColor This varable is the color of the new contacts icon
    */
 
-  async saveNewContactValues(contactNameAlterd: any, contactEmail: any, contactPhone: any, logogram: any, contactColor:any) {
-      let newContact: Contact = {
-          'name': contactNameAlterd,
-          'email': contactEmail.value,
-          'phone': contactPhone.value,
-          'logogram': logogram,
-          'hex_color': contactColor
-      };
+//   async saveNewContactValues(contactNameAlterd: string, contactEmail: string, contactPhone: string, logogram: string, contactColor: string) {
+//       let newContact: Contact = {
+//           'title': contactNameAlterd,
+//           'email': contactEmail,
+//           'phone': contactPhone,
+//           'logogram': logogram,
+//           'hex_color': contactColor
+//       };
+      
 
-      this.stg.contacts.push(newContact);
-      await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
-  }
+//     //   this.stg.contacts.push(newContact);
+//     //   await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
+//     return await this.data.saveNewContact(newContact);
+//   }
 
   /**
    * This function empties the input fields 
@@ -84,11 +88,11 @@ export class ContactsService {
    * @param {string} contactPhone This varable is the phone number of the new contact 
    */
 
-  resetForm(contactName: any, contactEmail: any, contactPhone: any) {
-      contactName.value = "";
-      contactEmail.value = "";
-      contactPhone.value = "";
-  }
+//   resetForm(contactName: any, contactEmail: any, contactPhone: any) {
+//       contactName.value = "";
+//       contactEmail.value = "";
+//       contactPhone.value = "";
+//   }
   
   /**
    * This function creats the logogram form the name
@@ -120,12 +124,12 @@ export class ContactsService {
    * @param {string} contactNameAlterd This variable is the name of the contact
    */
   updateContactsPage(contactNameAlterd: string) {
-      this.contactsPg.renderContacts();
+    //   this.contactsPg.renderContacts();
       let index;
           
       for (let i = 0; i < this.stg.contacts.length; i++) {
           const contact = this.stg.contacts[i];
-          const contactName = contact['name'];
+          const contactName = contact['title'];
           if(contactNameAlterd === contactName) {
                   index = i;
           }
@@ -156,7 +160,7 @@ export class ContactsService {
       this.stg.contacts.splice(i,1);
 
       await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
-      this.contactsPg.renderContacts();
+    //   this.contactsPg.renderContacts();
       this.contactsPg.closeNewContacts();
       this.removeFromMainPage();
       this.scp.showPopup('Contact deleted');
@@ -181,7 +185,7 @@ export class ContactsService {
    * @param {number} i This variable is the index of the contact
    */
   deleteFromList(i: number) {
-      let contactName = this.stg.contacts[i]['name'];
+      let contactName = this.stg.contacts[i]['title'];
 
       for (let j = 0; j < this.stg.list.length; j++) {
           const task = this.stg.list[j];
@@ -260,8 +264,8 @@ export class ContactsService {
       let contactColor = this.getContactColor();
 
       await this.saveContactValues(i, contactEmail, contactPhone, contactNameAlterd, logogram, contactColor);
-      this.contactsPg.renderContacts();
-      this.resetForm(contactName, contactEmail, contactPhone);
+    //   this.contactsPg.renderContacts();
+    //   this.resetForm(contactName, contactEmail, contactPhone);
       this.contactsPg.closeNewContacts();
       this.contactsPg.showContact(i);
       this.scp.showPopup('Contact changed');
@@ -282,11 +286,12 @@ export class ContactsService {
 
   async saveContactValues(i: number, contactEmail: any, contactPhone: any, contactNameAlterd: any, logogram: any, contactColor: any) {
       let newContact = {
-          'name': contactNameAlterd,
+          'title': contactNameAlterd,
           'email': contactEmail.value,
           'phone': contactPhone.value,
           'logogram': logogram,
-          'hex_color': contactColor
+          'hex_color': contactColor,
+          
       };
 
       this.stg.contacts.splice(i, 1, newContact);

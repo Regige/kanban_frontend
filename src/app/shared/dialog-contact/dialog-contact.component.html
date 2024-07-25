@@ -1,0 +1,99 @@
+<div
+  id="contacts-add-con"
+  class="contacts-add-con"
+  (click)="contactsPg.stopClosing($event)"
+>
+  <div class="contacts-add-con-left">
+    <img
+      src="assets/img/contacts-join-logo.svg"
+      alt=""
+      class="contacts-join-logo"
+    />@if(contactsPg.editContact) {
+    <h2 class="contacts-h2">Edit contact</h2>
+    } @else {
+    <h2 id="popup-contact-header" class="contacts-h2">Add contact</h2>
+    <p id="popup-contact-p" class="contacts-add-text">
+      Tasks are better with a team!
+    </p>
+    }
+    <div class="contacts-hr-ho"></div>
+  </div>
+  <div class="contacts-add-con-right">
+    <div
+      class="contacts-add-close-con"
+      (click)="contactsPg.closeNewContacts()"
+    ></div>
+    <div class="contacts-con-sub">
+      <div id="popuo-contact-user-icon">
+        @if (contactsPg.editContact) {
+        <app-user-icon></app-user-icon>
+        } @else {
+        <img
+          src="assets/img/contacts-user-logo.svg"
+          alt=""
+          class="contacts-user-logo"
+        />
+        }
+      </div>
+      <form
+        #contactsForm="ngForm"
+        (ngSubmit)="createNewContact(contactsForm)"
+        class="contacts-form"
+      >
+        <div class="contacts-input-con">
+          <input
+            [(ngModel)]="name"
+            required
+            type="text"
+            name="name"
+            id="popup-contact-name"
+            placeholder="Name"
+            class="contacts-input"
+          />
+          <img src="assets/img/person.svg" alt="" />
+        </div>
+        <div class="contacts-input-con">
+          <input
+            [(ngModel)]="email"
+            required
+            type="email"
+            name="email"
+            id="popup-contact-email"
+            placeholder="Email"
+            class="contacts-input"
+          />
+          <img src="assets/img/mail.svg" alt="" />
+        </div>
+        <div class="contacts-input-con">
+          <input
+            [(ngModel)]="phone"
+            type="tel"
+            name="phone"
+            id="popup-contact-phone"
+            placeholder="Phone"
+            class="contacts-input"
+          />
+          <img src="assets/img/add_call.svg" alt="" />
+        </div>
+        <div id="popup-contact-button-con" class="contacts-button-con">
+          @if(contactsPg.editContact) {
+          <app-change-btn></app-change-btn>
+          } @else {
+          <input
+            type="button"
+            value="Cancel"
+            (click)="contactsPg.closeNewContacts()"
+            class="contacts-button contacts-bt-cancel contacts-bt-ft contacts-bt-cancel"
+          />
+          <input
+            type="submit"
+            value="Create contact"
+            id="create-bt-submit"
+            class="contacts-button contacts-bt-create contacts-bt-ft contacts-bt-check"
+          />
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

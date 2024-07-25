@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ContacsHtmlService } from './contacs-html.service';
+import { TouchJsService } from './touch.js.service';
 
-describe('ContacsHtmlService', () => {
-  let service: ContacsHtmlService;
+describe('TouchJsService', () => {
+  let service: TouchJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ContacsHtmlService);
+    service = TestBed.inject(TouchJsService);
   });
 
   it('should be created', () => {

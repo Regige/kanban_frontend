@@ -4,7 +4,9 @@
     id="contacts-add-bg"
     class="contacts-add-bg d-none"
     (click)="contactsPg.closeNewContacts()"
-  ></div>
+  >
+    @if (contactsPg.PopupContact) { <app-dialog-contact></app-dialog-contact>}
+  </div>
   <div id="contacts-list-section" class="contacts-list-section">
     <button
       class="contacts-button contacts-bt-add contacts-bt-create"
@@ -15,8 +17,13 @@
     </button>
     <div class="contacts-list" id="contacts-list">
       @for (contact of data.contacts; track contact.id; let index = $index) {
+      @if (shouldRenderSeparator(index)) {
+      <app-letter-seperator
+        [letter]="contact.title[0].toUpperCase()"
+      ></app-letter-seperator>
+      }
       <app-contact-list-tag
-        (click)="showContact(contact)"
+        (click)="contactsPg.showContact(contact)"
         [logogram]="contact.logogram"
         [name]="contact.title"
         [email]="contact.email"
@@ -40,8 +47,10 @@
       <p class="contacts-head-text">Better with a team</p>
     </div>
     <div id="contact-clicked" class="contact-clicked">
-      @if(clickedContact) {
-      <app-clicked-contact [contact]="clickedContact"></app-clicked-contact>
+      @if(contactsPg.clickedContact) {
+      <app-clicked-contact
+        [contact]="contactsPg.clickedContact"
+      ></app-clicked-contact>
       }
     </div>
   </main>

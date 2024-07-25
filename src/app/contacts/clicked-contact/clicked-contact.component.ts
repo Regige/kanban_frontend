@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ContactsPageService } from '../../services/contacts-page.service';
 
 @Component({
   selector: 'app-clicked-contact',
@@ -10,6 +11,10 @@ import { Component, Input } from '@angular/core';
 export class ClickedContactComponent {
 
   @Input() contact: any;
+
+
+  constructor(public contactsPg: ContactsPageService) {}
+
 
 
 }

@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { ContacsHtmlService } from './contacs-html.service';
 import { Contact } from '../interfaces/contact';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsPageService {
 
-  constructor(private stg: StorageService, private contactsHtml : ContacsHtmlService) { }
+  constructor(private stg: StorageService, private data: DataService) { }
 
   // Contacts page functionality
 
-  letters: string[] = [];       // Variable (renderContacts()) to render contacts list letters
+//   letters: string[] = [];       // Variable (renderContacts()) to render contacts list letters
+    PopupContact = false;
+    clickedContact: any = null;
+    editContact: boolean = false;
   allContacts = [];       // Variable for function createContact()
   hexColors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#FF4646',
                 '#FF9633', '#8B45FF', '#7C82FF', '#FF8DFC', '#FFD345', '#2DE9D7', '#5C47A6', '#FF7E7E',
@@ -37,26 +40,26 @@ export class ContactsPageService {
    * This function starts all the functions to generate the contact list on the left side of the page
    */
 
-  renderContacts() {
-      if(this.stg.contacts) {
-      let contactsList = document.getElementById('contacts-list');
-      if (contactsList) {
-        contactsList.innerHTML = "";
-      }
-      this.letters = [];
-      this.sortContactsList();
+//   renderContacts() {
+//       if(this.stg.contacts) {
+//       let contactsList = document.getElementById('contacts-list');
+//       if (contactsList) {
+//         contactsList.innerHTML = "";
+//       }
+//       this.letters = [];
+//       this.sortContactsList();
 
-      for (let i = 0; i < this.stg.contacts.length; i++) {
-          const contact = this.stg.contacts[i];
-          let firstCha = contact['logogram'].charAt(0);
-          let myData = "";
-          this.checkContactsListLetter(firstCha, contactsList);
-          if(this.stg.user === contact['email']){
-              myData = "(me)";
-          } 
-          this.renderContactsHTML(contactsList, i, contact, myData);
-      }}
-  }
+//       for (let i = 0; i < this.stg.contacts.length; i++) {
+//           const contact = this.stg.contacts[i];
+//           let firstCha = contact['logogram'].charAt(0);
+//           let myData = "";
+//           this.checkContactsListLetter(firstCha, contactsList);
+//           if(this.stg.user === contact['email']){
+//               myData = "(me)";
+//           } 
+//           this.renderContactsHTML(contactsList, i, contact, myData);
+//       }}
+//   }
 
 
   /**
@@ -64,18 +67,10 @@ export class ContactsPageService {
    */
 
   sortContactsList() {
-      this.stg.contacts = this.stg.contacts.sort((a,b) => {
-          // if(a.name < b.name) {
-          //     return -1;
-          // }
-          if (a.name < b.name) {
-                return -1;
-            }
-            if (a.name > b.name) {
-                return 1;
-            }
-            return 0;
-        
+      this.data.contacts = this.data.contacts.sort((a,b) => {
+        var textA = a.title.toUpperCase();
+        var textB = b.title.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
       })
   }
 
@@ -83,12 +78,12 @@ export class ContactsPageService {
    * This function creates the subdivision of the generated contact list on the page
    *  by adding the first letter in a alphabetically order between the contacts */
 
-  checkContactsListLetter(firstCha: string, contactsList: any) {
-      if(!this.letters.includes(firstCha)) {
-      this.letters.push(firstCha);
-      this.renderContactsListLetters(firstCha, contactsList);
-      }
-  }
+//   checkContactsListLetter(firstCha: string, contactsList: any) {
+//       if(!this.letters.includes(firstCha)) {
+//       this.letters.push(firstCha);
+//       this.renderContactsListLetters(firstCha, contactsList);
+//       }
+//   }
 
   /**
    * This function generates the html code for the subdivision within the contacts list on the page
@@ -98,9 +93,9 @@ export class ContactsPageService {
    * @returns It returns the html code for the divison within the contacts list
    */
 
-  renderContactsListLetters(firstCha:string, contactsList: any) {
-      return contactsList.innerHTML += this.contactsHtml.createContactsListLetters(firstCha);
-  }
+//   renderContactsListLetters(firstCha:string, contactsList: any) {
+//       return contactsList.innerHTML += this.contactsHtml.createContactsListLetters(firstCha);
+//   }
 
   /**
    * This function generates the html code for the contacts list on the contact page
@@ -111,9 +106,9 @@ export class ContactsPageService {
    * @returns It returns the html code
    */
 
-  renderContactsHTML(contactsList:any, i: number, contact: any, myData: any) {
-      return contactsList.innerHTML += this.contactsHtml.createContactsHTML(i, contact, myData);
-  }
+//   renderContactsHTML(contactsList:any, i: number, contact: any, myData: any) {
+//       return contactsList.innerHTML += this.contactsHtml.createContactsHTML(i, contact, myData);
+//   }
 
 
 
@@ -125,18 +120,24 @@ export class ContactsPageService {
    * @param {number} i This is the index of the current contact
    */
 
-  showContact(i: number) {
-      let contact = this.stg.contacts[i];
-      let clickedContact = document.getElementById('contact-clicked');
-      if(clickedContact) 
-      clickedContact.innerHTML = "";
+//   showContact(i: number) {
+//       let contact = this.stg.contacts[i];
+//       let clickedContact = document.getElementById('contact-clicked');
+//       if(clickedContact) 
+//       clickedContact.innerHTML = "";
 
-      if (window.matchMedia("(max-width: 700px)").matches) {
-      document.getElementById('contacts-main')?.classList.remove('d-none-700');
-      document.getElementById('contacts-list-section')?.classList.add('d-none');
-      }
-      this.renderSglContactHTML(i, contact, clickedContact);
-  }
+//       if (window.matchMedia("(max-width: 700px)").matches) {
+//       document.getElementById('contacts-main')?.classList.remove('d-none-700');
+//       document.getElementById('contacts-list-section')?.classList.add('d-none');
+//       }
+//       this.renderSglContactHTML(i, contact, clickedContact);
+//   }
+
+
+
+    showContact(contact: any) {
+        this.clickedContact = contact;
+    }
 
   /**
    * This function creates the html code to show the clicked contact.
@@ -146,13 +147,13 @@ export class ContactsPageService {
    * @param {*} clickedContact This variable is the container where the contact will be generated
    */
 
-  renderSglContactHTML(i: number, contact: Contact, clickedContact: any) {
-          clickedContact.innerHTML = this.contactsHtml.createSglContactHTML(i, contact);
-          if(this.stg.user === this.stg.contacts[i]['email']) {
-              document.getElementById('contact-bt-con-edit-delete')?.classList.add('d-none');
-              document.getElementById('contact-info-phone')?.classList.add('d-none');
-          }
-  }
+//   renderSglContactHTML(i: number, contact: Contact, clickedContact: any) {
+//           clickedContact.innerHTML = this.contactsHtml.createSglContactHTML(i, contact);
+//           if(this.stg.user === this.stg.contacts[i]['email']) {
+//               document.getElementById('contact-bt-con-edit-delete')?.classList.add('d-none');
+//               document.getElementById('contact-info-phone')?.classList.add('d-none');
+//           }
+//   }
 
   /**
    * This function is used to show or hide the clicked contact, depending on the window size of the page.
@@ -180,28 +181,30 @@ export class ContactsPageService {
    * This function starts the right function to either show the popup window for adding new contacts 
    * or changing excisting contacts.
    * 
-   * @param {number} filter This varible is the index of the contact. If it is empty, the function to 
+   * @param {number} filter This varible is the id of the contact. If it is empty, the function to 
    * create new contacts is being called.
    */
 
   showPopupContact(filter:number = -1) {
-      this.renderPopupContact();
+    //   this.renderPopupContact();
+        this.PopupContact = true;
       let filterPlusOne = filter + 1;
       if(filterPlusOne >= 1){
+          this.editContact = true;
           this.showPopupExistContact(filter);
-      }
-      this.showPopupContactContainer();
+      } 
+          this.showPopupContactContainer();
   }
 
   /**
    * This function generates the html code for the popup window to create a new contact
    */
 
-  renderPopupContact() {
-      let addNewContactsPopup = document.getElementById('contacts-add-bg');
-      if(addNewContactsPopup)
-      addNewContactsPopup.innerHTML = this.contactsHtml.createPopupContact();
-  }
+//   renderPopupContact() {
+//       let addNewContactsPopup = document.getElementById('contacts-add-bg');
+//       if(addNewContactsPopup)
+//       addNewContactsPopup.innerHTML = this.contactsHtml.createPopupContact();
+//   }
 
   /**
    * This function is responsible to show the popup background
@@ -225,11 +228,15 @@ export class ContactsPageService {
    */
 
   closeNewContacts() {
-      // let overlayBg = document.getElementById('contacts-add-bg');
-      // overlayBg.classList.add('d-none');
+    this.PopupContact = false;
+    this.editContact = false;
+      let overlayBg = document.getElementById('contacts-add-bg');
+      if(overlayBg)
+      overlayBg.classList.add('d-none');
 
-      // let overlayCon = document.getElementById('contacts-add-con');
-      // overlayCon.classList.remove('contacts-add-con-show');
+      let overlayCon = document.getElementById('contacts-add-con');
+      if(overlayCon)
+      overlayCon.classList.remove('contacts-add-con-show');
   }
 
   /**
@@ -261,26 +268,18 @@ export class ContactsPageService {
       let popupContactP = document.getElementById('popup-contact-p');
       if(popupContactP)
       popupContactP.innerHTML = "";
-
-      let popuoContactUserIcon = document.getElementById('popuo-contact-user-icon');
-      if(popuoContactUserIcon)
-      popuoContactUserIcon.innerHTML = this.contactsHtml.createPopupExistContactIcon(i);
      
       let popupContactName = document.getElementById('popup-contact-name') as HTMLInputElement;
       if (popupContactName)
-      popupContactName.value = `${this.stg.contacts[i]['name']}`;
+      popupContactName.value = `${this.clickedContact['title']}`;
 
       let popupContactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
       if(popupContactEmail)
-      popupContactEmail.value = `${this.stg.contacts[i]['email']}`; 
+      popupContactEmail.value = `${this.clickedContact['email']}`; 
 
       let popupContactPhone = document.getElementById('popup-contact-phone') as HTMLInputElement;
       if(popupContactPhone)
-      popupContactPhone.value = `${this.stg.contacts[i]['phone']}`; 
-
-      let popupContactButtonCon = document.getElementById('popup-contact-button-con');
-      if(popupContactButtonCon)
-      popupContactButtonCon.innerHTML = this.contactsHtml.createPopupExistContactBt(i);
+      popupContactPhone.value = `${this.clickedContact['phone']}`; 
   }
 
 }

@@ -28,7 +28,6 @@ export class LoginComponent {
       console.log(resp);
       localStorage.setItem('token', resp['token']);
       this.router.navigateByUrl('/board');
-      // redirect
 
     } catch(e) {
       console.error(e);
@@ -75,10 +74,10 @@ export class LoginComponent {
    * @param {string} u - The user's email.
    * @param {string} n - The user's name.
    */
-saveUserinLocalStorge(u: string, n: string) {
-      this.stg.user = JSON.stringify(u);
-      let user_name = JSON.stringify(n);
-      localStorage.setItem('user', this.stg.user);
-      localStorage.setItem('name', user_name);
-  }
+// saveUserinLocalStorge(u: string, n: string) {
+//       this.stg.user = JSON.stringify(u);
+//       let user_name = JSON.stringify(n);
+//       localStorage.setItem('user', this.stg.user);
+//       localStorage.setItem('name', user_name);
+//   }
 }

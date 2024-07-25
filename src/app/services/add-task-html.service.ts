@@ -101,9 +101,9 @@ export class AddTaskHtmlService {
               <div class="task-contacts-list-to-assign-sub">
                       <label for="contact-${i}">
                         <div style="background-color:${contact['hex_color']};" class="task-contacts-color-icon">${contact['logogram']}</div>
-                        <span>${contact['name']}</span>
+                        <span>${contact['title']}</span>
                       </label>
-                  <input type="checkbox" name="contact" id="contact-${i}" value="${contact['name']}">
+                  <input type="checkbox" name="contact" id="contact-${i}" value="${contact['title']}">
               </div>`;
   }
 

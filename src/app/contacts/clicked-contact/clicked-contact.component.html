@@ -8,18 +8,18 @@
     </div>
     <div>
       <h2 class="contact-name-sgl" id="'contact-' + contact.id">
-        {{ contact.name }}
+        {{ contact.title }}
       </h2>
       <div id="contact-bt-con-edit-delete" class="flx">
         <button
           class="contact-bt-sgl contact-bt-sgl-edit"
-          onclick="showPopupContact(contact.id)"
+          (click)="contactsPg.showPopupContact(contact.id)"
         >
           Edit
         </button>
         <button
           class="contact-bt-sgl contact-bt-sgl-delete"
-          onclick="showPopupContact(contact.id)"
+          (click)="contactsPg.showPopupContact(contact.id)"
         >
           Delete
         </button>

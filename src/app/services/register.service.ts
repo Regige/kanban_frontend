@@ -168,17 +168,17 @@ export class RegisterService {
    * @returns {number} The new length of the contacts list after adding the user.
    */
   addUserToContacts(user:string, name:string, new_contact: Contact[]): Contact[] {
-      if(user !== 'guest') {
-          let nameAlterd = name.charAt(0).toUpperCase() + name.slice(1);
-          let ownContactData = {
-              'name': nameAlterd,
-              'email': user,
-              'phone': "",
-              'logogram': this.contacts.getLogogram(nameAlterd),
-              'hex_color': this.contacts.getContactColor()
-          }
-          new_contact.push(ownContactData);
-      } 
+    //   if(user !== 'guest') {
+    //       let nameAlterd = name.charAt(0).toUpperCase() + name.slice(1);
+    //       let ownContactData = {
+    //           'title': nameAlterd,
+    //           'email': user,
+    //           'phone': "",
+    //           'logogram': this.contacts.getLogogram(nameAlterd),
+    //           'hex_color': this.contacts.getContactColor(),
+    //       }
+    //       new_contact.push(ownContactData);
+    //   } 
       return new_contact;
     }
 
