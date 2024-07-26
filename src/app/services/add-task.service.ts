@@ -72,7 +72,7 @@ export class AddTaskService {
   async saveNewTask(taskTitle: any, taskDescription: any, assignedTo: any, dueDate: any, taskCategory: any, idIndex: any, taskBoard: any) {
       let newTask:Task = {
           'id':idIndex,
-          'headline': taskTitle.value,
+          'title': taskTitle.value,
           'text': taskDescription.value,
           'task_user': assignedTo,
           'date': dueDate.value,
@@ -205,9 +205,9 @@ export class AddTaskService {
               listOfIds.push(task['id']);
       } 
 
-      listOfIds.sort(function(a, b) {
-          return a - b;
-          });
+    //   listOfIds.sort(function(a, b) {
+    //       return a - b;
+    //       });
 
       return this.getFreeIdIndex(listOfIds);
   }
@@ -379,10 +379,10 @@ export class AddTaskService {
             this.saveSubtasksListEdit(task);
             this.taskPg.renderInputText();
   
-            taskTitle.value = task['headline'];
+            taskTitle.value = task['title'];
             taskDescription.value = task['text'] ?? "";
             dueDate.value = task['date'];
-            taskCategory.value = task['category']['text']; 
+            taskCategory.value = task['category']; 
           }
   }
 
@@ -542,7 +542,7 @@ export class AddTaskService {
   async saveChangedTask(id: number, i: number, taskTitle: string, taskDescription: string, assignedTo: any, dueDate: string, taskCategory: any, taskBoard: string) {
           let changedTask = {
           'id':id,
-          'headline': taskTitle,
+          'title': taskTitle,
           'text': taskDescription,
           'task_user': assignedTo,
           'date': dueDate,

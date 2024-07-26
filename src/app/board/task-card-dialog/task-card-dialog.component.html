@@ -1,0 +1,95 @@
+<div class="board_detail_box board_fbcc" onclick="closeBoardCard()">
+  <div
+    id="board_detail_card"
+    class="board_detail_card"
+    onclick="notClose(event), closeAssignedToField()"
+  >
+    <div class="board_fbsbc">
+      <div
+        id="Card_story${id}"
+        class="board_detail_header board_fbcc"
+        [style.background-color]="story_bg"
+      >
+        {{ story }}
+      </div>
+      <div class="board_detail_fixed_close">
+        <img
+          onclick="stopClosing(event), closeBoardCard()"
+          src="assets/img/Close.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div id="board_detail_box_content">
+      <div class="board_detail_headline">{{ headline }}</div>
+      <div class="board_detail_text">{{ text }}</div>
+      <div class="board_fbfb board_detail_date_prio">
+        <div [style.width]="130px;">Due date:</div>
+        <div>{{ date }}</div>
+      </div>
+      <div class="board_fbfb board_detail_date_prio">
+        <div [style.width]="130px">Priority:</div>
+        <div class="board_fbcc">
+          {{ priority }}<img [src]="priority_img" alt="" />
+        </div>
+      </div>
+      <div
+        id="'board-card-users' + id"
+        class="board_dfcfsco board_detail_date_prio"
+      >
+        Assigned To:
+        <div class="board_dfcb" style="margin-top: 20px; margin-left: 25px">
+          <div class="board_task_name board_fbcc" [style.background]="green">
+            TT
+          </div>
+          <span class="board_detail_name"> Tony Tech</span>
+        </div>
+        <div class="board_dfcb" style="margin-top: 20px; margin-left: 25px">
+          <div class="board_task_name board_fbcc" [style.background]="green">
+            TT
+          </div>
+          <span class="board_detail_name"> Tony Tech</span>
+        </div>
+      </div>
+      <div
+        id="'board-card-subtasks' + id"
+        class="board_dfcfsco board_detail_date_prio"
+      >
+        Subtasks
+        <div class="board_dfcb" style="margin-top: 20px; margin-left: 5px">
+          <img class="board_fbcc" src="assets/img/Check button.svg" alt="" />
+          <span class="board_detail_subtasks">
+            Implement Recipe Recommendation</span
+          >
+        </div>
+        <div class="board_dfcb" style="margin-top: 20px; margin-left: 5px">
+          <img
+            class="board_fbcc"
+            src="assets/img/Check button none.svg"
+            alt=""
+          />
+          <span class="board_detail_subtasks">
+            Implement Recipe Recommendation</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="board_dfec board_detail_del_edit" [style.margin-top]="30px">
+      <div
+        id="board_card_bt_delete"
+        onclick="deleteTask(id)"
+        class="board_dfcb"
+      >
+        <img src="assets/img/delete.svg" alt="" />Delete
+        <img
+          [style.cursor]="default"
+          [src]="assets / img / stroked_vertically.svg"
+          alt=""
+        />
+      </div>
+      <div id="board_card_bt_edit" onclick="editTask(id)" class="board_dfcb">
+        <img src="assets/img/edit.svg" alt="" />Edit
+      </div>
+    </div>
+  </div>
+</div>

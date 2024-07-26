@@ -11,7 +11,7 @@ import { Contact } from '../interfaces/contact';
 })
 export class DataService {
 
-  tasks: any = [];
+  tasks: Task[] = [];
   contacts: Contact[] = [];
   urlTask = environment.baseUrl + '/tasks/';
   urlContact = environment.baseUrl + '/contacts/';

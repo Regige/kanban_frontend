@@ -1,0 +1,26 @@
+<!-- <div
+  id="task.id"
+  draggable="true"
+  (dragstart)="startDragging(task.id)"
+  class="board_fbc board_note"
+> -->
+<div id="task.id" draggable="true" class="board_fbc board_note">
+  <div class="board_task_headline" [style.background-color]="categoryColor">
+    {{ task.category }}
+  </div>
+  <div class="board_task_header">{{ task.title }}</div>
+  <div class="board_task_text">{{ task.text }}</div>
+  <div class="board_fbsbc" id="'task_subtask' + id">
+    @if(task.subtasks.length > 0) {
+    <app-task-card-subtask [subtasks]="task.subtasks"></app-task-card-subtask>
+    }
+  </div>
+  <div class="board_fbsbc board_footerline">
+    <div id="'task_user' + id" class="board_fbfb board_task_name_box">
+      @for(user of task.task_user; track index; let index = $index) {
+      <app-task-card-user [userId]="user"></app-task-card-user>
+      }
+    </div>
+    <div class="board_task_prio"><img [src]="priority_img" alt="" /></div>
+  </div>
+</div>

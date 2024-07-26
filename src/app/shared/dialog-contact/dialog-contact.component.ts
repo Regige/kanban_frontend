@@ -67,7 +67,7 @@ export class DialogContactComponent {
 
       let resp = await this.data.deleteContactInBackend(contactId);
       console.log('So sieht die resp aus', resp);
-      this.data.contacts.splice(this.findIndexById(contactId), 1); 
+      this.data.contacts.splice(this.contactsPg.findContactById(contactId), 1); 
       this.contactsPg.clickedContact = null;
       this.contactsPg.sortContactsList();
 
@@ -82,7 +82,7 @@ export class DialogContactComponent {
   async onSaveChangedContact() {
     try {
       const contactId = this.contactsPg.clickedContact.id;
-      const contactIndex = this.findIndexById(contactId);
+      const contactIndex = this.contactsPg.findContactById(contactId);
 
       let body = {
         title: this.name,
@@ -113,10 +113,7 @@ export class DialogContactComponent {
 
 
 
-  findIndexById(id: number) {
-      const index = this.data.contacts.findIndex(item => item.id === id);;
-      return index
-  }
+
 
 
 }

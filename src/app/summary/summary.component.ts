@@ -157,7 +157,7 @@ loadSummaryCategory(category:string, task:string) {
     let task_counter = 0;
     for (let i = 0; i < this.stg.list.length; i++) {
         const element = this.stg.list[i];
-        if (element.category.text === task)
+        if (element.category === task)
             task_counter = task_counter + 1;
     }
     return task_counter;

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { ScriptService } from '../services/script.service';
-import { Subtask } from '../interfaces/subtask';
 import { AddTaskVarService } from '../services/add-task-var.service';
 import { TouchService } from '../services/touch.service';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -11,11 +10,14 @@ import { RouterModule } from '@angular/router';
 import { AddTaskService } from '../services/add-task.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataService } from '../services/data.service';
+import { BoardService } from '../services/board.service';
+import { TaskCardComponent } from './task-card/task-card.component';
+import { TaskCardDialogComponent } from './task-card-dialog/task-card-dialog.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, RouterModule],
+  imports: [HeaderComponent, SidebarComponent, RouterModule, TaskCardComponent, TaskCardDialogComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
@@ -23,7 +25,7 @@ export class BoardComponent {
 
     error = '';
 
-  constructor(public stg: StorageService, public scp: ScriptService, private taskVar: AddTaskVarService, public touch: TouchService, public contactsPg: ContactsPageService, public task: AddTaskService, private http: HttpClient, private data: DataService) {}
+  constructor(public stg: StorageService, public scp: ScriptService, private taskVar: AddTaskVarService, public touch: TouchService, public contactsPg: ContactsPageService, public task: AddTaskService, private http: HttpClient, public data: DataService, public board: BoardService) {}
 
 
   /**
@@ -31,33 +33,34 @@ export class BoardComponent {
    */
   async ngOnInit() {
     try {
-        this.data.tasks = await this.data.loadTasks();
+        const rawContacts: any = await this.data.loadContacts();
+        this.data.contacts = this.contactsPg.mapContacts(rawContacts);
+
+        // this.contactsPg.sortContactsList();
+
+        const rawTasks: any = await this.data.loadTasks();
+        this.data.tasks = this.board.mapTasks(rawTasks)
         console.log(this.data.tasks);
-        // this.loadTaskBoard();
     } catch(e) {
         this.error = 'Fehler beim Laden!';
     }
 
-  // async initBoard() {
-    //   this.stg.loadUserData();
-    //   this.scp.checkUserLogin();
   }
-
 
 
 
   /**
    * This function loads all Borad tasks
    */
-  async loadTaskBoard() {
-    //   this.stg.loadFromLocalStorage();
-    //   this.stg.loadFromLocalStorageContacts();
-    //   this.filterTaskBoard('to_do');
-    //   this.filterTaskBoard('in_progress');
-    //   this.filterTaskBoard('await_feedback');
-    //   this.filterTaskBoard('done');
-      // loadTouch(); touch muss noch als service impementiert werden
-  }
+//   async loadTaskBoard() {
+//     //   this.stg.loadFromLocalStorage();
+//     //   this.stg.loadFromLocalStorageContacts();
+//       this.filterTaskBoard('to_do');
+//       this.filterTaskBoard('in_progress');
+//       this.filterTaskBoard('await_feedback');
+//       this.filterTaskBoard('done');
+//       // loadTouch(); touch muss noch als service impementiert werden
+//   }
 
   /**
    * This function loads all individual tasks filtered
@@ -67,20 +70,23 @@ export class BoardComponent {
 //   filterTaskBoard(task_board: string) {
 //       let filter = this.data.tasks.filter(t => t['task_board'] == task_board);
 //       if (filter.length) {
-//           let taskBoard = document.getElementById('board_' + task_board);
-//           if(taskBoard)
-//             taskBoard.innerHTML = "";
+//         //   let taskBoard = document.getElementById('board_' + task_board);
+//         //   if(taskBoard)
+//         //     taskBoard.innerHTML = "";
+
 //           for (let i = 0; i < filter.length; i++) {
 //               const element = filter[i];
-//               let priority_img = '../img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
+//               let priority_img = 'assets/img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
 //               let taskBoard = document.getElementById('board_' + task_board);
-//               if(taskBoard)
-//                 // taskBoard.innerHTML += createBoardTasks(element.id, element.category, element.headline, element.text, priority_img);
-//               this.loadBoardUsers(element.id, element.task_user);
-//               this.loadBoardSubtasks(element.id, element.subtasks);
+//               if(taskBoard) {
+//                 //   if(element.id)
+//                 //   taskBoard.innerHTML += this.boardHtml.createBoardTasks(element.id, element.category, element.title, element.text, priority_img);
+//               //   this.loadBoardUsers(element.id, element.task_user);
+//               //   this.loadBoardSubtasks(element.id, element.subtasks);
+//               }
 //           }
 //       } else {
-//           this.taskBoardEmpty(task_board);
+//         //   this.taskBoardEmpty(task_board);
 //       }
 //   }
 
@@ -89,25 +95,25 @@ export class BoardComponent {
    * 
    * @param {String} task This string contains the individual tasks
    */
-  taskBoardEmpty(task: any, option?: boolean) {
-      let tasktext = document.getElementById(`board_${task}_headline`);
+//   taskBoardEmpty(task: any, option?: boolean) {
+//       let tasktext = document.getElementById(`board_${task}_headline`);
 
-      if(tasktext) {
-        if (option == false) {
-            let boardTask = document.getElementById('board_' + task);
-            if(boardTask) {
-              boardTask.innerHTML = `
-              <div class="board_no_task board_fbccco">No tasks ${tasktext.innerHTML}</div>`;
-            }
-        } else {
-            let boardTask = document.getElementById('board_' + task);
-            if(boardTask) {
-              boardTask.innerHTML += `
-              <div class="board_no_task board_fbccco">No tasks ${tasktext.innerHTML}</div>`;
-            }
-        }
-      }
-  }
+//       if(tasktext) {
+//         if (option == false) {
+//             let boardTask = document.getElementById('board_' + task);
+//             if(boardTask) {
+//               boardTask.innerHTML = `
+//               <div class="board_no_task board_fbccco">No tasks ${tasktext.innerHTML}</div>`;
+//             }
+//         } else {
+//             let boardTask = document.getElementById('board_' + task);
+//             if(boardTask) {
+//               boardTask.innerHTML += `
+//               <div class="board_no_task board_fbccco">No tasks ${tasktext.innerHTML}</div>`;
+//             }
+//         }
+//       }
+//   }
 
   /**
    * This function loads all added users to the respective tasks
@@ -115,15 +121,15 @@ export class BoardComponent {
    * @param {Number} id           ID of the user in the task
    * @param {String} task_user    User task of the individual tasks
    */
-  loadBoardUsers(id: number, task_user: any) {
-      for (let i = 0; i < task_user.length; i++) {
-          const element = task_user[i];
-          let task_user_number = `task_user${id}`;
-          let taskUserNumber = document.getElementById(task_user_number);
-          // if(taskUserNumber)
-            // taskUserNumber.innerHTML += createBoardUsers(element.color, element.name);
-      };
-  }
+//   loadBoardUsers(id: number, task_user: any) {
+//       for (let i = 0; i < task_user.length; i++) {
+//           const element = task_user[i];
+//           let task_user_number = `task_user${id}`;
+//           let taskUserNumber = document.getElementById(task_user_number);
+//           // if(taskUserNumber)
+//             // taskUserNumber.innerHTML += createBoardUsers(element.color, element.name);
+//       };
+//   }
 
   /**
    * This function loads all task to the respective tasks
@@ -131,24 +137,24 @@ export class BoardComponent {
    * @param {id} id           ID of the task 
    * @param {String} subtasks Sub task of the individual tasks
    */
-  loadBoardSubtasks(id: number, subtasks: any) {
-      var element_subtask = 0;
-      var element_percent = 0;
-      let subtask_number = `task_subtask${id}`;
-      for (let i = 0; i < subtasks.length; i++) {
-          const element = subtasks[i];
-          element_subtask = element_subtask + element.completed;
-          element_percent = element.completed + element_percent;
-      }
-      if (subtasks.length) {
-          let percent = (element_percent / subtasks.length) * 100;
-          // document.getElementById(subtask_number).innerHTML = createBoardSubtasks(element_subtask, subtasks.length, percent);
-      } else {
-          let taskSubtask = document.getElementById(subtask_number);
-          if(taskSubtask)
-            taskSubtask.innerHTML = "";
-      };
-  }
+//   loadBoardSubtasks(id: number, subtasks: any) {
+//       var element_subtask = 0;
+//       var element_percent = 0;
+//       let subtask_number = `task_subtask${id}`;
+//       for (let i = 0; i < subtasks.length; i++) {
+//           const element = subtasks[i];
+//           element_subtask = element_subtask + element.completed;
+//           element_percent = element.completed + element_percent;
+//       }
+//       if (subtasks.length) {
+//           let percent = (element_percent / subtasks.length) * 100;
+//           // document.getElementById(subtask_number).innerHTML = createBoardSubtasks(element_subtask, subtasks.length, percent);
+//       } else {
+//           let taskSubtask = document.getElementById(subtask_number);
+//           if(taskSubtask)
+//             taskSubtask.innerHTML = "";
+//       };
+//   }
 
   /**
    * This function uses the ID to determine the Dropbox
@@ -279,7 +285,7 @@ export class BoardComponent {
           }
           this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
           this.closeBoardCard();
-          this.loadTaskBoard();
+        //   this.loadTaskBoard();
           this.scp.showPopup("Task deleted");
       } else {
           this.scp.showPopup('Cannot be deleted as a guest. Please create an account')
@@ -327,7 +333,7 @@ export class BoardComponent {
     //   text = element.text;
     //   date = element.date;
     //   priority = element.priority;
-    //   priority_img = '../img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
+    //   priority_img = 'assets/img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
       return;
   }
 
@@ -380,7 +386,7 @@ export class BoardComponent {
                 // boardCardSubtasks.innerHTML += createBoardCardSubtaks(id, i, element.completed, element.text, completed);
           }
       }
-      this.loadBoardSubtasks(id, subtasks);
+    //   this.loadBoardSubtasks(id, subtasks);
   }
 
 
@@ -400,6 +406,10 @@ export class BoardComponent {
     //   this.createBordCardSubtasks(id, this.stg.list[id]['subtasks'])
       this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
   }
+
+
+
+
 
 
 }

@@ -10,32 +10,34 @@ export class BoardHtmlService {
 
 // draggedElement: any;
 
-  // createBoardTasks(id, category, headline, text, priority_img) {
-  //     return `<div onclick="loadBoardCard(${id})" id="${id}" draggable="true" ondragstart="startDragging(${id})" class="board_fbc board_note" >
-  //         <div class="board_task_headline" style="background-color: ${category.color};">${category.text}
-  //         </div>
-  //         <div class="board_task_header">${headline}
-  //         </div>
-  //         <div class="board_task_text">${text}
-  //         </div>
-  //         <div class="board_fbsbc" id="task_subtask${id}">
-  //             <div class="board_task_progess_empty">
-  //                 <div id="progress-bar-25" class="board_task_progess" role="progressbar" aria-valuenow="75"
-  //                     aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-  //                 </div>
-  //             </div>
-  //             <div class="board_task_progess_text">
-  //             1/2 Subtasks
-  //             </div>
-  //         </div>
-  //         <div class="board_fbsbc board_footerline">
-  //             <div id="task_user${id}" class="board_fbfb board_task_name_box">
-  //             </div>
-  //             <div class="board_task_prio"><img src="${priority_img}" alt="">
-  //             </div>
-  //         </div>
-  //     </div>`;
-  // }
+  createBoardTasks(id:number, category: string, headline: string, text: string | undefined, priority_img: any) {
+      // return `<div onclick="loadBoardCard(${id})" id="${id}" draggable="true" ondragstart="startDragging(${id})" class="board_fbc board_note" >
+      //     <div class="board_task_headline">${category}
+      //     </div>
+      //     <div class="board_task_header">${headline}
+      //     </div>
+      //     <div class="board_task_text">${text}
+      //     </div>
+      //     <div class="board_fbsbc" id="task_subtask${id}">
+      //         <div class="board_task_progess_empty">
+      //             <div id="progress-bar-25" class="board_task_progess" role="progressbar" aria-valuenow="75"
+      //                 aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+      //             </div>
+      //         </div>
+      //         <div class="board_task_progess_text">
+      //         1/2 Subtasks
+      //         </div>
+      //     </div>
+      //     <div class="board_fbsbc board_footerline">
+      //         <div id="task_user${id}" class="board_fbfb board_task_name_box">
+      //         </div>
+      //         <div class="board_task_prio"><img src="${priority_img}" alt="">
+      //         </div>
+      //     </div>
+      // </div>`;
+
+      // style="background-color: ${category.color};"
+  }
 
   // createBoardUsers(color, name) {
   //     return `

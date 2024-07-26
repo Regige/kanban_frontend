@@ -334,4 +334,11 @@ export class ContactsPageService {
       return randomColor;
   }
 
+
+
+findContactById(id: number) {
+      const index = this.data.contacts.findIndex(item => item.id === id);;
+      return index
+  }
+
 }

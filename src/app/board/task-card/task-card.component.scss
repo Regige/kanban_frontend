@@ -1,0 +1,8 @@
+@import './../../../styles.scss';
+@import './../board.component.scss';
+
+app-task-card-subtask {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

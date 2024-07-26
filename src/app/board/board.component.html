@@ -66,7 +66,17 @@
         (dragover)="allowDrop($event); highlight('board_to_do')"
         (touchcancel)="touch.touchEnd('to_do')"
       >
+        @for(task of data.tasks; track task.id; let index = $index) {
+        @if(task.task_board === "to_do") {
+        <app-task-card
+          (click)="loadBoardCard(index)"
+          [task]="task"
+          [index]="index"
+        ></app-task-card>
+        } @else if(task.task_board !== "in_progress" && task.task_board !==
+        "await_feedback" && task.task_board !== "done") {
         <div class="board_no_task board_fbccco">No tasks To do</div>
+        } }
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -88,7 +98,17 @@
         (dragover)="allowDrop($event); highlight('board_in_progress')"
         (touchcancel)="touch.touchEnd('in_progress')"
       >
-        <div class="board_no_task board_fbccco">No tasks In progress</div>
+        @for(task of data.tasks; track task.id; let index = $index) {
+        @if(task.task_board === "in_progress") {
+        <app-task-card
+          (click)="loadBoardCard(index)"
+          [task]="task"
+          [index]="index"
+        ></app-task-card>
+        } @else if(task.task_board !== "to_do" && task.task_board !==
+        "await_feedback" && task.task_board !== "done") {
+        <div class="board_no_task board_fbccco">No tasks To do</div>
+        } }
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -112,9 +132,17 @@
         (dragover)="allowDrop($event); highlight('board_await_feedback')"
         (touchcancel)="touch.touchEnd('await_feedback')"
       >
-        <div class="board_no_task board_fbccco">
-          No tasks container Await feedback
-        </div>
+        @for(task of data.tasks; track task.id; let index = $index) {
+        @if(task.task_board === "await_feedback") {
+        <app-task-card
+          (click)="loadBoardCard(index)"
+          [task]="task"
+          [index]="index"
+        ></app-task-card>
+        } @else if(task.task_board !== "to_do" && task.task_board !==
+        "in_progress" && task.task_board !== "done") {
+        <div class="board_no_task board_fbccco">No tasks To do</div>
+        } }
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -130,7 +158,17 @@
         (touchcancel)="touch.touchEnd('done')"
         t
       >
-        <div class="board_no_task board_fbccco">No tasks Done</div>
+        @for(task of data.tasks; track task.id; let index = $index) {
+        @if(task.task_board === "done") {
+        <app-task-card
+          (click)="loadBoardCard(index)"
+          [task]="task"
+          [index]="index"
+        ></app-task-card>
+        } @else if(task.task_board !== "to_do" && task.task_board !==
+        "in_progress" && task.task_board !== "await_feedback") {
+        <div class="board_no_task board_fbccco">No tasks To do</div>
+        } }
       </div>
     </div>
   </div>
