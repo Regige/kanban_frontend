@@ -309,4 +309,29 @@ export class ContactsPageService {
       popupContactPhone.value = this.clickedContact.phone; 
   }
 
+
+
+    /**
+   * This function creats the logogram form the name
+   * 
+   * @param {string} name This variable is the name of the contact
+   * @returns The first letters of the fist and last name
+   */
+  getLogogram(name: string) {
+      let firstCha = name.toString().charAt(0);
+      let secondCha = name.toString().trim().split(" ").splice(-1).toString().charAt(0);
+
+      return firstCha + secondCha;
+  }
+
+  /**
+   * This function chooses randomly a color form the hexColor array
+   * 
+   * @returns A color code
+   */
+  getContactColor() {
+      let randomColor = this.hexColors[Math.floor(Math.random()*this.hexColors.length)];
+      return randomColor;
+  }
+
 }

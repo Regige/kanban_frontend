@@ -41,8 +41,12 @@ export class DialogContactComponent {
 
   async createNewContact(form: NgForm) {
     try {
-      let resp: any = await this.contacts.saveNewContact(this.name, this.email, this.phone);
-   
+      let contactColor = this.contactsPg.getContactColor();
+      let contactNameAlterd = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+      let logogram = this.contactsPg.getLogogram(contactNameAlterd);
+      
+      let resp: any = await this.data.saveNewContactInBackend(contactNameAlterd, this.email, this.phone, logogram, contactColor);
+
       let newContact = this.contactsPg.setJSON(resp);
       this.data.contacts.push(newContact);
       this.contactsPg.sortContactsList();
@@ -75,7 +79,34 @@ export class DialogContactComponent {
   }
 
 
-  onSaveChangedContact() {
+  async onSaveChangedContact() {
+    try {
+      const contactId = this.contactsPg.clickedContact.id;
+      const contactIndex = this.findIndexById(contactId);
+
+      let body = {
+        title: this.name,
+        email: this.email,
+        phone: this.phone,
+        hex_color: this.contactsPg.clickedContact.hex_color,
+        logogram: this.contactsPg.clickedContact.logogram
+      };
+
+      let resp:any = await this.data.updateContactInBackend(contactId, body);
+      console.log('So sieht die resp aus', resp);
+
+      let changedContact = this.contactsPg.setJSON(resp);
+
+      this.data.contacts[contactIndex] = changedContact; 
+      this.contactsPg.clickedContact = changedContact;
+      this.contactsPg.sortContactsList();
+
+      this.contactsPg.closeNewContacts();
+      this.scp.showPopup('Contact changed');
+
+    } catch(e) {
+        console.error(e);
+    }
 
   }
 

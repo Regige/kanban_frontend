@@ -66,7 +66,7 @@ export class DataService {
 
 
   updateContactInBackend(id: number, body: any) {
-      const urlContactAndId = this.urlContact + id;
+      const urlContactAndId = this.urlContact + id + '/';
 
       return lastValueFrom(this.http.put(urlContactAndId, body));
   }

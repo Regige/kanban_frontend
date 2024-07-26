@@ -29,30 +29,30 @@ export class ContactsService {
 //       }
 //   }
 
-  async saveNewContact(name:string, email:string, phone:string) {
-    //   let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
-    //   let contactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
-    //   let contactPhone = document.getElementById('popup-contact-phone');
-      let contactColor = this.getContactColor();
-      let contactNameAlterd = name.charAt(0).toUpperCase() + name.slice(1);
-      let logogram = this.getLogogram(contactNameAlterd);
+//   async saveNewContact(name:string, email:string, phone:string) {
+//     //   let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
+//     //   let contactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
+//     //   let contactPhone = document.getElementById('popup-contact-phone');
+//       let contactColor = this.contactsPg.getContactColor();
+//       let contactNameAlterd = name.charAt(0).toUpperCase() + name.slice(1);
+//       let logogram = this.contactsPg.getLogogram(contactNameAlterd);
       
-      return await this.data.saveNewContactInBackend(contactNameAlterd, email, phone, logogram, contactColor);
-    //   this.resetForm(contactName, contactEmail, contactPhone);
-    //   this.contactsPg.closeNewContacts();
+//       return await this.data.saveNewContactInBackend(contactNameAlterd, email, phone, logogram, contactColor);
+//     //   this.resetForm(contactName, contactEmail, contactPhone);
+//     //   this.contactsPg.closeNewContacts();
 
-      if ( document.URL.includes("add_task") || document.URL.includes("board")) {
-          if(document.URL.includes("add_task")) {
-          this.contactsPg.sortContactsList();
-          // renderAssignedToBt();
-          }
-      } else {
-          this.updateContactsPage(contactNameAlterd);
-      };
+//       if ( document.URL.includes("add_task") || document.URL.includes("board")) {
+//           if(document.URL.includes("add_task")) {
+//           this.contactsPg.sortContactsList();
+//           // renderAssignedToBt();
+//           }
+//       } else {
+//         //   this.updateContactsPage(contactNameAlterd);
+//       };
 
-    //   this.scp.showPopup('Contact succesfully created');
+//     //   this.scp.showPopup('Contact succesfully created');
       
-  }
+//   }
 
   /**
    * This function saves the input form createNewContact() into an object and than into the contacts array.
@@ -94,28 +94,28 @@ export class ContactsService {
 //       contactPhone.value = "";
 //   }
   
-  /**
-   * This function creats the logogram form the name
-   * 
-   * @param {string} name This variable is the name of the contact
-   * @returns The first letters of the fist and last name
-   */
-  getLogogram(name: string) {
-      let firstCha = name.toString().charAt(0);
-      let secondCha = name.toString().trim().split(" ").splice(-1).toString().charAt(0);
+//   /**
+//    * This function creats the logogram form the name
+//    * 
+//    * @param {string} name This variable is the name of the contact
+//    * @returns The first letters of the fist and last name
+//    */
+//   getLogogram(name: string) {
+//       let firstCha = name.toString().charAt(0);
+//       let secondCha = name.toString().trim().split(" ").splice(-1).toString().charAt(0);
 
-      return firstCha + secondCha;
-  }
+//       return firstCha + secondCha;
+//   }
 
-  /**
-   * This function chooses randomly a color form the hexColor array
-   * 
-   * @returns A color code
-   */
-  getContactColor() {
-      let randomColor = this.contactsPg.hexColors[Math.floor(Math.random()*this.contactsPg.hexColors.length)];
-      return randomColor;
-  }
+//   /**
+//    * This function chooses randomly a color form the hexColor array
+//    * 
+//    * @returns A color code
+//    */
+//   getContactColor() {
+//       let randomColor = this.contactsPg.hexColors[Math.floor(Math.random()*this.contactsPg.hexColors.length)];
+//       return randomColor;
+//   }
 
   /**
    * This function calls the render and showContact functions to show the changes
@@ -123,21 +123,21 @@ export class ContactsService {
    * 
    * @param {string} contactNameAlterd This variable is the name of the contact
    */
-  updateContactsPage(contactNameAlterd: string) {
-    //   this.contactsPg.renderContacts();
-      let index;
+//   updateContactsPage(contactNameAlterd: string) {
+//     //   this.contactsPg.renderContacts();
+//       let index;
           
-      for (let i = 0; i < this.stg.contacts.length; i++) {
-          const contact = this.stg.contacts[i];
-          const contactName = contact['title'];
-          if(contactNameAlterd === contactName) {
-                  index = i;
-          }
-      }
+//       for (let i = 0; i < this.stg.contacts.length; i++) {
+//           const contact = this.stg.contacts[i];
+//           const contactName = contact['title'];
+//           if(contactNameAlterd === contactName) {
+//                   index = i;
+//           }
+//       }
 
-      if(index)
-      this.contactsPg.showContact(index);
-  }
+//       if(index)
+//       this.contactsPg.showContact(index);
+//   }
 
 
   // Delete Contacts
@@ -147,35 +147,35 @@ export class ContactsService {
    * 
    * @param {number} i This is the index of a contact
    */
-  async deleteContacts(i: number) {
-      if(this.stg.user === 'guest' || this.stg.user === this.stg.contacts[i]['email']) {
-          if (this.stg.user === 'guest') {
-              this.scp.showPopup('Cannot be deleted as a guest. Please create an account');
-          } else {
-              this.scp.showPopup('Cannot be deleted.');
-          }
-          this.contactsPg.closeNewContacts();
-      } else {
-      this.deleteFromList(i);
-      this.stg.contacts.splice(i,1);
+//   async deleteContacts(i: number) {
+//       if(this.stg.user === 'guest' || this.stg.user === this.stg.contacts[i]['email']) {
+//           if (this.stg.user === 'guest') {
+//               this.scp.showPopup('Cannot be deleted as a guest. Please create an account');
+//           } else {
+//               this.scp.showPopup('Cannot be deleted.');
+//           }
+//           this.contactsPg.closeNewContacts();
+//       } else {
+//       this.deleteFromList(i);
+//       this.stg.contacts.splice(i,1);
 
-      await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
-    //   this.contactsPg.renderContacts();
-      this.contactsPg.closeNewContacts();
-      this.removeFromMainPage();
-      this.scp.showPopup('Contact deleted');
-      }
-  }
+//       await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
+//     //   this.contactsPg.renderContacts();
+//       this.contactsPg.closeNewContacts();
+//       this.removeFromMainPage();
+//       this.scp.showPopup('Contact deleted');
+//       }
+//   }
 
 
   /**
    * This function empties the html content form the container
    */
-  removeFromMainPage() {
-      let contactClicked = document.getElementById('contact-clicked');
-      if (contactClicked)
-        contactClicked.innerHTML = "";
-  }
+//   removeFromMainPage() {
+//       let contactClicked = document.getElementById('contact-clicked');
+//       if (contactClicked)
+//         contactClicked.innerHTML = "";
+//   }
 
 
   /**
@@ -184,23 +184,23 @@ export class ContactsService {
    * 
    * @param {number} i This variable is the index of the contact
    */
-  deleteFromList(i: number) {
-      let contactName = this.stg.contacts[i]['title'];
+//   deleteFromList(i: number) {
+//       let contactName = this.stg.contacts[i]['title'];
 
-      for (let j = 0; j < this.stg.list.length; j++) {
-          const task = this.stg.list[j];
-          const users = task['task_user'];
+//       for (let j = 0; j < this.stg.list.length; j++) {
+//           const task = this.stg.list[j];
+//           const users = task['task_user'];
 
-          if (users)
-          for (let k = 0; k < users.length; k++) {
-              const user = users[k];
+//           if (users)
+//           for (let k = 0; k < users.length; k++) {
+//               const user = users[k];
               
-              if(user['full_name'] === contactName) {
-                  this.changeUsersInTask(users, k, task, j);
-              }
-          }
-      }
-  }
+//               if(user['full_name'] === contactName) {
+//                   this.changeUsersInTask(users, k, task, j);
+//               }
+//           }
+//       }
+//   }
 
 
   /**
@@ -237,39 +237,39 @@ export class ContactsService {
    * @param {number} i This is the index of the contact
    */
 
-  async saveChangedContact(i: number) {
-      if(this.stg.user === 'guest' || this.stg.user === this.stg.contacts[i]['email']) {
-          if (this.stg.user === 'guest') {
-              this.scp.showPopup('Cannot be changed as a guest. Please create an account');
-          } else {
-              this.scp.showPopup('Cannot be changed.');
-          }
-          this.contactsPg.closeNewContacts();
-      }
-      else {
-      await this.saveChangedContactFunctions(i);
-      }
-  }
+//   async saveChangedContact(i: number) {
+//       if(this.stg.user === 'guest' || this.stg.user === this.stg.contacts[i]['email']) {
+//           if (this.stg.user === 'guest') {
+//               this.scp.showPopup('Cannot be changed as a guest. Please create an account');
+//           } else {
+//               this.scp.showPopup('Cannot be changed.');
+//           }
+//           this.contactsPg.closeNewContacts();
+//       }
+//       else {
+//       await this.saveChangedContactFunctions(i);
+//       }
+//   }
 
   /**
    * This functin calls all the functions to save the changes.
    */
 
-  async saveChangedContactFunctions(i: number) {
-      let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
-      let contactEmail = document.getElementById('popup-contact-email');
-      let contactPhone = document.getElementById('popup-contact-phone');
-      let contactNameAlterd = contactName.value.charAt(0).toUpperCase() + contactName.value.slice(1)
-      let logogram =this.getLogogram(contactNameAlterd);
-      let contactColor = this.getContactColor();
+//   async saveChangedContactFunctions(i: number) {
+//       let contactName = document.getElementById('popup-contact-name') as HTMLInputElement;
+//       let contactEmail = document.getElementById('popup-contact-email');
+//       let contactPhone = document.getElementById('popup-contact-phone');
+//       let contactNameAlterd = contactName.value.charAt(0).toUpperCase() + contactName.value.slice(1)
+//       let logogram =this.getLogogram(contactNameAlterd);
+//       let contactColor = this.getContactColor();
 
-      await this.saveContactValues(i, contactEmail, contactPhone, contactNameAlterd, logogram, contactColor);
-    //   this.contactsPg.renderContacts();
-    //   this.resetForm(contactName, contactEmail, contactPhone);
-      this.contactsPg.closeNewContacts();
-      this.contactsPg.showContact(i);
-      this.scp.showPopup('Contact changed');
-  }
+//       await this.saveContactValues(i, contactEmail, contactPhone, contactNameAlterd, logogram, contactColor);
+//     //   this.contactsPg.renderContacts();
+//     //   this.resetForm(contactName, contactEmail, contactPhone);
+//       this.contactsPg.closeNewContacts();
+//       this.contactsPg.showContact(i);
+//       this.scp.showPopup('Contact changed');
+//   }
 
   /**
    * This function saves the input values in an object and changes the contacts array. Everyting is 
@@ -284,18 +284,18 @@ export class ContactsService {
    * @param {string} contactColor This variable is the color for the contacts icon
    */
 
-  async saveContactValues(i: number, contactEmail: any, contactPhone: any, contactNameAlterd: any, logogram: any, contactColor: any) {
-      let newContact = {
-          'title': contactNameAlterd,
-          'email': contactEmail.value,
-          'phone': contactPhone.value,
-          'logogram': logogram,
-          'hex_color': contactColor,
+//   async saveContactValues(i: number, contactEmail: any, contactPhone: any, contactNameAlterd: any, logogram: any, contactColor: any) {
+//       let newContact = {
+//           'title': contactNameAlterd,
+//           'email': contactEmail.value,
+//           'phone': contactPhone.value,
+//           'logogram': logogram,
+//           'hex_color': contactColor,
           
-      };
+//       };
 
-      this.stg.contacts.splice(i, 1, newContact);
-      await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
-  }
+//       this.stg.contacts.splice(i, 1, newContact);
+//       await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.contactsString, this.stg.contacts);
+//   }
 
 }
