@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { ContactsPageService } from '../../../services/contacts-page.service';
 
@@ -11,6 +11,20 @@ import { ContactsPageService } from '../../../services/contacts-page.service';
 })
 export class ChangeBtnComponent {
 
+  @Output() deleteContact = new EventEmitter<void>();
+  @Output() saveChangedContact = new EventEmitter<void>();
+
   constructor(public contacts: ContactsService, public contactsPg: ContactsPageService) {}
 
+
+  onDeleteContacts() {
+    this.deleteContact.emit();
+  }
+
+
+  onSaveChangedContact() {
+    this.saveChangedContact.emit();
+  }
+
+  
 }

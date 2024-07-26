@@ -2,13 +2,13 @@
   type="button"
   value="Delete"
   id="contacts-bt-delet"
-  (click)="contacts.deleteContacts(contactsPg.clickedContact.id)"
+  (click)="onDeleteContacts()"
   class="contacts-button contacts-bt-delet contacts-bt-ft"
 />
 <input
   type="button"
   value="Save"
   id="contacts-bt-change"
-  (click)="contacts.saveChangedContact(contactsPg.clickedContact.id)"
+  (click)="onSaveChangedContact(contactsPg.clickedContact.id)"
   class="contacts-button contacts-bt-create contacts-bt-ft contacts-bt-check"
 />

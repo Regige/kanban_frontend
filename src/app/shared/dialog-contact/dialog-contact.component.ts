@@ -6,6 +6,7 @@ import { ChangeBtnComponent } from './change-btn/change-btn.component';
 import { NgForm } from '@angular/forms';
 import { ScriptService } from '../../services/script.service';
 import { FormsModule } from '@angular/forms';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-dialog-contact',
@@ -20,14 +21,32 @@ export class DialogContactComponent {
   email: string = '';
   phone: string = '';
 
-  constructor(public contactsPg: ContactsPageService, public contacts: ContactsService, private scp: ScriptService) {}
+  constructor(public contactsPg: ContactsPageService, public contacts: ContactsService, private scp: ScriptService, private data: DataService) {}
+
+  ngOnInit(): void {
+    if(this.contactsPg.editContact === true) {
+      this.loadContactData();
+    }
+  }
+
+  loadContactData(): void {
+    const contact = this.contactsPg.clickedContact;
+    if (contact) {
+      this.name = contact.title;
+      this.email = contact.email;
+      this.phone = contact.phone;
+    }
+  }
 
 
   async createNewContact(form: NgForm) {
     try {
-      let resp = await this.contacts.saveNewContact(this.name, this.email, this.phone);
+      let resp: any = await this.contacts.saveNewContact(this.name, this.email, this.phone);
    
-      console.log(resp);  
+      let newContact = this.contactsPg.setJSON(resp);
+      this.data.contacts.push(newContact);
+      this.contactsPg.sortContactsList();
+      
       this.contactsPg.closeNewContacts();
       form.resetForm();
       this.scp.showPopup('Contact succesfully created');
@@ -35,6 +54,37 @@ export class DialogContactComponent {
     } catch(e) {
       console.error(e);
     }
+  }
+
+
+  async onDeleteContact() {
+    try {
+      const contactId = this.contactsPg.clickedContact.id;
+
+      let resp = await this.data.deleteContactInBackend(contactId);
+      console.log('So sieht die resp aus', resp);
+      this.data.contacts.splice(this.findIndexById(contactId), 1); 
+      this.contactsPg.clickedContact = null;
+      this.contactsPg.sortContactsList();
+
+      this.contactsPg.closeNewContacts();
+      this.scp.showPopup('Contact deleted');
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+
+  onSaveChangedContact() {
+
+  }
+
+
+
+
+  findIndexById(id: number) {
+      const index = this.data.contacts.findIndex(item => item.id === id);;
+      return index
   }
 
 

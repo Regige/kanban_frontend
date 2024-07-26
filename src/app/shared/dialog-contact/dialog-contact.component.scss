@@ -1,2 +1,7 @@
 @import './../../../styles.scss';
 @import './../../contacts/contacts.component.scss';
+
+app-change-btn {
+    display: flex;
+    gap: 16px;
+}

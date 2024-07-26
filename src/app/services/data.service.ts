@@ -57,5 +57,21 @@ export class DataService {
     return lastValueFrom(this.http.post(this.urlContact, body));
   }
 
+  deleteContactInBackend(id: number) {
+      const urlContactAndId = this.urlContact + id;
+
+      return lastValueFrom(this.http.delete(urlContactAndId));
+  }
+
+
+
+  updateContactInBackend(id: number, body: any) {
+      const urlContactAndId = this.urlContact + id;
+
+      return lastValueFrom(this.http.put(urlContactAndId, body));
+  }
+
+
+
 
 }

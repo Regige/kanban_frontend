@@ -77,7 +77,10 @@
         </div>
         <div id="popup-contact-button-con" class="contacts-button-con">
           @if(contactsPg.editContact) {
-          <app-change-btn></app-change-btn>
+          <app-change-btn
+            (deleteContact)="onDeleteContact()"
+            (saveChangedContact)="onSaveChangedContact()"
+          ></app-change-btn>
           } @else {
           <input
             type="button"

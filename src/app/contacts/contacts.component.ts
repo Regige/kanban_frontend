@@ -30,7 +30,7 @@ export class ContactsComponent {
       try {
 
         const rawContacts: any = await this.data.loadContacts();
-        this.data.contacts = this.mapContacts(rawContacts);
+        this.data.contacts = this.contactsPg.mapContacts(rawContacts);
 
         this.contactsPg.sortContactsList();
         console.log(this.data.contacts);
@@ -42,16 +42,16 @@ export class ContactsComponent {
 
 
 
-    mapContacts(rawContacts: any[]): Contact[] {
-      return rawContacts.map(contact => ({
-        id: contact.id,
-        title: contact.title,
-        email: contact.email,
-        phone: contact.phone,
-        hex_color: contact.hex_color,
-        logogram: contact.logogram
-      } as Contact));
-    }
+    // mapContacts(rawContacts: any[]): Contact[] {
+    //   return rawContacts.map(contact => ({
+    //     id: contact.id,
+    //     title: contact.title,
+    //     email: contact.email,
+    //     phone: contact.phone,
+    //     hex_color: contact.hex_color,
+    //     logogram: contact.logogram
+    //   } as Contact));
+    // }
 
 
     shouldRenderSeparator(currentIndex: number): boolean {

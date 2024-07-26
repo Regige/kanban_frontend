@@ -62,6 +62,33 @@ export class ContactsPageService {
 //   }
 
 
+
+
+    setJSON(obj: any) {
+        return {
+        id: obj.id,
+        title: obj.title,
+        email: obj.email,
+        phone: obj.phone,
+        hex_color: obj.hex_color,
+        logogram: obj.logogram
+        }
+    }
+
+
+    mapContacts(rawContacts: any[]): Contact[] {
+      return rawContacts.map(contact => ({
+        id: contact.id,
+        title: contact.title,
+        email: contact.email,
+        phone: contact.phone,
+        hex_color: contact.hex_color,
+        logogram: contact.logogram
+      } as Contact));
+    }
+
+
+
   /**
    * This function sorts the elements in the contacts array alphabetically
    */
@@ -271,15 +298,15 @@ export class ContactsPageService {
      
       let popupContactName = document.getElementById('popup-contact-name') as HTMLInputElement;
       if (popupContactName)
-      popupContactName.value = `${this.clickedContact['title']}`;
+      popupContactName.value = this.clickedContact.title;
 
       let popupContactEmail = document.getElementById('popup-contact-email') as HTMLInputElement;
       if(popupContactEmail)
-      popupContactEmail.value = `${this.clickedContact['email']}`; 
+      popupContactEmail.value = this.clickedContact.email; 
 
       let popupContactPhone = document.getElementById('popup-contact-phone') as HTMLInputElement;
       if(popupContactPhone)
-      popupContactPhone.value = `${this.clickedContact['phone']}`; 
+      popupContactPhone.value = this.clickedContact.phone; 
   }
 
 }
