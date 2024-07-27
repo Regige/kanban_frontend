@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { BoardService } from '../../../services/board.service';
 
 @Component({
   selector: 'app-task-card-subtask',
@@ -14,7 +15,7 @@ export class TaskCardSubtaskComponent {
   task_completed: number = 0;
 
 
-  constructor() {}
+  constructor(public board: BoardService) {}
 
 
   ngOnInit() {

@@ -40,7 +40,6 @@ export class BoardComponent {
         // this.contactsPg.sortContactsList();
 
         const rawTasks: any = await this.data.loadTasks();
-        console.log(rawTasks);
         
         this.data.tasks = this.board.mapTasks(rawTasks)
         console.log(this.data.tasks);

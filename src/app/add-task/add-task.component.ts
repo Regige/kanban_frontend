@@ -5,15 +5,21 @@ import { AddTaskService } from '../services/add-task.service';
 import { HeaderComponent } from '../shared/header/header.component';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { AddTaskFieldComponent } from '../shared/add-task-field/add-task-field.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, AddTaskFieldComponent],
+  imports: [HeaderComponent, SidebarComponent, AddTaskFieldComponent, FormsModule],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
 export class AddTaskComponent {
+
+
+  // title: string = '';
+  // description: string = '';
+  // due_date: string = '';
 
 
   constructor(public stg: StorageService, public taskPg: AddTaskPageService, public task: AddTaskService) {}

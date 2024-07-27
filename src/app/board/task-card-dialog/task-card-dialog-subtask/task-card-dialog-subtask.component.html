@@ -6,7 +6,7 @@
 >
   @if(subtask.completed == 1) {
   <img
-    (click)="board.toggelSubtaskCompleted(index, subtask.completed)"
+    (click)="board.toggelSubtaskCompleted(index, subtask.id, subtask.completed)"
     class="board_fbcc"
     src="assets/img/Check button.svg"
     alt=""
@@ -14,7 +14,7 @@
   />
   } @else if(subtask.completed == 0) {
   <img
-    (click)="board.toggelSubtaskCompleted(index, subtask.completed)"
+    (click)="board.toggelSubtaskCompleted(index, subtask.id, subtask.completed)"
     class="board_fbcc"
     src="assets/img/Check button none.svg"
     alt=""

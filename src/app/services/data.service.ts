@@ -14,6 +14,7 @@ export class DataService {
   tasks: Task[] = [];
   contacts: Contact[] = [];
   urlTask = environment.baseUrl + '/tasks/';
+  urlSubtask = environment.baseUrl + '/subtasks/';
   urlContact = environment.baseUrl + '/contacts/';
 
   constructor(private http: HttpClient) { }
@@ -28,6 +29,35 @@ export class DataService {
     // const url = environment.baseUrl + '/tasks/';
 
     return lastValueFrom(this.http.get(this.urlTask));
+  }
+
+
+  deleteTaskInBackend(id: number) {
+      const urlTaskAndId = this.urlTask + id;
+
+      return lastValueFrom(this.http.delete(urlTaskAndId));
+  }
+
+
+  update_partiallyTaskInBackend(id: number, body: any) {
+      const urlContactAndId = this.urlContact + id + '/';
+
+      return lastValueFrom(this.http.patch(urlContactAndId, body));
+  }
+
+
+  // Subtask Operations
+
+  updateSubtaskInBackend(id: number, body: any) {
+      const urlContactAndId = this.urlSubtask + id + '/';
+
+      return lastValueFrom(this.http.put(urlContactAndId, body));
+  }
+
+  update_partiallySubtaskInBackend(id: number, body: any) {
+      const urlContactAndId = this.urlSubtask + id + '/';
+
+      return lastValueFrom(this.http.patch(urlContactAndId, body));
   }
 
 

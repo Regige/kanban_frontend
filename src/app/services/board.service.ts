@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../interfaces/task';
 import { DataService } from './data.service';
+import { ScriptService } from './script.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class BoardService {
   clickedTask: any = null;
   showTaskDialog = false;
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, private scp: ScriptService) { }
 
 
 
@@ -58,10 +59,7 @@ export class BoardService {
   closeBoardCard() {
      this.showTaskDialog = false;
      this.clickedTask = null;
-    //   let boardDetail = document.getElementById('board_detail');
-    //   if(boardDetail)
-    //     boardDetail.innerHTML = "";
-      // loadTaskBoard(); // war schon auskommentiert
+     
       let element = document.getElementById('board_body');
       if(element)
         element.classList.remove('board_fixed');
@@ -73,21 +71,20 @@ export class BoardService {
    * 
    * @param {Number} id ID for Tasks
    */
-  deleteTask(id: number) {
-      // if (this.stg.user != 'guest') {
-      //     for (let i = 0; i < this.stg.list.length; i++) {
-      //         const element = this.stg.list[i];
-      //         if (id == element.id) {
-      //             this.stg.list.splice(i, 1);
-      //         }
-      //     }
-      //     this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
-      //   //   this.closeBoardCard();
-      //   //   this.loadTaskBoard();
-      //     this.scp.showPopup("Task deleted");
-      // } else {
-      //     this.scp.showPopup('Cannot be deleted as a guest. Please create an account')
-      // }
+  async deleteTask(id: number) {
+      try {
+
+        let resp = await this.data.deleteTaskInBackend(id);
+        // console.log("Task deleted works: ", resp);
+        this.closeBoardCard();
+        this.clickedTask = null;
+        let taskIndex = this.findTaskById(id);
+        this.data.tasks.splice(taskIndex, 1);
+        this.scp.showPopup("Task deleted");
+
+      } catch(e) {
+        console.error(e);
+      }
   }
 
 
@@ -99,25 +96,42 @@ export class BoardService {
    * @param {*} i       ID of the Subtask
    * @param {*} status  status of the individual task
    */
-  toggelSubtaskCompleted(i: number, status: any) {
+  async toggelSubtaskCompleted(i: number, id:number, status: any) {
+
+      let newStatus;
 
       if (status == 1) {
           this.clickedTask.subtasks[i].completed = 0;
+          newStatus = 0;
       } else {
           this.clickedTask.subtasks[i].completed = 1;
+          newStatus = 1;
       }
 
-      // this.createBordCardSubtasks(id, this.stg.list[id]['subtasks'])
-      // this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
+      let body = {
+        completed: newStatus
+      }
 
-      // speichern im Backend!
+      try {
+        let resp = await this.data.update_partiallySubtaskInBackend(id, body);
+        console.log("Subtask wurde geändert", resp);
+
+        let taskIndex = this.findTaskById(this.clickedTask.id);
+        let selTask = this.data.tasks[taskIndex];
+        if(selTask.subtasks)
+        selTask.subtasks[i].completed = newStatus;
+
+      } catch(e) {
+        console.error(e);
+      }
   }
 
 
 
   findTaskById(id: number) {
-      const index = this.data.tasks.findIndex(item => item.id === id);
-      return index
+    const index = this.data.tasks.findIndex(item => item.id === id);
+    return index
   }
+
   
 }
