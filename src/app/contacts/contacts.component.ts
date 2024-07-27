@@ -40,19 +40,6 @@ export class ContactsComponent {
     }
 
 
-
-    // mapContacts(rawContacts: any[]): Contact[] {
-    //   return rawContacts.map(contact => ({
-    //     id: contact.id,
-    //     title: contact.title,
-    //     email: contact.email,
-    //     phone: contact.phone,
-    //     hex_color: contact.hex_color,
-    //     logogram: contact.logogram
-    //   } as Contact));
-    // }
-
-
     shouldRenderSeparator(currentIndex: number): boolean {
       if (currentIndex === 0) return true;
       const currentLetter = this.data.contacts[currentIndex].title[0].toUpperCase();

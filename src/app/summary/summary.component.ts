@@ -201,7 +201,7 @@ clacDateUrgent() {
     for (let i = 0; i < this.stg.list.length; i++) {
         const element = this.stg.list[i];
         if (element.priority == 'Urgent') {
-            this.date_time.push(Number(element.date.replaceAll("-", "")));
+            this.date_time.push(Number(element.due_date.replaceAll("-", "")));
         }
     }
     this.date_time.sort(function (a, b) {

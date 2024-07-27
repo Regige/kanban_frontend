@@ -34,11 +34,14 @@ export class BoardComponent {
   async ngOnInit() {
     try {
         const rawContacts: any = await this.data.loadContacts();
+        
         this.data.contacts = this.contactsPg.mapContacts(rawContacts);
 
         // this.contactsPg.sortContactsList();
 
         const rawTasks: any = await this.data.loadTasks();
+        console.log(rawTasks);
+        
         this.data.tasks = this.board.mapTasks(rawTasks)
         console.log(this.data.tasks);
     } catch(e) {
@@ -247,27 +250,7 @@ export class BoardComponent {
   }
 
 
-  /**
-   * This function is needed to close a DIV container in the background
-   * 
-   * @param {String} event Standard string from W3 schools
-   */
-  notClose(event: any) {
-      event.stopPropagation();
-  }
 
-  /**
-   * This function opens the detail boardtask view
-   */
-  closeBoardCard() {
-      let boardDetail = document.getElementById('board_detail');
-      if(boardDetail)
-        boardDetail.innerHTML = "";
-      // loadTaskBoard(); // war schon auskommentiert
-      let element = document.getElementById('board_body');
-      if(element)
-        element.classList.remove('board_fixed');
-  }
 
 
   /**
@@ -275,22 +258,22 @@ export class BoardComponent {
    * 
    * @param {Number} id ID for Tasks
    */
-  deleteTask(id: number) {
-      if (this.stg.user != 'guest') {
-          for (let i = 0; i < this.stg.list.length; i++) {
-              const element = this.stg.list[i];
-              if (id == element.id) {
-                  this.stg.list.splice(i, 1);
-              }
-          }
-          this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
-          this.closeBoardCard();
-        //   this.loadTaskBoard();
-          this.scp.showPopup("Task deleted");
-      } else {
-          this.scp.showPopup('Cannot be deleted as a guest. Please create an account')
-      }
-  }
+//   deleteTask(id: number) {
+//       if (this.stg.user != 'guest') {
+//           for (let i = 0; i < this.stg.list.length; i++) {
+//               const element = this.stg.list[i];
+//               if (id == element.id) {
+//                   this.stg.list.splice(i, 1);
+//               }
+//           }
+//           this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
+//         //   this.closeBoardCard();
+//         //   this.loadTaskBoard();
+//           this.scp.showPopup("Task deleted");
+//       } else {
+//           this.scp.showPopup('Cannot be deleted as a guest. Please create an account')
+//       }
+//   }
 
   addGuestTask() {
           if (this.stg.user == 'guest') {
@@ -303,21 +286,27 @@ export class BoardComponent {
    * 
    * @param {Number} id ID of TTasks
    */
-  loadBoardCard(id: number) {
-      let boardBody = document.getElementById('board_body');
+  loadBoardCard(task: any, id: number) {
+    this.board.clickedTask = task;
+    this.board.showTaskDialog = true;
+
+    let boardBody = document.getElementById('board_body');
       if(boardBody)
         boardBody.classList.add('board_fixed');
-      for (let i = 0; i < this.stg.list.length; i++) {
-          const element = this.stg.list[i];
-          if (element.id == id) {
-              this.generateTaskData(element);
-              let boardDetail = document.getElementById('board_detail');
-              if(boardDetail)
+
+    // for (let i = 0; i < this.data.tasks.length; i++) {
+    //       const element = this.data.tasks[i];
+    //       if (element.id == id) {
+            //   this.generateTaskData(element);
+            //   let boardDetail = document.getElementById('board_detail');
+            //   if(boardDetail)
                 // boardDetail.innerHTML = createBoradCard(id, story, story_bg, headline, text, date, priority, priority_img);
-              this.createBordCardUsers(id, element.task_user);
+
+            //   this.createBordCardUsers(id, element.task_user);
+
             //   this.createBordCardSubtasks(id, element.subtasks);
-          }
-      }
+        //   }
+    //   }
   }
 
   /**
@@ -326,16 +315,16 @@ export class BoardComponent {
    * @param {String} element  Data for Task 
    * @returns                 returns the completed generated task
    */
-  generateTaskData(element: any) {
-    //   story = element.category.text;
-    //   story_bg = element.category.color;
-    //   headline = element.headline;
-    //   text = element.text;
-    //   date = element.date;
-    //   priority = element.priority;
-    //   priority_img = 'assets/img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
-      return;
-  }
+//   generateTaskData(element: any) {
+//       story = element.category.text;
+//       story_bg = element.category.color;
+//       headline = element.headline;
+//       text = element.text;
+//       date = element.date;
+//       priority = element.priority;
+//       priority_img = 'assets/img/task-prio-' + element.priority.charAt(0).toLowerCase() + '.svg';
+//       return;
+//   }
 
   /**
    * This function creates the associated users in the detail board map
@@ -343,22 +332,22 @@ export class BoardComponent {
    * @param {Number} id       ID for Card
    * @param {String} users    User for Card
    */
-  createBordCardUsers(id: any, users: any) {
-      let boardCardUsers = document.getElementById(`board-card-users${id}`);
-      if(boardCardUsers)
-        boardCardUsers.innerHTML = "";
-      if (users.length >= 1) {
-          let boardCardUsers = document.getElementById(`board-card-users${id}`);
-          if(boardCardUsers)
-            boardCardUsers.innerHTML = 'Assigned To:';
-          for (let i = 0; i < users.length; i++) {
-              const element = users[i];
-              let boardCardUsers = document.getElementById(`board-card-users${id}`);
-            //   if(boardCardUsers)
-                // boardCardUsers.innerHTML += createBoardCardUsers(element.full_name, element.name, element.color)
-          }
-      }
-  }
+//   createBordCardUsers(id: any, users: any) {
+//       let boardCardUsers = document.getElementById(`board-card-users${id}`);
+//       if(boardCardUsers)
+//         boardCardUsers.innerHTML = "";
+//       if (users.length >= 1) {
+//           let boardCardUsers = document.getElementById(`board-card-users${id}`);
+//           if(boardCardUsers)
+//             boardCardUsers.innerHTML = 'Assigned To:';
+//           for (let i = 0; i < users.length; i++) {
+//               const element = users[i];
+//               let boardCardUsers = document.getElementById(`board-card-users${id}`);
+//             //   if(boardCardUsers)
+//                 // boardCardUsers.innerHTML += createBoardCardUsers(element.full_name, element.name, element.color)
+//           }
+//       }
+//   }
 
   /**
    * This function creates the individual subtasks in the board task detail view
@@ -366,28 +355,28 @@ export class BoardComponent {
    * @param {Number} id           ID for Card
    * @param {String} subtasks     Subtask for Card
    */
-  createBordCardSubtasks(id: any, subtasks: string) {
-      let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
-      if(boardCardSubtasks)
-        boardCardSubtasks.innerHTML = "";
-      if (subtasks.length >= 1) {
-          let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
-          if(boardCardSubtasks)
-            boardCardSubtasks.innerHTML = 'Subtasks';
-          for (let i = 0; i < subtasks.length; i++) {
-              const element = subtasks[i];
-            //   if (element.completed == 1) {
-            //       var completed = '../img/Check button.svg';
-            //   } else {
-            //       var completed = '../img/Check button none.svg';
-            //   }
-              let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
-            //   if(boardCardSubtasks)
-                // boardCardSubtasks.innerHTML += createBoardCardSubtaks(id, i, element.completed, element.text, completed);
-          }
-      }
-    //   this.loadBoardSubtasks(id, subtasks);
-  }
+//   createBordCardSubtasks(id: any, subtasks: string) {
+//       let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
+//       if(boardCardSubtasks)
+//         boardCardSubtasks.innerHTML = "";
+//       if (subtasks.length >= 1) {
+//           let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
+//           if(boardCardSubtasks)
+//             boardCardSubtasks.innerHTML = 'Subtasks';
+//           for (let i = 0; i < subtasks.length; i++) {
+//               const element = subtasks[i];
+//             //   if (element.completed == 1) {
+//             //       var completed = '../img/Check button.svg';
+//             //   } else {
+//             //       var completed = '../img/Check button none.svg';
+//             //   }
+//               let boardCardSubtasks = document.getElementById(`board-card-subtasks${id}`);
+//             //   if(boardCardSubtasks)
+//                 // boardCardSubtasks.innerHTML += createBoardCardSubtaks(id, i, element.completed, element.text, completed);
+//           }
+//       }
+//     //   this.loadBoardSubtasks(id, subtasks);
+//   }
 
 
   /**
@@ -397,15 +386,15 @@ export class BoardComponent {
    * @param {*} i       ID of the Subtask
    * @param {*} status  status of the individual task
    */
-  toggelSubtaskCompleted(id: number, i: number, status: any) {
-    //   if (status == 1) {
-    //       this.stg.list[id].subtasks[i].completed = 0;
-    //   } else {
-    //       this.stg.list[id].subtasks[i].completed = 1;
-    //   }
-    //   this.createBordCardSubtasks(id, this.stg.list[id]['subtasks'])
-      this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
-  }
+//   toggelSubtaskCompleted(id: number, i: number, status: any) {
+//       if (status == 1) {
+//           this.stg.list[id].subtasks[i].completed = 0;
+//       } else {
+//           this.stg.list[id].subtasks[i].completed = 1;
+//       }
+//       this.createBordCardSubtasks(id, this.stg.list[id]['subtasks'])
+//       this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
+//   }
 
 
 

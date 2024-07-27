@@ -1,0 +1,25 @@
+<div
+  id="'completed' + id - i"
+  class="board_detail_subtasks board_dfcb"
+  [style.margin-top.px]="20"
+  [style.margin-left.px]="5"
+>
+  @if(subtask.completed == 1) {
+  <img
+    (click)="board.toggelSubtaskCompleted(index, subtask.completed)"
+    class="board_fbcc"
+    src="assets/img/Check button.svg"
+    alt=""
+    [style.margin-right.px]="10"
+  />
+  } @else if(subtask.completed == 0) {
+  <img
+    (click)="board.toggelSubtaskCompleted(index, subtask.completed)"
+    class="board_fbcc"
+    src="assets/img/Check button none.svg"
+    alt=""
+    [style.margin-right.px]="10"
+  />
+  }
+  <span>{{ subtask.title }}</span>
+</div>

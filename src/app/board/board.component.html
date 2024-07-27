@@ -69,7 +69,7 @@
         @for(task of data.tasks; track task.id; let index = $index) {
         @if(task.task_board === "to_do") {
         <app-task-card
-          (click)="loadBoardCard(index)"
+          (click)="loadBoardCard(task, index)"
           [task]="task"
           [index]="index"
         ></app-task-card>
@@ -101,7 +101,7 @@
         @for(task of data.tasks; track task.id; let index = $index) {
         @if(task.task_board === "in_progress") {
         <app-task-card
-          (click)="loadBoardCard(index)"
+          (click)="loadBoardCard(task, index)"
           [task]="task"
           [index]="index"
         ></app-task-card>
@@ -135,7 +135,7 @@
         @for(task of data.tasks; track task.id; let index = $index) {
         @if(task.task_board === "await_feedback") {
         <app-task-card
-          (click)="loadBoardCard(index)"
+          (click)="loadBoardCard(task, index)"
           [task]="task"
           [index]="index"
         ></app-task-card>
@@ -161,7 +161,7 @@
         @for(task of data.tasks; track task.id; let index = $index) {
         @if(task.task_board === "done") {
         <app-task-card
-          (click)="loadBoardCard(index)"
+          (click)="loadBoardCard(task, index)"
           [task]="task"
           [index]="index"
         ></app-task-card>
@@ -173,5 +173,9 @@
     </div>
   </div>
 </div>
-<div id="board_detail"></div>
+<div id="board_detail">
+  @if(board.showTaskDialog) {
+  <app-task-card-dialog></app-task-card-dialog>
+  }
+</div>
 <app-sidebar></app-sidebar>

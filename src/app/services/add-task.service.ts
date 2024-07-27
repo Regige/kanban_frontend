@@ -75,7 +75,7 @@ export class AddTaskService {
           'title': taskTitle.value,
           'text': taskDescription.value,
           'task_user': assignedTo,
-          'date': dueDate.value,
+          'due_date': dueDate.value,
           'priority': this.taskVar.taskPrio,
           'category': taskCategory,
           'subtasks': this.taskVar.subtasks,
@@ -381,7 +381,7 @@ export class AddTaskService {
   
             taskTitle.value = task['title'];
             taskDescription.value = task['text'] ?? "";
-            dueDate.value = task['date'];
+            dueDate.value = task['due_date'];
             taskCategory.value = task['category']; 
           }
   }
@@ -545,7 +545,7 @@ export class AddTaskService {
           'title': taskTitle,
           'text': taskDescription,
           'task_user': assignedTo,
-          'date': dueDate,
+          'due_date': dueDate,
           'priority': this.taskVar.taskPrio,
           'category': taskCategory,
           'subtasks': this.taskVar.subtasks,
