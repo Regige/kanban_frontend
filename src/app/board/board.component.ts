@@ -37,7 +37,7 @@ export class BoardComponent {
         
         this.data.contacts = this.contactsPg.mapContacts(rawContacts);
 
-        // this.contactsPg.sortContactsList();
+        this.contactsPg.sortContactsList();
 
         const rawTasks: any = await this.data.loadTasks();
         

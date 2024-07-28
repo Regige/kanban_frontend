@@ -32,6 +32,13 @@ export class DataService {
   }
 
 
+  saveTaskInBackend(body: any) {
+
+      return lastValueFrom(this.http.post(this.urlTask, body));
+  }
+
+
+
   deleteTaskInBackend(id: number) {
       const urlTaskAndId = this.urlTask + id;
 
@@ -79,8 +86,10 @@ export class DataService {
       "email": email,
       "phone": phone,
       "logogram": logogram,
-      "hex_color": contactColor,
+      "hex_color": contactColor
     }
+
+    console.log(body);
 
     // return this.http.post(this.urlContact, body);
 

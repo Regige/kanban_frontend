@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AddTaskHtmlService } from './add-task-html.service';
 import { StorageService } from './storage.service';
 import { ScriptService } from './script.service';
 import { ContactsPageService } from './contacts-page.service';
@@ -11,7 +10,7 @@ import { DataService } from './data.service';
 })
 export class AddTaskPageService {
 
-  constructor(private taskHtml: AddTaskHtmlService, private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService, private data: DataService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService, private data: DataService) { }
 
 
   // Add Task page functionality
@@ -131,7 +130,17 @@ export class AddTaskPageService {
             const contactDiv = document.createElement('div');
             contactDiv.id = `selected-${checkbox.id}`;
             contactDiv.style.backgroundColor = divIcon.style.backgroundColor;
-            contactDiv.className = 'task-contacts-color-icon-selected';
+            contactDiv.style.height = "32px";
+            contactDiv.style.width = "32px";
+            contactDiv.style.borderRadius = "50px";
+            contactDiv.style.marginRight = "12px";
+            contactDiv.style.marginTop = "4px";
+            contactDiv.style.color = "white";
+            contactDiv.style.display = "flex";
+            contactDiv.style.justifyContent = "center";
+            contactDiv.style.alignItems = "center";
+            contactDiv.style.zIndex = "0";
+            // contactDiv.className = 'task-contacts-color-icon-selected';
             contactDiv.innerText = divIcon.innerHTML;
             if(selectedContainer)
             selectedContainer.appendChild(contactDiv);
@@ -186,25 +195,25 @@ export class AddTaskPageService {
       this.taskVar.subtasks.push(newSubtask);
       subtaskInput.value = "";
 
-      this.renderInputText();
+    //   this.renderInputText();
   }
 
   /**
    * The new subtask within the subtasks array is generated under the subtask Button
    */
 
-  renderInputText() {
-      let subtaskTextCon = document.getElementById('task-sub-text');
-      if(subtaskTextCon) {
-        subtaskTextCon.innerHTML = "";
+//   renderInputText() {
+//       let subtaskTextCon = document.getElementById('task-sub-text');
+//       if(subtaskTextCon) {
+//         subtaskTextCon.innerHTML = "";
   
-        for (let i = 0; i < this.taskVar.subtasks.length; i++) {
-            const subtask = this.taskVar.subtasks[i];
+//         for (let i = 0; i < this.taskVar.subtasks.length; i++) {
+//             const subtask = this.taskVar.subtasks[i];
             
-            subtaskTextCon.innerHTML += this.taskHtml.createInputText(i, subtask);
-        }
-      }
-  }
+//             subtaskTextCon.innerHTML += this.taskHtml.createInputText(i, subtask);
+//         }
+//       }
+//   }
 
   /**
    * This function delets the subtask form the subtasks array and starts the
@@ -216,7 +225,7 @@ export class AddTaskPageService {
   deleteSubtask(i: number) {
       this.taskVar.subtasks.splice(i,1);
 
-      this.renderInputText();
+    //   this.renderInputText();
   }
 
   /**
@@ -254,7 +263,7 @@ export class AddTaskPageService {
       if(subtaskLi)
       subtaskLi.classList.remove('d-none');
 
-      this.renderInputText();
+    //   this.renderInputText();
   }
 
 

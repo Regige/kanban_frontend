@@ -1,4 +1,4 @@
-<form class="task-form" (ngSubmit)="task.createNewTask()">
+<form #taskForm="ngForm" class="task-form" (ngSubmit)="saveTask(taskForm)">
   <div>
     <h2 class="task-h2">Add Task</h2>
     <div id="task-input-con" class="task-input-con">
@@ -12,6 +12,7 @@
             required
             class="task-input-fd task-input-fd-ti"
             type="text"
+            [(ngModel)]="title"
             name="title"
             id="task-title"
             placeholder="Enter a title"
@@ -23,7 +24,8 @@
           >Description
           <textarea
             class="task-input-fd task-input-fd-desc"
-            name="description"
+            [(ngModel)]="text"
+            name="text"
             id="task-description"
             cols="30"
             rows="3"
@@ -53,13 +55,12 @@
                 id="task-contacts-list-to-assign"
                 class="d-none task-contacts-list-to-assign"
               >
-                @if(data.contacts.length == 0) {
-                <p [style.marginLeft.px]="16">&emsp; No contacts yet</p>
-                } @else { @for(contact of data.contacts; track contact.id; let
-                index = $index) {
+                @if(data.contacts.length > 0) { @for(contact of data.contacts;
+                track contact.id; let index = $index) {
                 <div class="task-contacts-list-to-assign-sub">
-                  <label for="'contact-' + index">
+                  <label [for]="'contact-' + index">
                     <div
+                      [id]="contact.id"
                       [style.backgroundColor]="contact.hex_color"
                       class="task-contacts-color-icon"
                     >
@@ -70,11 +71,13 @@
                   <input
                     type="checkbox"
                     name="contact"
-                    id="'contact-' + index"
+                    [id]="'contact-' + index"
                     value="contact.title"
                   />
                 </div>
-                } }
+                } } @else {
+                <p [style.marginLeft.px]="16">&emsp; No contacts yet</p>
+                }
               </div>
               <!-- <button
           (click)="
@@ -104,8 +107,9 @@
           <input
             required
             class="task-input-fd"
+            [(ngModel)]="due_date"
             type="date"
-            name="dd/mm/yyyy"
+            name="due_date"
             id="task-date"
             placeholder="dd/mm/yyyy"
           />
@@ -144,6 +148,7 @@
           ><span>Category<span class="task-star">*</span></span>
           <select
             class="task-input-fd"
+            [(ngModel)]="category"
             name="category"
             id="category"
             placeholder="Select task category"
@@ -159,6 +164,8 @@
         <!-- Subtasks -->
         <label class="task-label subtask-lable"
           >Subtasks
+
+          <!-- Subtask Input -->
           <div class="task-sub-input-con" (click)="taskPg.changeToSubText()">
             <div id="task-sub-bt-open" class="flx task-sub-bt-open-con">
               <input
@@ -168,6 +175,9 @@
               />
               <img src="assets/img/add_black.svg" alt="" />
             </div>
+
+            <!--  -->
+
             <div
               id="task-sub-input-text-con"
               class="d-none flx task-sub-input-text-con"
@@ -180,10 +190,14 @@
                 minlength="1"
               />
               <div class="flx task-sub-icons">
+                <!-- delete from input field -->
                 <div (click)="taskPg.deleteInputText()" class="flx">
                   <img src="assets/img/Close.svg" alt="" />
                 </div>
+
                 <div class="task-sub-hr"></div>
+
+                <!-- save input value in ul -->
                 <div (click)="taskPg.saveInputText()" class="flx">
                   <img
                     class="task-sub-input-img"
@@ -194,7 +208,16 @@
               </div>
             </div>
           </div>
-          <ul id="task-sub-text" class="task-sub-text"></ul>
+
+          <!-- Show and edit/delete Subtask -->
+          <ul id="task-sub-text" class="task-sub-text">
+            @for(subtask of taskVar.subtasks; track index; let index = $index) {
+            <app-subtask-li
+              [subtaskText]="subtask.text"
+              [i]="index"
+            ></app-subtask-li>
+            }
+          </ul>
         </label>
       </div>
 

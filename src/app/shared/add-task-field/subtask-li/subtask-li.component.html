@@ -1,0 +1,34 @@
+<div [id]="'subtask-field-' + i" class="d-none flex-just-btw-ct">
+  <input
+    [id]="'subtask-input-field-' + i"
+    type="text"
+    class="task-sub-input"
+    minlength="1"
+  />
+  <div class="flex-just-btw-ct task-sub-text-sgl-icons">
+    <div (click)="taskPg.deleteSubtask(i)" class="task-sub-text-sgl-icons-con">
+      <img src="assets/img/delete.svg" alt="" />
+    </div>
+    <div class="task-sub-hr"></div>
+    <div
+      (click)="taskPg.saveEditedSubtask(i)"
+      class="task-sub-text-sgl-icons-con"
+    >
+      <img src="assets/img/task_check_bl.svg" alt="" />
+    </div>
+  </div>
+</div>
+<div [id]="'subtask-li-' + i" class="flex-just-btw-ct">
+  <li class="task-sub-text-sgl">
+    {{ subtaskText }}
+  </li>
+  <div class="flex-just-btw-ct task-sub-text-sgl-icons">
+    <div (click)="taskPg.editSubtask(i)" class="task-sub-text-sgl-icons-con">
+      <img src="assets/img/edit.svg" alt="" />
+    </div>
+    <div class="task-sub-hr"></div>
+    <div (click)="taskPg.deleteSubtask(i)" class="task-sub-text-sgl-icons-con">
+      <img src="assets/img/delete.svg" alt="" />
+    </div>
+  </div>
+</div>

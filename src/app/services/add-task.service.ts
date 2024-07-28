@@ -3,7 +3,6 @@ import { StorageService } from './storage.service';
 import { ScriptService } from './script.service';
 import { Task } from '../interfaces/task';
 import { AddTaskPageService } from './add-task-page.service';
-import { AddTaskHtmlService } from './add-task-html.service';
 import { Subtask } from '../interfaces/subtask';
 import { AddTaskVarService } from './add-task-var.service';
 
@@ -12,7 +11,7 @@ import { AddTaskVarService } from './add-task-var.service';
 })
 export class AddTaskService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskHtml: AddTaskHtmlService, private taskVar: AddTaskVarService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskVar: AddTaskVarService) { }
 
 
 //   taskPrio = "";
@@ -27,12 +26,13 @@ export class AddTaskService {
    */
 
   async createNewTask() {
-      if(this.stg.user === 'guest') {
-          this.scp.showPopup('Cannot be saved as a guest. Please create an account');
-          // closeNewContacts();
-      } else {
-          await this.defineNewTask();
-      }
+    //   if(this.stg.user === 'guest') {
+    //       this.scp.showPopup('Cannot be saved as a guest. Please create an account');
+    //       // closeNewContacts();
+    //   } else {
+        //   await this.defineNewTask();
+        console.log()
+    //   }
   }
 
   /**
@@ -45,15 +45,15 @@ export class AddTaskService {
       let assignedTo = this.getAssignedToUsers();
       let dueDate = document.getElementById('task-date');
       let taskCategory = this.getTaskCategory();
-      let idIndex = this.getIdIndex();
+    //   let idIndex = this.getIdIndex();
       let taskBoard = this.getTaskBoardField();
       this.checkIfPrioIsSelected();
       
-      await this.saveNewTask(taskTitle, taskDescription, assignedTo, dueDate, taskCategory, idIndex, taskBoard);
+    //   await this.saveNewTask(taskTitle, taskDescription, assignedTo, dueDate, taskCategory, idIndex, taskBoard);
       this.resetTaskForm();
-      this.removeStringFromLocalStorage();
+    //   this.removeStringFromLocalStorage();
       this.scp.showPopup('Task added to board');
-      this.scp.openHTML('./board.html');
+      this.scp.openHTML('./board');
   }
 
   /**
@@ -93,13 +93,13 @@ export class AddTaskService {
    */
 
   resetTaskForm() {
-      let taskTitle = document.getElementById('task-title') as HTMLInputElement;
-      if(taskTitle)
-      taskTitle.value = "";
+    //   let taskTitle = document.getElementById('task-title') as HTMLInputElement;
+    //   if(taskTitle)
+    //   taskTitle.value = "";
 
-      let taskDescription = document.getElementById('task-description') as HTMLInputElement;
-      if(taskDescription)
-      taskDescription.value = "";
+    //   let taskDescription = document.getElementById('task-description') as HTMLInputElement;
+    //   if(taskDescription)
+    //   taskDescription.value = "";
     
       const checkboxes = document.querySelectorAll('[type="checkbox"]') as NodeListOf<HTMLInputElement>;
       checkboxes.forEach(checkbox => {
@@ -110,9 +110,9 @@ export class AddTaskService {
       if(taskAssignedToSelectedCon)
       taskAssignedToSelectedCon.innerHTML = "";
 
-      let taskDate = document.getElementById('task-date') as HTMLInputElement;
-      if(taskDate)
-      taskDate.value = "";
+    //   let taskDate = document.getElementById('task-date') as HTMLInputElement;
+    //   if(taskDate)
+    //   taskDate.value = "";
 
       if(this.taskVar.taskPrio) {
         let prioBtn = document.getElementById(`prio-bt-${this.taskVar.taskPrio}`) as HTMLInputElement;
@@ -122,13 +122,13 @@ export class AddTaskService {
         this.taskVar.taskPrio = "";
       }
 
-      let category = document.getElementById('category') as HTMLInputElement;
-      if(category)
-      category.value = "";
+    //   let category = document.getElementById('category') as HTMLInputElement;
+    //   if(category)
+    //   category.value = "";
 
-      let taskSubText = document.getElementById('task-sub-text');
-      if(taskSubText)
-      taskSubText.innerHTML = "";
+    //   let taskSubText = document.getElementById('task-sub-text');
+    //   if(taskSubText)
+    //   taskSubText.innerHTML = "";
 
       this.taskVar.subtasks = [];
   }
@@ -149,11 +149,12 @@ export class AddTaskService {
                 let divIcon = itemSib.firstElementChild  as HTMLElement;
 
                 if(divIcon) {
-                  assignedTo.push({
-                      'full_name': (item as HTMLInputElement).value,
-                      'color': divIcon.style.backgroundColor,
-                      'name': divIcon.innerHTML,
-                  });
+                //   assignedTo.push({
+                //       'full_name': (item as HTMLInputElement).value,
+                //       'color': divIcon.style.backgroundColor,
+                //       'name': divIcon.innerHTML,
+                //   });
+                    assignedTo.push(Number(divIcon.id));
                 }
               }
           
@@ -197,20 +198,20 @@ export class AddTaskService {
    * @returns The function getFreeIdIndex(listOfIds) returns a Id which is not given yet.
    */
 
-  getIdIndex() {
-      let listOfIds = [];
+//   getIdIndex() {
+//       let listOfIds = [];
 
-      for (let i = 0; i < this.stg.list.length; i++) {
-          const task = this.stg.list[i];
-              listOfIds.push(task['id']);
-      } 
+//       for (let i = 0; i < this.stg.list.length; i++) {
+//           const task = this.stg.list[i];
+//               listOfIds.push(task['id']);
+//       } 
 
-    //   listOfIds.sort(function(a, b) {
-    //       return a - b;
-    //       });
+//     //   listOfIds.sort(function(a, b) {
+//     //       return a - b;
+//     //       });
 
-      return this.getFreeIdIndex(listOfIds);
-  }
+//       return this.getFreeIdIndex(listOfIds);
+//   }
 
   /**
    * This function checks the not given Id's through a for loop and returns a number is not used yet.
@@ -219,19 +220,19 @@ export class AddTaskService {
    * @returns The function getFreeIdIndex(listOfIds) returns a Id which is not given yet.
    */
 
-  getFreeIdIndex(listOfIds: any) {
-      for (let j = 0; j < listOfIds.length; j++) {
-          if(j != listOfIds[j]) {
-              return j;
-          }
-      }
+//   getFreeIdIndex(listOfIds: any) {
+//       for (let j = 0; j < listOfIds.length; j++) {
+//           if(j != listOfIds[j]) {
+//               return j;
+//           }
+//       }
 
-      if(listOfIds.length !== 0) {
-          return listOfIds.length;
-      } else {
-          return 0;
-      }
-  }
+//       if(listOfIds.length !== 0) {
+//           return listOfIds.length;
+//       } else {
+//           return 0;
+//       }
+//   }
 
 
 
@@ -242,9 +243,9 @@ export class AddTaskService {
    */
   checkIfPrioIsSelected() {
       if(this.taskVar.taskPrio !== "" ) {
-          return;
+          return this.taskVar.taskPrio;
       } else {
-          this.setTaskPrio('Medium');
+            return 'Medium';
       }
   }
 
@@ -377,7 +378,7 @@ export class AddTaskService {
   
             this.setPrioButtonColor(this.taskVar.taskPrio);
             this.saveSubtasksListEdit(task);
-            this.taskPg.renderInputText();
+            // this.taskPg.renderInputText();
   
             taskTitle.value = task['title'];
             taskDescription.value = task['text'] ?? "";

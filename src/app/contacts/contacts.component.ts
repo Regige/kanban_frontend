@@ -28,8 +28,8 @@ export class ContactsComponent {
    */
     async ngOnInit() {
       try {
-        // const rawContacts: any = await this.data.loadContacts();
-        // this.data.contacts = this.contactsPg.mapContacts(rawContacts);
+        const rawContacts: any = await this.data.loadContacts();
+        this.data.contacts = this.contactsPg.mapContacts(rawContacts);
 
         this.contactsPg.sortContactsList();
         console.log(this.data.contacts);

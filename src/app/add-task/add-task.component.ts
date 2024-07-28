@@ -6,6 +6,8 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { AddTaskFieldComponent } from '../shared/add-task-field/add-task-field.component';
 import { FormsModule } from '@angular/forms';
+import { DataService } from '../services/data.service';
+import { ContactsPageService } from '../services/contacts-page.service';
 
 @Component({
   selector: 'app-add-task',
@@ -22,7 +24,7 @@ export class AddTaskComponent {
   // due_date: string = '';
 
 
-  constructor(public stg: StorageService, public taskPg: AddTaskPageService, public task: AddTaskService) {}
+  constructor(public stg: StorageService, public taskPg: AddTaskPageService, public task: AddTaskService, private data: DataService, private contactsPg: ContactsPageService) {}
 
     /**
    * This function starts the functions to load all the necessary data
@@ -31,11 +33,21 @@ export class AddTaskComponent {
   // async function initAddTask() {
       // this.taskPg.loadAddTaskForm();
       this.taskPg.preventPastDate();
-      await this.stg.loadUserData();
-      this.stg.loadFromLocalStorage();
-      this.stg.loadFromLocalStorageContacts();
-      this.task.loadStringFromLocalStorage();
+      // await this.stg.loadUserData();
+      // this.stg.loadFromLocalStorage();
+      // this.stg.loadFromLocalStorageContacts();
+      // this.task.loadStringFromLocalStorage();
   // }
+    try {
+      const rawContacts: any = await this.data.loadContacts();
+      this.data.contacts = this.contactsPg.mapContacts(rawContacts);
+
+      this.contactsPg.sortContactsList();
+
+    } catch(e) {
+        console.log(e);
+        // this.error = 'Fehler beim Laden!';
+      }
   }
 
 
