@@ -4,13 +4,14 @@ import { StorageService } from './storage.service';
 import { ScriptService } from './script.service';
 import { ContactsPageService } from './contacts-page.service';
 import { AddTaskVarService } from './add-task-var.service';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddTaskPageService {
 
-  constructor(private taskHtml: AddTaskHtmlService, private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService) { }
+  constructor(private taskHtml: AddTaskHtmlService, private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService, private data: DataService) { }
 
 
   // Add Task page functionality
@@ -49,39 +50,37 @@ export class AddTaskPageService {
       let taskContactsListToAssign = document.getElementById('task-contacts-list-to-assign');
       if(taskContactsListToAssign) {
         taskContactsListToAssign.classList.remove('d-none');
+        // if(!this.data.contacts) {
+        //     taskContactsListToAssign.innerHTML = "";
+        //     taskContactsListToAssign.innerHTML = /*html*/`<p>&emsp; No contacts yet</p>`;
+        // } else {
+        //     // this.contactsPg.sortContactsList();
+        //     this.renderAssignedToBt();
+        // }
       }
-      let addNewContactBt = document.getElementById('add-new-contact-bt');
-      if(addNewContactBt) {
-        addNewContactBt.classList.remove('d-none');
-      }
-      let contactsListToAssignCon = document.getElementById('task-contacts-list-to-assign');
 
-      if(contactsListToAssignCon) {
-        if(!this.stg.contacts) {
-            contactsListToAssignCon.innerHTML = "";
-            contactsListToAssignCon.innerHTML = /*html*/`<p>&emsp; No contacts yet</p>`;
-        } else {
-            this.contactsPg.sortContactsList();
-            this.renderAssignedToBt();
-        }
-      }
+    //   let addNewContactBt = document.getElementById('add-new-contact-bt');
+    //   if(addNewContactBt) {
+    //     addNewContactBt.classList.remove('d-none');
+    //   }
+
   }
 
   /**
    * This function generates the html code for the assigned to Button with all the saved contacts.
    */
 
-  renderAssignedToBt() {
-      let contactsListToAssignCon = document.getElementById('task-contacts-list-to-assign');
-      if(contactsListToAssignCon) {
-        contactsListToAssignCon.innerHTML = "";
-        for (let i = 0; i < this.stg.contacts.length; i++) {
-            const contact = this.stg.contacts[i];
+//   renderAssignedToBt() {
+//       let contactsListToAssignCon = document.getElementById('task-contacts-list-to-assign');
+//       if(contactsListToAssignCon) {
+//         contactsListToAssignCon.innerHTML = "";
+//         for (let i = 0; i < this.stg.contacts.length; i++) {
+//             const contact = this.stg.contacts[i];
             
-            contactsListToAssignCon.innerHTML += this.taskHtml.createAssignedToBt(i, contact);
-        }
-      }
-  }
+//             contactsListToAssignCon.innerHTML += this.taskHtml.createAssignedToBt(i, contact);
+//         }
+//       }
+//   }
 
 
   //  Assigned To Field - Popup and Close Function 
@@ -94,9 +93,9 @@ export class AddTaskPageService {
       let listOfContactsToAssigne = document.getElementById('task-contacts-list-to-assign');
       if(listOfContactsToAssigne) {
       listOfContactsToAssigne.classList.add('d-none');
-      let addNewContactBt = document.getElementById('add-new-contact-bt');
-      if(addNewContactBt)
-        addNewContactBt.classList.add('d-none');
+    //   let addNewContactBt = document.getElementById('add-new-contact-bt');
+    //   if(addNewContactBt)
+    //     addNewContactBt.classList.add('d-none');
       }
   }
 

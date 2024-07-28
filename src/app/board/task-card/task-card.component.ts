@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TaskCardUserComponent } from './task-card-user/task-card-user.component';
 import { TaskCardSubtaskComponent } from './task-card-subtask/task-card-subtask.component';
 import { BoardService } from '../../services/board.service';
+import { TouchService } from '../../services/touch.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class TaskCardComponent {
   priority_img: string = "";
   categoryColor: string = "";
 
-  constructor(private board: BoardService) {}
+  constructor(private board: BoardService, public touch: TouchService) {}
 
   ngOnInit() {
     this.priority_img = 'assets/img/task-prio-' + this.task.priority.charAt(0).toLowerCase() + '.svg';

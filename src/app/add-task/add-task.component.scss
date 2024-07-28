@@ -121,11 +121,12 @@
 
 .task-contacts-list-to-assign {
     background-color: white;
-    margin-bottom: -10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     margin-top: -10px;
     max-height: 128px;
     overflow-y: scroll;
-    padding-bottom: 16px;
+    padding-bottom: 24px;
     position: relative;
     width: 100%;
 }

@@ -1,10 +1,9 @@
-<!-- <div
+<div
   id="task.id"
   draggable="true"
-  (dragstart)="startDragging(task.id)"
+  (dragstart)="touch.startDragging(task.id)"
   class="board_fbc board_note"
-> -->
-<div id="task.id" draggable="true" class="board_fbc board_note">
+>
   <div class="board_task_headline" [style.background-color]="categoryColor">
     {{ task.category }}
   </div>

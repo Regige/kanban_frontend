@@ -158,14 +158,7 @@ export class BoardComponent {
 //       };
 //   }
 
-  /**
-   * This function uses the ID to determine the Dropbox
-   * 
-   * @param {Number} id Dropbox number
-   */
-  startDragging(id: number) {
-      this.touch.draggedElement = id;
-  }
+
 
   /**
    * This function is a standard function from w3 schools which executes a drop event

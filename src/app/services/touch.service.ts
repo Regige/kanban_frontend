@@ -338,4 +338,14 @@ export class TouchService {
   //     }
   //     return scrollY;
   // }
+
+
+  /**
+   * This function uses the ID to determine the Dropbox
+   * 
+   * @param {Number} id Dropbox number
+   */
+  startDragging(id: number) {
+      this.draggedElement = id;
+  }
 }

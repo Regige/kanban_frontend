@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ContactsPageService } from '../../services/contacts-page.service';
 import { AddTaskPageService } from '../../services/add-task-page.service';
 import { AddTaskService } from '../../services/add-task.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-add-task-field',
@@ -12,6 +13,6 @@ import { AddTaskService } from '../../services/add-task.service';
 })
 export class AddTaskFieldComponent {
 
-  constructor(public contactsPg: ContactsPageService, public taskPg: AddTaskPageService, public task: AddTaskService
+  constructor(public contactsPg: ContactsPageService, public taskPg: AddTaskPageService, public task: AddTaskService, public data: DataService
   ) {}
 }

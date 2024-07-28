@@ -412,7 +412,7 @@ export class AddTaskService {
           let formContainer = document.createElement("form");
           let subButton = document.createElement("input");
 
-          formContainer.innerHTML = this.taskHtml.createAddTask();
+        //   formContainer.innerHTML = this.taskHtml.createAddTask();
           if(boardDetailBoxCon) {
             boardDetailBoxCon.appendChild(formContainer);
           }
