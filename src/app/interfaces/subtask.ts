@@ -1,5 +1,5 @@
 export interface Subtask {
     id?: number;
-    text: string;
+    title: string;
     completed: number;
 }

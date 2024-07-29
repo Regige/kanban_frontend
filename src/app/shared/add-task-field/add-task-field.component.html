@@ -213,7 +213,7 @@
           <ul id="task-sub-text" class="task-sub-text">
             @for(subtask of taskVar.subtasks; track index; let index = $index) {
             <app-subtask-li
-              [subtaskText]="subtask.text"
+              [subtaskText]="subtask.title"
               [i]="index"
             ></app-subtask-li>
             }

@@ -420,13 +420,15 @@
     background-image: url("./../../assets/img/task_check.svg");
     background-position: 85% 50%;
     background-repeat: no-repeat;
+
+    &:hover {
+        background-color: #29ABE2;
+        border: 1px solid #29ABE2;
+        box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.3);
+    }
+
 }
 
-.task-bt-create:hover {
-    background-color: #29ABE2;
-    border: 1px solid #29ABE2;
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.3);
-}
 
 .task-bt-change {
     position: absolute;

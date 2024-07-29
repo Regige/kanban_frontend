@@ -74,7 +74,7 @@ export class AddTaskService {
           'id':idIndex,
           'title': taskTitle.value,
           'text': taskDescription.value,
-          'task_user': assignedTo,
+          'assigned_to': assignedTo,
           'due_date': dueDate.value,
           'priority': this.taskVar.taskPrio,
           'category': taskCategory,
@@ -569,7 +569,7 @@ export class AddTaskService {
       let assignedToUser = this.getAssignedToUsers(); 
       let assignedTo: any = [];
       if(assignedToUser.length === 0) {
-          let taskUsers = this.stg.list[i]['task_user']
+          let taskUsers = this.stg.list[i]['assigned_to']
           if(taskUsers)
           for (let j = 0; j < taskUsers.length; j++) {
               const sglContacts = taskUsers[j];

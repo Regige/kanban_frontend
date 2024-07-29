@@ -189,8 +189,8 @@ export class AddTaskPageService {
       let subtaskInput = document.getElementById('task-sub-input-text') as HTMLInputElement; 
 
       let newSubtask = {
-          'text': subtaskInput.value,
-          'completed': 0
+          "title": subtaskInput.value,
+          "completed": 0
       }
       this.taskVar.subtasks.push(newSubtask);
       subtaskInput.value = "";
@@ -243,7 +243,7 @@ export class AddTaskPageService {
       subtaskLi.classList.add('d-none');
       let subtaskInputField = document.getElementById(`subtask-input-field-${i}`) as HTMLInputElement;
       if(subtaskInputField)
-      subtaskInputField.value = this.taskVar.subtasks[i]['text'];
+      subtaskInputField.value = this.taskVar.subtasks[i]['title'];
   }
 
   /**
@@ -254,7 +254,7 @@ export class AddTaskPageService {
 
   saveEditedSubtask(i: number) {
       let subtaskInputField = document.getElementById(`subtask-input-field-${i}`) as HTMLInputElement;
-      this.taskVar.subtasks[i]['text'] = subtaskInputField.value;
+      this.taskVar.subtasks[i]['title'] = subtaskInputField.value;
 
       let subtaskField = document.getElementById(`subtask-field-${i}`);
       if(subtaskField)
