@@ -4,13 +4,14 @@ import { ScriptService } from './script.service';
 import { ContactsPageService } from './contacts-page.service';
 import { AddTaskVarService } from './add-task-var.service';
 import { DataService } from './data.service';
+import { BoardService } from './board.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddTaskPageService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService, private data: DataService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private contactsPg: ContactsPageService, private taskVar: AddTaskVarService, private data: DataService, private board: BoardService) { }
 
 
   // Add Task page functionality
@@ -58,11 +59,29 @@ export class AddTaskPageService {
         // }
       }
 
+    //   if(this.board.editTask) {
+    //     this.setAssignedToUsersForEditTask()
+    //   }
+
     //   let addNewContactBt = document.getElementById('add-new-contact-bt');
     //   if(addNewContactBt) {
     //     addNewContactBt.classList.remove('d-none');
     //   }
 
+  }
+
+
+
+setAssignedToUsersForEditTask() {
+    console.log("Das sind die assigned user: ", this.board.clickedTask.assigned_to);
+    
+    for(let i = 0; i < this.board.clickedTask.assigned_to.length; i++) {
+        let user = this.board.clickedTask.assigned_to[i]
+        let checkbox = document.getElementById(`contact-${user}`) as HTMLInputElement;
+        if (checkbox) {
+            checkbox.checked = true;
+        }  
+    }
   }
 
   /**
@@ -222,9 +241,13 @@ export class AddTaskPageService {
    * @param {number} i This is the index of the subtask
    */
 
-  deleteSubtask(i: number) {
+  deleteSubtask(i: number, subtask:any) {
       this.taskVar.subtasks.splice(i,1);
-
+    if(this.board.editTask) {
+        this.taskVar.subtasksToDelete.push(subtask.id);
+    }
+    console.log("so sieht subttasksToDelete aus: ", this.taskVar.subtasksToDelete);
+    
     //   this.renderInputText();
   }
 
@@ -252,9 +275,20 @@ export class AddTaskPageService {
    * @param {number} i This is the index of the subtask
    */
 
-  saveEditedSubtask(i: number) {
+  saveEditedSubtask(i: number, subtask: any) {
       let subtaskInputField = document.getElementById(`subtask-input-field-${i}`) as HTMLInputElement;
-      this.taskVar.subtasks[i]['title'] = subtaskInputField.value;
+
+      if(!this.board.editTask) {
+          this.taskVar.subtasks[i]['title'] = subtaskInputField.value;
+      } else {
+        let editedSubtask = {
+            "id": subtask.id,
+            "title": subtaskInputField.value,
+            "completed": subtask.completed,
+            "update": true
+        }
+        this.taskVar.subtasks[i] = editedSubtask;
+      }
 
       let subtaskField = document.getElementById(`subtask-field-${i}`);
       if(subtaskField)

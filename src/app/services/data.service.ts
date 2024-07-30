@@ -46,14 +46,34 @@ export class DataService {
   }
 
 
-  update_partiallyTaskInBackend(id: number, body: any) {
-      const urlContactAndId = this.urlContact + id + '/';
+  updateTaskInBackend(id: number, body: any) {
+      const urlTaskAndId = this.urlTask + id + '/';
 
-      return lastValueFrom(this.http.patch(urlContactAndId, body));
+      return lastValueFrom(this.http.put(urlTaskAndId, body));
   }
 
 
+  // update_partiallyTaskInBackend(id: number, body: any) {
+  //     const urlTaskAndId = this.urlTask + id + '/';
+
+  //     return lastValueFrom(this.http.patch(urlTaskAndId, body));
+  // }
+
+
+
+
   // Subtask Operations
+
+  saveSubtaskInBackend(body: any) {
+      return lastValueFrom(this.http.post(this.urlSubtask, body));
+  }
+
+  deleteSubtaskInBackend(id: number) {
+      const urlSubtaskAndId = this.urlSubtask + id;
+
+      return lastValueFrom(this.http.delete(urlSubtaskAndId));
+  }
+
 
   updateSubtaskInBackend(id: number, body: any) {
       const urlContactAndId = this.urlSubtask + id + '/';
@@ -66,6 +86,7 @@ export class DataService {
 
       return lastValueFrom(this.http.patch(urlContactAndId, body));
   }
+
 
 
 

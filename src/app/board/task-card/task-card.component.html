@@ -16,7 +16,7 @@
   </div>
   <div class="board_fbsbc board_footerline">
     <div id="'task_user' + id" class="board_fbfb board_task_name_box">
-      @for(user of task.task_user; track index; let index = $index) {
+      @for(user of task.assigned_to; track index; let index = $index) {
       <app-task-card-user [userId]="user"></app-task-card-user>
       }
     </div>

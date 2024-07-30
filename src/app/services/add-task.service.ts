@@ -5,13 +5,14 @@ import { Task } from '../interfaces/task';
 import { AddTaskPageService } from './add-task-page.service';
 import { Subtask } from '../interfaces/subtask';
 import { AddTaskVarService } from './add-task-var.service';
+import { BoardService } from './board.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddTaskService {
 
-  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskVar: AddTaskVarService) { }
+  constructor(private stg: StorageService, private scp: ScriptService, private taskPg: AddTaskPageService, private taskVar: AddTaskVarService, private board: BoardService) { }
 
 
 //   taskPrio = "";
@@ -25,36 +26,36 @@ export class AddTaskService {
    * This function starts the functions to create a new task.
    */
 
-  async createNewTask() {
-    //   if(this.stg.user === 'guest') {
-    //       this.scp.showPopup('Cannot be saved as a guest. Please create an account');
-    //       // closeNewContacts();
-    //   } else {
-        //   await this.defineNewTask();
-        console.log()
-    //   }
-  }
+//   async createNewTask() {
+//       if(this.stg.user === 'guest') {
+//           this.scp.showPopup('Cannot be saved as a guest. Please create an account');
+//           // closeNewContacts();
+//       } else {
+//           await this.defineNewTask();
+//         console.log()
+//       }
+//   }
 
   /**
    * This function defines the new Task values and calls all the neccessary functions.
    */
 
-  async defineNewTask() {
-      let taskTitle = document.getElementById('task-title');
-      let taskDescription = document.getElementById('task-description');
-      let assignedTo = this.getAssignedToUsers();
-      let dueDate = document.getElementById('task-date');
-      let taskCategory = this.getTaskCategory();
-    //   let idIndex = this.getIdIndex();
-      let taskBoard = this.getTaskBoardField();
-      this.checkIfPrioIsSelected();
+//   async defineNewTask() {
+//       let taskTitle = document.getElementById('task-title');
+//       let taskDescription = document.getElementById('task-description');
+//       let assignedTo = this.getAssignedToUsers();
+//       let dueDate = document.getElementById('task-date');
+//       let taskCategory = this.getTaskCategory();
+//     //   let idIndex = this.getIdIndex();
+//       let taskBoard = this.getTaskBoardField();
+//       this.checkIfPrioIsSelected();
       
-    //   await this.saveNewTask(taskTitle, taskDescription, assignedTo, dueDate, taskCategory, idIndex, taskBoard);
-      this.resetTaskForm();
-    //   this.removeStringFromLocalStorage();
-      this.scp.showPopup('Task added to board');
-      this.scp.openHTML('./board');
-  }
+//     //   await this.saveNewTask(taskTitle, taskDescription, assignedTo, dueDate, taskCategory, idIndex, taskBoard);
+//       this.resetTaskForm();
+//     //   this.removeStringFromLocalStorage();
+//       this.scp.showPopup('Task added to board');
+//       this.scp.openHTML('./board');
+//   }
 
   /**
    * This function saves the values from the form field and saves them as an object within the list array.
@@ -69,23 +70,23 @@ export class AddTaskService {
    * @param {string} taskBoard This variable is the name of the board where the task will be placed
    */
 
-  async saveNewTask(taskTitle: any, taskDescription: any, assignedTo: any, dueDate: any, taskCategory: any, idIndex: any, taskBoard: any) {
-      let newTask:Task = {
-          'id':idIndex,
-          'title': taskTitle.value,
-          'text': taskDescription.value,
-          'assigned_to': assignedTo,
-          'due_date': dueDate.value,
-          'priority': this.taskVar.taskPrio,
-          'category': taskCategory,
-          'subtasks': this.taskVar.subtasks,
-          'task_board': taskBoard,
-      }
+//   async saveNewTask(taskTitle: any, taskDescription: any, assignedTo: any, dueDate: any, taskCategory: any, idIndex: any, taskBoard: any) {
+//       let newTask:Task = {
+//           'id':idIndex,
+//           'title': taskTitle.value,
+//           'text': taskDescription.value,
+//           'assigned_to': assignedTo,
+//           'due_date': dueDate.value,
+//           'priority': this.taskVar.taskPrio,
+//           'category': taskCategory,
+//           'subtasks': this.taskVar.subtasks,
+//           'task_board': taskBoard,
+//       }
 
-      this.stg.list.push(newTask);
+//       this.stg.list.push(newTask);
 
-      await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
-  }
+//       await this.stg.SaveInLocalStorageAndServer(this.stg.user, this.stg.listString, this.stg.list);
+//   }
 
 
   /**
@@ -131,6 +132,8 @@ export class AddTaskService {
     //   taskSubText.innerHTML = "";
 
       this.taskVar.subtasks = [];
+      this.taskVar.subtasksToDelete = [];
+      this.taskVar.taskBoardField = "";
   }
 
   /**
@@ -349,14 +352,14 @@ export class AddTaskService {
    * @param {number} id This variable is the assigned id of the task
    */
 
-  editTask(id: number) {
-      if(this.stg.user === 'guest') {
-          this.scp.showPopup('Cannot be changed as a guest. Please create an account');
-          // closeNewContacts();
-      } else {
-          this.insertInputValues(id);
-      }
-  }
+//   editTask(id: number) {
+//       if(this.stg.user === 'guest') {
+//           this.scp.showPopup('Cannot be changed as a guest. Please create an account');
+//           // closeNewContacts();
+//       } else {
+//           this.insertInputValues(id);
+//       }
+//   }
 
   /**
    * This function calls changeBoardDetailCard() to change the appearance of the card
@@ -365,27 +368,27 @@ export class AddTaskService {
    * @param {number} id This variable is the assigned id of the task
    */
 
-  insertInputValues(id: number) {
-          let index = this.getIndexTaskEdit(id);
-          if(index) {
-            this.changeBoardDetailCard(id, index);
-            let task = this.stg.list[index];
-            let taskTitle = document.getElementById('task-title') as HTMLInputElement;
-            let taskDescription = document.getElementById('task-description') as HTMLInputElement;
-            let dueDate = document.getElementById('task-date') as HTMLInputElement;
-            let taskCategory = document.getElementById('category') as HTMLInputElement;
-            this.taskVar.taskPrio = task['priority'];
+//   insertInputValues(id: number) {
+//           let index = this.getIndexTaskEdit(id);
+//           if(index) {
+//             this.changeBoardDetailCard(id, index);
+//             let task = this.stg.list[index];
+//             let taskTitle = document.getElementById('task-title') as HTMLInputElement;
+//             let taskDescription = document.getElementById('task-description') as HTMLInputElement;
+//             let dueDate = document.getElementById('task-date') as HTMLInputElement;
+//             let taskCategory = document.getElementById('category') as HTMLInputElement;
+//             this.taskVar.taskPrio = task['priority'];
   
-            this.setPrioButtonColor(this.taskVar.taskPrio);
-            this.saveSubtasksListEdit(task);
-            // this.taskPg.renderInputText();
+//             this.setPrioButtonColor(this.taskVar.taskPrio);
+//             this.saveSubtasksListEdit(task);
+//             // this.taskPg.renderInputText();
   
-            taskTitle.value = task['title'];
-            taskDescription.value = task['text'] ?? "";
-            dueDate.value = task['due_date'];
-            taskCategory.value = task['category']; 
-          }
-  }
+//             taskTitle.value = task['title'];
+//             taskDescription.value = task['text'] ?? "";
+//             dueDate.value = task['due_date'];
+//             taskCategory.value = task['category']; 
+//           }
+//   }
 
 
   /**

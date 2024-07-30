@@ -8,6 +8,7 @@ export class AddTaskVarService {
 
   taskPrio = "";
   subtasks: Subtask[] = [];
+  subtasksToDelete: number[] = [];
   taskBoardField: string = "";
 
   constructor() { }

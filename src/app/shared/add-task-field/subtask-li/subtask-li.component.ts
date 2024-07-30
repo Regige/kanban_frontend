@@ -12,6 +12,7 @@ export class SubtaskLiComponent {
 
   @Input() subtaskText: string = "";
   @Input() i: number = -1;
+  @Input() subtask: any;
 
   constructor(public taskPg: AddTaskPageService) {}
 

@@ -1,15 +1,11 @@
 <div class="board_detail_box board_fbcc" (click)="board.closeBoardCard()">
-  <!-- <div
-    id="board_detail_card"
-    class="board_detail_card"
-    (click)="board.notClose($event), closeAssignedToField()"
-  > -->
   <div
     id="board_detail_card"
     class="board_detail_card"
-    (click)="board.notClose($event)"
+    (click)="board.notClose($event); taskPg.closeAssignedToField()"
   >
     <div class="board_fbsbc">
+      @if(!board.editTask) {
       <div
         id="'Card_story' + id"
         class="board_detail_header board_fbcc"
@@ -17,6 +13,7 @@
       >
         {{ story }}
       </div>
+      }
       <div class="board_detail_fixed_close">
         <img
           (click)="board.notClose($event)"
@@ -27,6 +24,7 @@
       </div>
     </div>
     <div id="board_detail_box_content">
+      @if(!board.editTask) {
       <div class="board_detail_headline">
         {{ headline }}
       </div>
@@ -50,27 +48,10 @@
         id="'board-card-users' + id"
         class="board_dfcfsco board_detail_date_prio"
       >
-        @if(board.clickedTask.task_user.length > 0) { Assigned to: @for(user of
-        board.clickedTask.task_user; track index; let index = $index) {
+        @if(board.clickedTask.assigned_to.length > 0) { Assigned to: @for(user
+        of board.clickedTask.assigned_to; track index; let index = $index) {
         <app-task-card-dialog-user [userId]="user"></app-task-card-dialog-user>
         } }
-        <!-- Assigned To:
-        <div
-          class="board_dfcb"
-          [style.margin-top.px]="20"
-          [style.margin-left.px]="25"
-        >
-          <div class="board_task_name board_fbcc">TT</div>
-          <span class="board_detail_name"> Tony Tech</span>
-        </div>
-        <div
-          class="board_dfcb"
-          [style.margin-top.px]="20"
-          [style.margin-left.px]="25"
-        >
-          <div class="board_task_name board_fbcc">TT</div>
-          <span class="board_detail_name"> Tony Tech</span>
-        </div> -->
       </div>
       <div
         id="'board-card-subtasks' + id"
@@ -83,33 +64,12 @@
           [index]="index"
         ></app-task-card-dialog-subtask>
         } }
-        <!-- Subtasks
-        <div
-          class="board_dfcb"
-          [style.margin-top.px]="20"
-          [style.margin-left.px]="5"
-        >
-          <img class="board_fbcc" src="assets/img/Check button.svg" alt="" />
-          <span class="board_detail_subtasks">
-            Implement Recipe Recommendation</span
-          >
-        </div>
-        <div
-          class="board_dfcb"
-          [style.margin-top.px]="20"
-          [style.margin-left.px]="5"
-        >
-          <img
-            class="board_fbcc"
-            src="assets/img/Check button none.svg"
-            alt=""
-          />
-          <span class="board_detail_subtasks">
-            Implement Recipe Recommendation</span
-          >
-        </div> -->
       </div>
+      } @else if(board.editTask) {
+      <app-add-task-field></app-add-task-field>
+      }
     </div>
+    @if(!board.editTask) {
     <div class="board_dfec board_detail_del_edit" [style.margin-top.px]="30">
       <div
         id="board_card_bt_delete"
@@ -119,13 +79,10 @@
         <img src="assets/img/delete.svg" alt="" />Delete
         <img src="assets/img/stroked_vertically.svg" alt="" />
       </div>
-      <div
-        id="board_card_bt_edit"
-        (click)="task.editTask(board.clickedTask.id)"
-        class="board_dfcb"
-      >
+      <div id="board_card_bt_edit" (click)="openEditTask()" class="board_dfcb">
         <img src="assets/img/edit.svg" alt="" />Edit
       </div>
     </div>
+    }
   </div>
 </div>

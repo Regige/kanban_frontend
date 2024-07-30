@@ -10,6 +10,7 @@ export class BoardService {
 
   clickedTask: any = null;
   showTaskDialog = false;
+  editTask = false;
 
   constructor(private data: DataService, private scp: ScriptService) { }
 
@@ -20,7 +21,7 @@ export class BoardService {
         id: task.id,
         title: task.title,
         text: task.text,
-        task_user: task.assigned_to,
+        assigned_to: task.assigned_to,
         due_date: task.due_date,
         priority: task.priority,
         category: task.category,
@@ -58,8 +59,10 @@ export class BoardService {
    */
   closeBoardCard() {
      this.showTaskDialog = false;
+     this.editTask = false;
      this.clickedTask = null;
-     
+
+
       let element = document.getElementById('board_body');
       if(element)
         element.classList.remove('board_fixed');

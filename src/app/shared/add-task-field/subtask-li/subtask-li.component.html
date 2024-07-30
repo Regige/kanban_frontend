@@ -5,29 +5,44 @@
     class="task-sub-input"
     minlength="1"
   />
+
   <div class="flex-just-btw-ct task-sub-text-sgl-icons">
-    <div (click)="taskPg.deleteSubtask(i)" class="task-sub-text-sgl-icons-con">
+    <!-- delete subtask from taskVar.subtasks -->
+    <div
+      (click)="taskPg.deleteSubtask(i, subtask)"
+      class="task-sub-text-sgl-icons-con"
+    >
       <img src="assets/img/delete.svg" alt="" />
     </div>
+
     <div class="task-sub-hr"></div>
+    <!-- save edited Subtask in taskVar.subtasks -->
     <div
-      (click)="taskPg.saveEditedSubtask(i)"
+      (click)="taskPg.saveEditedSubtask(i, subtask)"
       class="task-sub-text-sgl-icons-con"
     >
       <img src="assets/img/task_check_bl.svg" alt="" />
     </div>
   </div>
 </div>
+
 <div [id]="'subtask-li-' + i" class="flex-just-btw-ct">
   <li class="task-sub-text-sgl">
     {{ subtaskText }}
   </li>
+
   <div class="flex-just-btw-ct task-sub-text-sgl-icons">
     <div (click)="taskPg.editSubtask(i)" class="task-sub-text-sgl-icons-con">
       <img src="assets/img/edit.svg" alt="" />
     </div>
+
     <div class="task-sub-hr"></div>
-    <div (click)="taskPg.deleteSubtask(i)" class="task-sub-text-sgl-icons-con">
+
+    <!-- Auch! delete subtask from taskVar.subtasks -->
+    <div
+      (click)="taskPg.deleteSubtask(i, subtask)"
+      class="task-sub-text-sgl-icons-con"
+    >
       <img src="assets/img/delete.svg" alt="" />
     </div>
   </div>
