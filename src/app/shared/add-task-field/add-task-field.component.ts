@@ -45,8 +45,8 @@ export class AddTaskFieldComponent {
       "priority":  this.task.checkIfPrioIsSelected(), // this.taskVar.taskPrio muss auf null gesetzt werden
       "category": this.category,
       "task_board": this.task.getTaskBoardField(), // this.taskVar.taskBoardField muss auf null gesetzt werden.
-      "assigned_to": this.task.getAssignedToUsers(),
-      "subtasks": this.taskVar.subtasks // muss auch auf null gesetzt werden
+      "assigned_to": this.task.getAssignedToUsers()
+      // "subtasks": this.taskVar.subtasks // muss auch auf null gesetzt werden
     }
 
     if(this.board.editTask) {
@@ -57,6 +57,10 @@ export class AddTaskFieldComponent {
           let resp: any = await this.data.saveTaskInBackend(body);
 
           console.log("New Task wurde erstellt: ", resp)
+
+          if(this.taskVar.subtasks) {
+            await this.saveSubtasks(form, resp.id);
+          }
     
           this.resetEverything(form);
 
@@ -69,6 +73,25 @@ export class AddTaskFieldComponent {
         }
     }
 
+  }
+
+
+  async saveSubtasks(form:NgForm, id: number) {
+    for(let i = 0; i < this.taskVar.subtasks.length; i++) {
+      let subtask = this.taskVar.subtasks[i];
+      try {
+        let body = {
+          "task": id,
+          "title": subtask.title,
+          "completed": subtask.completed
+        }
+        let resp = await this.data.saveSubtaskInBackend(body);
+                
+        } catch(e) {
+          console.error(e);
+          this.resetEverything(form);
+        }
+    }
   }
 
 
@@ -105,8 +128,10 @@ export class AddTaskFieldComponent {
       "assigned_to": this.taskVar.edit_assigned_to
     }
 
-    if(body.subtasks.length > 0 && this.board.clickedTask.subtasks.length > 0) {
-      await this.updateSubtasks(body.subtasks, form);
+    if(this.taskVar.subtasks.length > 0 || this.taskVar.subtasksToDelete.length > 0) {
+      let resp = await this.updateSubtasks(this.taskVar.subtasks, form);
+      console.log("So sieht die Antwort aus: ", resp);
+      
       }
 
     try {
