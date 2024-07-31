@@ -15,6 +15,21 @@ export class BoardService {
   constructor(private data: DataService, private scp: ScriptService) { }
 
 
+  setJSONforTask(obj: any) {
+        return {
+        id: obj.id,
+        title: obj.title,
+        text: obj.text,
+        assigned_to: obj.assigned_to,
+        due_date: obj.due_date,
+        priority: obj.priority,
+        category: obj.category,
+        subtasks: obj.subtasks,
+        task_board: obj.task_board
+        }
+  }
+
+
 
   mapTasks(rawTasks: any[]): Task[] {
       return rawTasks.map(task => ({
@@ -80,7 +95,6 @@ export class BoardService {
         let resp = await this.data.deleteTaskInBackend(id);
         // console.log("Task deleted works: ", resp);
         this.closeBoardCard();
-        this.clickedTask = null;
         let taskIndex = this.findTaskById(id);
         this.data.tasks.splice(taskIndex, 1);
         this.scp.showPopup("Task deleted");

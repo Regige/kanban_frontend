@@ -133,6 +133,7 @@ export class AddTaskService {
 
       this.taskVar.subtasks = [];
       this.taskVar.subtasksToDelete = [];
+      this.taskVar.edit_assigned_to = [];
       this.taskVar.taskBoardField = "";
   }
 

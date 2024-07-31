@@ -10,6 +10,7 @@ export class AddTaskVarService {
   subtasks: Subtask[] = [];
   subtasksToDelete: number[] = [];
   taskBoardField: string = "";
+  edit_assigned_to: number[] = [];
 
   constructor() { }
 }

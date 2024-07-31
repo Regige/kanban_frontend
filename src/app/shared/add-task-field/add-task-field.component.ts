@@ -55,6 +55,8 @@ export class AddTaskFieldComponent {
     } else {
         try {
           let resp: any = await this.data.saveTaskInBackend(body);
+
+          console.log("New Task wurde erstellt: ", resp)
     
           this.resetEverything(form);
 
@@ -85,7 +87,8 @@ export class AddTaskFieldComponent {
     this.taskVar.taskBoardField = this.board.clickedTask.task_board;
 
     if(this.board.clickedTask.assigned_to.length > 0) {
-      this.taskPg.setAssignedToUsersForEditTask();
+
+      this.taskVar.edit_assigned_to = JSON.parse(JSON.stringify(this.board.clickedTask.assigned_to));
     }
   }
 
@@ -99,18 +102,21 @@ export class AddTaskFieldComponent {
       "priority":  body.priority,
       "category": body.category,
       "task_board": body.task_board,
-      "assigned_to": body.assigned_to
+      "assigned_to": this.taskVar.edit_assigned_to
     }
 
     if(body.subtasks.length > 0 && this.board.clickedTask.subtasks.length > 0) {
-      this.updateSubtasks(body.subtasks, form);
+      await this.updateSubtasks(body.subtasks, form);
       }
 
     try {
       let resp: any = await this.data.updateTaskInBackend(this.board.clickedTask.id, updatedBody)
       console.log("Update sieht so aus: ", resp);
 
-      // updated Task muss noch in data.tasks ersetzt werden!
+      let taskIndex = this.board.findTaskById(this.board.clickedTask.id);
+      this.data.tasks[taskIndex] = this.board.setJSONforTask(resp);
+      this.scp.showPopup("Task updated");
+
       this.resetEverything(form);
 
     } catch(e) {
@@ -119,11 +125,10 @@ export class AddTaskFieldComponent {
     }
   }
 
+
   resetEverything(form: NgForm) {
       form.resetForm();
-      this.board.showTaskDialog = false;
-      this.board.clickedTask = null;
-      this.board.editTask = false;
+      this.board.closeBoardCard();
       this.task.resetTaskForm();
   }
 
@@ -140,7 +145,7 @@ export class AddTaskFieldComponent {
                       "title": subtask.title
                     }
                     let resp = await this.data.update_partiallySubtaskInBackend(subtask.id, body);
-                    console.log("Updated: ", resp);
+
                   } catch(e) {
                     console.error(e);
                     this.resetEverything(form);
@@ -155,7 +160,7 @@ export class AddTaskFieldComponent {
                   "completed": subtask.completed
                 }
                 let resp = await this.data.saveSubtaskInBackend(body);
-                console.log("Posted: ", resp);
+                
               } catch(e) {
                 console.error(e);
                 this.resetEverything(form);
@@ -167,7 +172,7 @@ export class AddTaskFieldComponent {
         try {
           // delete subtask
           let resp = await this.data.deleteSubtaskInBackend(this.taskVar.subtasksToDelete[j])
-          console.log("Deleted: ", resp);
+          
         } catch(e) {
           console.error(e);
           this.resetEverything(form);

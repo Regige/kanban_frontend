@@ -28,6 +28,10 @@ export class TaskCardComponent {
     this.categoryColor = this.board.getCategoryColor(this.task.category);
   }
 
+  ngOnChanges() {
+    this.priority_img = 'assets/img/task-prio-' + this.task.priority.charAt(0).toLowerCase() + '.svg';
+    this.categoryColor = this.board.getCategoryColor(this.task.category);
+  }
 
 
 

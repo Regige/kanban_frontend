@@ -20,6 +20,10 @@ export class TaskCardUserComponent {
     this.getUserInfo();
   }
 
+  ngOnChanges() {
+    this.getUserInfo();
+  }
+
 
   getUserInfo() {
     const userindex = this.contactsPg.findContactById(this.userId);

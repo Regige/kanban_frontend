@@ -59,23 +59,21 @@ export class AddTaskPageService {
         // }
       }
 
-    //   if(this.board.editTask) {
-    //     this.setAssignedToUsersForEditTask()
-    //   }
+      if(this.board.editTask) {
+        this.setAssignedToUsersForEditTask()
+      }
 
     //   let addNewContactBt = document.getElementById('add-new-contact-bt');
     //   if(addNewContactBt) {
     //     addNewContactBt.classList.remove('d-none');
     //   }
-
   }
 
 
 
 setAssignedToUsersForEditTask() {
-    console.log("Das sind die assigned user: ", this.board.clickedTask.assigned_to);
     
-    for(let i = 0; i < this.board.clickedTask.assigned_to.length; i++) {
+    for(let i = 0; i < this.taskVar.edit_assigned_to.length; i++) {
         let user = this.board.clickedTask.assigned_to[i]
         let checkbox = document.getElementById(`contact-${user}`) as HTMLInputElement;
         if (checkbox) {
@@ -129,12 +127,18 @@ setAssignedToUsersForEditTask() {
 
 
 
-  addEventListenersToCheckboxes() {
-      const checkboxes = document.querySelectorAll('[type="checkbox"]');
-      checkboxes.forEach(checkbox => {
-          checkbox.addEventListener('change', this.handleCheckboxChange);
-      });
-  }
+//   addEventListenersToCheckboxes() {
+//       const checkboxes = document.querySelectorAll('[type="checkbox"]');
+//       if(!this.board.editTask) {
+//           checkboxes.forEach(checkbox => {
+//               checkbox.addEventListener('change', this.handleCheckboxChange);
+//           });
+//       } else {
+//         checkboxes.forEach(checkbox => {
+//               checkbox.addEventListener('change', this.handleCheckboxChangeEdit);
+//           });
+//       }
+//   }
 
 
   handleCheckboxChange(event: any) {
@@ -171,6 +175,20 @@ setAssignedToUsersForEditTask() {
             }
         }
         }
+  }
+
+
+
+  handleCheckboxChangeEdit(event: any) {
+    const checkbox = event.target;
+    if(checkbox) {
+        const contactId = Number(checkbox.id.replace('contact-', '')); 
+        if (checkbox.checked) {
+            this.taskVar.edit_assigned_to.push(contactId)
+        } else {
+            this.taskVar.edit_assigned_to = this.taskVar.edit_assigned_to.filter(id => id !== contactId);
+        }
+    }
   }
 
 
@@ -246,9 +264,6 @@ setAssignedToUsersForEditTask() {
     if(this.board.editTask) {
         this.taskVar.subtasksToDelete.push(subtask.id);
     }
-    console.log("so sieht subttasksToDelete aus: ", this.taskVar.subtasksToDelete);
-    
-    //   this.renderInputText();
   }
 
   /**

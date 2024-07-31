@@ -54,9 +54,7 @@
               type="button"
               value="Select contacts to assign"
               (click)="
-                contactsPg.stopClosing($event);
-                taskPg.showAssignedToBt();
-                taskPg.addEventListenersToCheckboxes()
+                contactsPg.stopClosing($event); taskPg.showAssignedToBt()
               "
               class="task-sub-input-con task-assigned-to"
             />
@@ -79,11 +77,21 @@
                     </div>
                     <span>{{ contact.title }}</span>
                   </label>
+                  @if(board.editTask) {
                   <input
                     type="checkbox"
                     name="contact"
                     [id]="'contact-' + contact.id"
+                    (change)="taskPg.handleCheckboxChangeEdit($event)"
                   />
+                  } @else {
+                  <input
+                    type="checkbox"
+                    name="contact"
+                    [id]="'contact-' + contact.id"
+                    (change)="taskPg.handleCheckboxChange($event)"
+                  />
+                  }
                 </div>
                 } } @else {
                 <p [style.marginLeft.px]="16">&emsp; No contacts yet</p>
@@ -104,7 +112,19 @@
           <div
             id="task-assigned-to-selected-con"
             class="task-assigned-to-selected-con"
-          ></div>
+          >
+            @if(board.editTask) { @for(selUser of taskVar.edit_assigned_to;
+            track index; let index = $index) {
+            <div
+              [id]="'selected-' + selUser"
+              [style.backgroundColor]="
+                data.contacts[contactsPg.findContactById(selUser)].hex_color
+              "
+            >
+              {{ data.contacts[contactsPg.findContactById(selUser)].logogram }}
+            </div>
+            } }
+          </div>
         </div>
       </div>
       <!-- left side -->
