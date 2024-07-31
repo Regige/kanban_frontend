@@ -36,7 +36,7 @@ export class AddTaskComponent {
       // await this.stg.loadUserData();
       // this.stg.loadFromLocalStorage();
       // this.stg.loadFromLocalStorageContacts();
-      // this.task.loadStringFromLocalStorage();
+      this.task.loadStringFromLocalStorage();
   // }
     try {
       const rawContacts: any = await this.data.loadContacts();

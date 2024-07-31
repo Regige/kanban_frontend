@@ -1,6 +1,6 @@
 <div
-  id="task.id"
-  draggable="true"
+  [id]="task.id"
+  [draggable]="true"
   (dragstart)="touch.startDragging(task.id)"
   class="board_fbc board_note"
 >

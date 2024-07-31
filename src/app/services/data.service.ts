@@ -53,11 +53,11 @@ export class DataService {
   }
 
 
-  // update_partiallyTaskInBackend(id: number, body: any) {
-  //     const urlTaskAndId = this.urlTask + id + '/';
+  update_partiallyTaskInBackend(id: number, body: any) {
+      const urlTaskAndId = this.urlTask + id + '/';
 
-  //     return lastValueFrom(this.http.patch(urlTaskAndId, body));
-  // }
+      return lastValueFrom(this.http.patch(urlTaskAndId, body));
+  }
 
 
 

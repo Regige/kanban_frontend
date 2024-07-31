@@ -63,13 +63,15 @@ export class AddTaskFieldComponent {
           }
     
           this.resetEverything(form);
+          this.task.removeStringFromLocalStorage();
 
           // this.scp.showPopup('Task added to board');
           this.router.navigateByUrl('/board');
     
         } catch(e) {
-          console.error(e);
           this.resetEverything(form);
+          this.task.removeStringFromLocalStorage();
+          console.error(e);
         }
     }
 
@@ -88,8 +90,9 @@ export class AddTaskFieldComponent {
         let resp = await this.data.saveSubtaskInBackend(body);
                 
         } catch(e) {
-          console.error(e);
           this.resetEverything(form);
+          this.task.removeStringFromLocalStorage();
+          console.error(e);
         }
     }
   }

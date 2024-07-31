@@ -41,18 +41,18 @@ export class TouchService {
   //  * This function starts the initialization of the tocu function
   //  */
 
-  // loadTouch() {
-  //     task = document.querySelectorAll('.board_note');
-  //     toDo = document.querySelector('.board_to_do');
-  //     inProgress = document.querySelector('.board_in_progress');
-  //     awaitFeedback = document.querySelector('.board_await_feedback');
-  //     done = document.querySelector('.board_done');
-  //     toDoPos = toDo.getBoundingClientRect();
-  //     inProgressPos = inProgress.getBoundingClientRect();
-  //     awaitFeedbackPos = awaitFeedback.getBoundingClientRect();
-  //     donePos = done.getBoundingClientRect();
-  //     task.forEach(addStart);
-  // }
+  loadTouch() {
+      this.task = document.querySelectorAll('.board_note');
+      this.toDo = document.querySelector('.board_to_do');
+      this.inProgress = document.querySelector('.board_in_progress');
+      this.awaitFeedback = document.querySelector('.board_await_feedback');
+      this.done = document.querySelector('.board_done');
+      this.toDoPos = this.toDo.getBoundingClientRect();
+      this.inProgressPos = this.inProgress.getBoundingClientRect();
+      this.awaitFeedbackPos = this.awaitFeedback.getBoundingClientRect();
+      this.donePos = this.done.getBoundingClientRect();
+      // this.task.forEach(this.addStart);
+  }
 
 
   // /**
