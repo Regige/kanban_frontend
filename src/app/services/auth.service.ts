@@ -19,4 +19,14 @@ export class AuthService {
     }
     return lastValueFrom(this.http.post(url, body)); // lastValueFrom wandelt subscribeables in ein promis um 
   }
+
+
+  public register(body: any) {
+    const url = environment.baseUrl + '/register/';
+    // const body = {
+    //   "username": email,
+    //   "password": password
+    // }
+    return lastValueFrom(this.http.post(url, body));
+  }
 }
