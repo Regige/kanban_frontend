@@ -17,13 +17,7 @@
       <a target="_blank" [routerLink]="['/privacy-police/']"
         ><button class="btn-logout">Privacy Policy</button></a
       >
-      <button
-        (click)="this.stg.clearLocalStorage()"
-        class="btn-logout"
-        [routerLink]="['/login/']"
-      >
-        Log out
-      </button>
+      <button (click)="logoutUser()" class="btn-logout">Log out</button>
     </div>
   </div>
 </header>

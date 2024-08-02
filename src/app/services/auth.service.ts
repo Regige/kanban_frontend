@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { lastValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +28,17 @@ export class AuthService {
     //   "password": password
     // }
     return lastValueFrom(this.http.post(url, body));
+  }
+
+
+  public logout() {
+    const url = environment.baseUrl + '/logout_user/';
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Token ' + localStorage.getItem('token'));
+
+    return lastValueFrom(this.http.post(url, {
+      headers: headers
+    }));
   }
 }

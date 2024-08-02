@@ -5,17 +5,18 @@ import { RegisterService } from '../services/register.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, RegisterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
-  email: string = '';
+  username: string = '';
   password: string = '';
 
   constructor(private stg: StorageService, public scp: ScriptService, public registerS: RegisterService, private as: AuthService, private router: Router) {}
@@ -24,7 +25,7 @@ export class LoginComponent {
   async login() {
 
     try {
-      let resp: any = await this.as.loginWithEmailAndPassword(this.email, this.password);
+      let resp: any = await this.as.loginWithEmailAndPassword(this.username, this.password);
       console.log(resp);
       localStorage.setItem('token', resp['token']);
       this.router.navigateByUrl('/board');

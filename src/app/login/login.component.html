@@ -5,7 +5,7 @@
   <div class="login" id="login">
     <div class="SignupButton">
       <span class="SignupBtn">Not a Join user?</span>
-      <button class="login-button" (click)="scp.showSignUpHideSignUp('show')">
+      <button class="login-button" [routerLink]="['/register/']">
         Sign up
       </button>
     </div>
@@ -22,13 +22,13 @@
         Email and/or password are incorrect.
       </div>
       <input
-        name="email"
-        [(ngModel)]="email"
+        name="username"
+        [(ngModel)]="username"
         required
-        class="mail-img"
-        type="email"
-        placeholder="Email"
-        id="email"
+        class="name-img"
+        type="text"
+        placeholder="Username"
+        id="username"
       />
       <input
         name="password"
@@ -41,7 +41,8 @@
         id="password"
       />
       <div style="margin-top: 60px">
-        <button style="margin-left: -140px" class="login-button">Log in</button>
+        <!-- <button style="margin-left: -140px" class="login-button">Log in</button> -->
+        <button class="login-button">Log in</button>
         <div
           id="registrationSuccess"
           class="success-message"
@@ -86,88 +87,7 @@
     </div> -->
   </div>
 
-  <div class="sign-up d-none" id="sign-up">
-    <div>
-      <img
-        (click)="scp.showSignUpHideSignUp('hide')"
-        class="arrow-img"
-        src="assets/img/arrow-left-line.svg"
-      />
-      <h1 class="sign-up-headline">Sign up</h1>
-    </div>
-    <div>
-      <img class="VectorImg" src="assets/img/Vector 5.svg" />
-    </div>
-    <form
-      (ngSubmit)="registerS.register()"
-      class="form password-login email-login"
-    >
-      <div
-        style="display: none"
-        class="register-error-message"
-        id="register-error"
-      >
-        Your password does not match.
-      </div>
-      <input
-        required
-        class="name-img"
-        type="text"
-        placeholder="Name"
-        id="nameregister"
-      />
-      <input
-        required
-        class="mail-img"
-        type="email"
-        placeholder="Email"
-        id="emailregister"
-      />
-      <input
-        required
-        class="password-img"
-        type="password"
-        placeholder="Password"
-        minlength="4"
-        id="passwordregister1"
-      />
-      <input
-        required
-        class="password-img"
-        type="password"
-        placeholder="Password"
-        minlength="4"
-        id="passwordregister2"
-      />
-      <button style="margin-top: 60px" id="registerBtn" class="login-button">
-        Sign up
-      </button>
-    </form>
-    <div class="checkbox-sign-up">
-      <div id="check-sign-up">
-        <img
-          src="assets/img/Check button none.svg"
-          (click)="scp.toggleCheckmark('check-sign-up', 'check-none-sign-up')"
-        />
-      </div>
-      <div>
-        <img
-          id="check-none-sign-up"
-          class="d-none"
-          src="assets/img/Check button.svg"
-          (click)="scp.toggleCheckmark('check-sign-up', 'check-none-sign-up')"
-        />
-      </div>
-      <div>
-        <span class="privacy_policy" style="margin-left: 10px"
-          >I accept the
-          <a target="_blank" href="./html/privacy_policy.html"
-            >Privacy policy</a
-          ></span
-        >
-      </div>
-    </div>
-  </div>
+  <!-- <app-register></app-register> -->
 
   <!-- <div id="forgot-password-container" class="forgot-password-container d-none">
     <div>
@@ -252,7 +172,11 @@
     </form>
   </div> -->
 </div>
-<input type="checkbox" id="privacyPolicyCheckbox" style="display: none" />
+
+<!-- in app-register -->
+<!-- <input type="checkbox" id="privacyPolicyCheckbox" style="display: none" /> -->
+<!-- in app-register -->
+
 <div class="footer">
   <a [routerLink]="['/privacy-police/']" target="_blank">Privacy Policy</a>
   <a [routerLink]="['/imprint/']" target="_blank">Legal notice</a>

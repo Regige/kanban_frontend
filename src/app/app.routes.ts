@@ -7,10 +7,12 @@ import { PrivacyPoliceComponent } from './info/privacy-police/privacy-police.com
 import { HelpComponent } from './info/help/help.component';
 import { ImprintComponent } from './info/imprint/imprint.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     // { path: '', component: SummaryComponent},
     // { path: 'summary', component: SummaryComponent},
     { path: 'board', component: BoardComponent},

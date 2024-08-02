@@ -37,26 +37,26 @@ export class ScriptService {
    * Toggles the visibility of the signup and login sections.
    * @param {string} action - Determines the action to take, either "show" or "hide".
    */
-  showSignUpHideSignUp(action:string) {
-      const signUpElement = document.getElementById('sign-up');
-      const loginElement = document.getElementById('login');
-      const forgotPasswordElement = document.getElementById('forgot-password-container');
-      const passwordElement = document.getElementById('password-container');
+//   showSignUpHideSignUp(action:string) {
+//       const signUpElement = document.getElementById('sign-up');
+//       const loginElement = document.getElementById('login');
+//     //   const forgotPasswordElement = document.getElementById('forgot-password-container');
+//     //   const passwordElement = document.getElementById('password-container');
 
-      if (action === 'show') {
-        if (signUpElement && loginElement) {
-              signUpElement.classList.remove('d-none');
-              loginElement.classList.add('d-none');
-          }
-      } else if (action === 'hide') {
-        if (signUpElement && forgotPasswordElement && passwordElement && loginElement) {
-              signUpElement.classList.add('d-none');
-              forgotPasswordElement.classList.add('d-none');
-              passwordElement.classList.add('d-none');
-              loginElement.classList.remove('d-none');
-          }
-      }
-  }
+//       if (action === 'show') {
+//         if (signUpElement && loginElement) {
+//               signUpElement.classList.remove('d-none');
+//               loginElement.classList.add('d-none');
+//           }
+//       } else if (action === 'hide') {
+//         if (signUpElement && loginElement) {
+//               signUpElement.classList.add('d-none');
+//             //   forgotPasswordElement.classList.add('d-none');
+//             //   passwordElement.classList.add('d-none');
+//               loginElement.classList.remove('d-none');
+//           }
+//       }
+//   }
 
 
   /**

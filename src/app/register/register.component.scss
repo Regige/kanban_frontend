@@ -1,0 +1,21 @@
+@import './../../styles.scss';
+@import './../login/login.component.scss';
+
+
+.invalid-text {
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    color: #E61C40;
+    font-size: 13px;
+    line-height: 16.8px;
+}
+
+
+.pos-rel {
+    position: relative;
+}
+
+.pos-check {
+    bottom: -12px;
+}

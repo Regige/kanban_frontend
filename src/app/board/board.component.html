@@ -50,14 +50,6 @@
           alt=""
         />
       </div>
-      <!-- <div
-        id="board_to_do"
-        class="board_fbcco board_box board_to_do"
-        ondragleave="removeHighlight('board_to_do')"
-        ondrop="moveTo('to_do') ;removeHighlight('board_to_do')"
-        ondragover="allowDrop(event); highlight('board_to_do')"
-        touchcancel="touchEnd('to_do')"
-      > -->
       <div
         id="board_to_do"
         class="board_fbcco board_box board_to_do"
@@ -73,10 +65,7 @@
           [task]="task"
           [index]="index"
         ></app-task-card>
-        } @else if(task.task_board !== "in_progress" && task.task_board !==
-        "await_feedback" && task.task_board !== "done") {
-        <div class="board_no_task board_fbccco">No tasks To do</div>
-        } }
+        }}
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -105,10 +94,7 @@
           [task]="task"
           [index]="index"
         ></app-task-card>
-        } @else if(task.task_board !== "to_do" && task.task_board !==
-        "await_feedback" && task.task_board !== "done") {
-        <div class="board_no_task board_fbccco">No tasks To do</div>
-        } }
+        }}
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -139,10 +125,7 @@
           [task]="task"
           [index]="index"
         ></app-task-card>
-        } @else if(task.task_board !== "to_do" && task.task_board !==
-        "in_progress" && task.task_board !== "done") {
-        <div class="board_no_task board_fbccco">No tasks To do</div>
-        } }
+        }}
       </div>
     </div>
     <div class="board_fbcco board_columns_fixed">
@@ -165,10 +148,7 @@
           [task]="task"
           [index]="index"
         ></app-task-card>
-        } @else if(task.task_board !== "to_do" && task.task_board !==
-        "in_progress" && task.task_board !== "await_feedback") {
-        <div class="board_no_task board_fbccco">No tasks To do</div>
-        } }
+        }}
       </div>
     </div>
   </div>

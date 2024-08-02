@@ -1,1 +1,152 @@
-<p>register works!</p>
+<div class="begin">
+  <div class="sign-up" id="sign-up">
+    <div>
+      <img
+        [routerLink]="['/login/']"
+        class="arrow-img"
+        src="assets/img/arrow-left-line.svg"
+      />
+      <h1 class="sign-up-headline">Sign up</h1>
+    </div>
+    <div>
+      <img class="VectorImg" src="assets/img/Vector 5.svg" />
+    </div>
+    <form
+      #userRegisterForm="ngForm"
+      (ngSubmit)="registerNewUser(userRegisterForm)"
+      class="form password-login email-login"
+    >
+      <div
+        style="display: none"
+        class="register-error-message"
+        id="register-error"
+      >
+        Your password does not match.
+      </div>
+      <!-- <input
+        [(ngModel)]="first_name"
+        name="first_name"
+        class="name-img"
+        type="text"
+        placeholder="First Name"
+        id="firsnameregister"
+        required
+      />
+      <input
+        [(ngModel)]="last_name"
+        name="last_name"
+        class="name-img"
+        type="text"
+        placeholder="Last Name"
+        id="lastnameregister"
+        required
+      /> -->
+      <div class="pos-rel">
+        <input
+          #username="ngModel"
+          [(ngModel)]="newUser.username"
+          name="username"
+          required
+          class="name-img"
+          type="text"
+          placeholder="Username"
+          id="nameregister"
+        />
+        @if (!username.valid && username.touched || !username.valid &&
+        userRegisterForm.submitted) {
+        <span class="invalid-text">Your email is required</span>
+        }
+      </div>
+      <div class="pos-rel">
+        <input
+          #email="ngModel"
+          [(ngModel)]="newUser.email"
+          name="email"
+          class="mail-img"
+          type="email"
+          placeholder="Email"
+          id="emailregister"
+          pattern="^[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]+\.[a-zA-Z]{2,}$"
+          required
+        />@if (!email.valid && email.touched || !email.valid &&
+        userRegisterForm.submitted) {
+        <span class="invalid-text">This field is required</span>
+        }
+      </div>
+      <div class="pos-rel">
+        <input
+          #password="ngModel"
+          [(ngModel)]="newUser.password"
+          name="password"
+          class="password-img"
+          type="password"
+          placeholder="Password"
+          minlength="8"
+          id="passwordregister1"
+          required
+        />@if (!password.valid && password.touched || !password.valid &&
+        userRegisterForm.submitted) {
+        <span class="invalid-text"
+          >Password must contain at least 8 characters</span
+        >
+        }
+      </div>
+      <div class="pos-rel">
+        <input
+          #password2="ngModel"
+          [(ngModel)]="newUser.password2"
+          name="password2"
+          class="password-img"
+          type="password"
+          placeholder="Password"
+          minlength="8"
+          id="passwordregister2"
+          required
+        />@if (password.value !== password2.value && password.touched &&
+        password2.touched || password.value !== password2.value &&
+        userRegisterForm.submitted) {
+        <span class="invalid-text">Your password does not match</span>
+        }
+      </div>
+      <button style="margin-top: 60px" id="registerBtn" class="login-button">
+        Sign up
+      </button>
+      <input
+        #checkbox
+        type="checkbox"
+        id="privacyPolicyCheckbox"
+        style="display: none"
+        required
+      />
+    </form>
+    <div class="checkbox-sign-up">
+      <div id="check-sign-up">
+        <img
+          src="assets/img/Check button none.svg"
+          (click)="scp.toggleCheckmark('check-sign-up', 'check-none-sign-up')"
+        />
+      </div>
+      <div>
+        <img
+          id="check-none-sign-up"
+          class="d-none"
+          src="assets/img/Check button.svg"
+          (click)="scp.toggleCheckmark('check-sign-up', 'check-none-sign-up')"
+        />
+      </div>
+      <div>
+        <span class="privacy_policy" style="margin-left: 10px"
+          >I accept the
+          <a target="_blank" [routerLink]="['/privacy-police/']"
+            >Privacy policy</a
+          ></span
+        >
+      </div>
+      @if ( !checkbox.checked && userRegisterForm.submitted) {
+      <span class="invalid-text pos-check"
+        >Please accept the privacy policy</span
+      >
+      }
+    </div>
+  </div>
+</div>
