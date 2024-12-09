@@ -14,11 +14,10 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     // { path: '', component: SummaryComponent},
-    // { path: 'summary', component: SummaryComponent},
+    { path: 'summary', component: SummaryComponent},
     { path: 'board', component: BoardComponent},
     { path: 'add_task', component: AddTaskComponent},
     { path: 'contacts', component: ContactsComponent},
-    // { path: 'help', component: HelpComponent},
     { path: 'imprint', component: ImprintComponent},
     { path: 'privacy-police', component: PrivacyPoliceComponent},
     { path: 'help', component: HelpComponent}
