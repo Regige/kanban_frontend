@@ -4,6 +4,8 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { StorageService } from '../services/storage.service';
 import { ScriptService } from '../services/script.service';
 import { RouterModule } from '@angular/router';
+import { DataService } from '../services/data.service';
+import { BoardService } from '../services/board.service';
 
 
 @Component({
@@ -29,8 +31,10 @@ welcome_text: string = '';                                               // Set 
 
 user_name = 'Guest';                                            // Sets the username
 
+error = '';
 
-constructor(public stg: StorageService, public scp: ScriptService) {}
+
+constructor(public stg: StorageService, public scp: ScriptService, public data: DataService, public board: BoardService) {}
 
 
 
@@ -39,6 +43,21 @@ constructor(public stg: StorageService, public scp: ScriptService) {}
  */
 async ngOnInit() {
 // async initsummary() {
+    try {
+        // const rawContacts: any = await this.data.loadContacts();
+        
+        // this.data.contacts = this.contactsPg.mapContacts(rawContacts);
+
+        // this.contactsPg.sortContactsList();
+
+        const rawTasks: any = await this.data.loadTasks();
+        
+        this.data.tasks = this.board.mapTasks(rawTasks)
+        console.log(this.data.tasks);
+    } catch(e) {
+        this.error = 'Fehler beim Laden!';
+    }
+
     await this.stg.loadUserData();
     this.scp.checkUserLogin();
     this.stg.loadFromLocalStorage();
@@ -154,9 +173,15 @@ loadSummaryTask() {
  * @returns                 returns the counted value
  */
 loadSummaryCategory(category:string, task:string) {
+    // debugger;
     let task_counter = 0;
-    for (let i = 0; i < this.stg.list.length; i++) {
-        const element = this.stg.list[i];
+    // for (let i = 0; i < this.stg.list.length; i++) {
+    //     const element = this.stg.list[i];
+    //     if (element.category === task)
+    //         task_counter = task_counter + 1;
+    // }
+    for (let i = 0; i < this.data.tasks.length; i++) {
+        const element = this.data.tasks[i];
         if (element.category === task)
             task_counter = task_counter + 1;
     }
@@ -174,6 +199,7 @@ loadSummaryCategory(category:string, task:string) {
  * @param {Number} urgent_all       determined number
  */
 createAllTaskCounter(to_do:any, in_progress:any, await_feedback:any, done:any, summary_all:any, urgent_all:any) {
+    debugger;
     let summaryToDo = document.getElementById('summary-to-do');
     if(summaryToDo)
         summaryToDo.innerHTML = to_do;

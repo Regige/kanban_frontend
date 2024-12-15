@@ -28,7 +28,7 @@ export class LoginComponent {
       let resp: any = await this.as.loginWithEmailAndPassword(this.username, this.password);
       console.log(resp);
       localStorage.setItem('token', resp['token']);
-      this.router.navigateByUrl('/board');
+      this.router.navigateByUrl('/summary');
 
     } catch(e) {
       console.error(e);

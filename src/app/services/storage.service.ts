@@ -100,6 +100,7 @@ loadFromLocalStorageContacts() {
  * This function loads the logged in user. If the user is a guest, the guest user is loaded
  */
 async loadUserData() {
+    // debugger;
     let userAktiv = localStorage.getItem('user');
     let user_name_Aktiv = localStorage.getItem('name');
     if (userAktiv) {
