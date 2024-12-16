@@ -172,7 +172,7 @@ loadSummaryTask() {
  * @param {String} task     the respective tasks
  * @returns                 returns the counted value
  */
-loadSummaryCategory(category:string, task:string) {
+loadSummaryCategory(category: 'task_board' | 'priority', task:string) {
     // debugger;
     let task_counter = 0;
     // for (let i = 0; i < this.stg.list.length; i++) {
@@ -182,7 +182,7 @@ loadSummaryCategory(category:string, task:string) {
     // }
     for (let i = 0; i < this.data.tasks.length; i++) {
         const element = this.data.tasks[i];
-        if (element.category === task)
+        if (element[category] === task)
             task_counter = task_counter + 1;
     }
     return task_counter;
@@ -199,7 +199,7 @@ loadSummaryCategory(category:string, task:string) {
  * @param {Number} urgent_all       determined number
  */
 createAllTaskCounter(to_do:any, in_progress:any, await_feedback:any, done:any, summary_all:any, urgent_all:any) {
-    debugger;
+    // debugger;
     let summaryToDo = document.getElementById('summary-to-do');
     if(summaryToDo)
         summaryToDo.innerHTML = to_do;
